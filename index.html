@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Vicuña Digital Agency</title>
+<meta name="description" content="La Vicuña Digital Agency — Social media, desarrollo web, SEO y paid media. Agencia digital remota y horizontal.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<header>
+  <a class="brand" href="#top">
+    <img src="assets/img/logo-bone.png" alt="La Vicuña — escudo" width="427" height="507">
+    <span class="logo">La Vicuña</span>
+  </a>
+  <nav aria-label="Principal">
+    <a href="#servicios" data-es="Servicios" data-en="Services">Servicios</a>
+    <a href="#trabajos" data-es="Trabajos" data-en="Work">Trabajos</a>
+    <a href="#nosotros" data-es="Nosotros" data-en="About">Nosotros</a>
+    <a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Idioma / Language">
+    <button id="btn-es" aria-pressed="true">ES</button>
+    <button id="btn-en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="inicio">
+    <canvas id="atmos" aria-hidden="true"></canvas>
+    <!-- Video de niebla en montañas (Pexels). Colocar el archivo en assets/video/hero-fog.mp4 — ver README. -->
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="assets/video/hero-fog.mp4" type="video/mp4">
+    </video>
+    <div class="hero-center">
+      <span class="mono" data-es="Agencia digital" data-en="Digital agency">Agencia digital</span>
+      <h1 class="hero-title">
+        La Vicu<span class="hollow">ñ</span>a
+        <span class="sub">Digital Agency</span>
+      </h1>
+      <p class="hero-sub" data-es="Social media · Desarrollo web · SEO · Paid media" data-en="Social media · Web development · SEO · Paid media">Social media · Desarrollo web · SEO · Paid media</p>
+      <a class="btn" href="#contacto" data-es="Contactanos" data-en="Get in touch">Contactanos</a>
+    </div>
+    <span class="scroll-hint mono" data-es="Deslizá" data-en="Scroll">Deslizá</span>
+  </section>
+
+  <section class="paper" id="servicios">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono">01 · <span data-es="Servicios" data-en="Services">Servicios</span></span>
+        <h2 data-es="Lo que hacemos" data-en="What we do">Lo que hacemos</h2>
+      </div>
+      <div class="svc-list rv">
+        <div class="svc" tabindex="0">
+          <div class="svc-head"><span class="svc-num">01</span><span class="svc-title">Social Media</span><span class="svc-mark">+</span></div>
+          <div class="svc-body"><p data-es="El marketing en redes sociales es un motor clave para el crecimiento del negocio: te permite conectar con tu audiencia, aumentar el reconocimiento de marca e impulsar conversiones. En La Vicuña nos especializamos en diseñar estrategias de social media a medida, alineadas con tus objetivos digitales más amplios." data-en="Social media marketing is a key driver for business growth, enabling you to engage your target audience, boost brand awareness, and drive conversions. At La Vicuña, we specialize in crafting customized social media marketing strategies that align with your broader digital goals.">El marketing en redes sociales es un motor clave para el crecimiento del negocio: te permite conectar con tu audiencia, aumentar el reconocimiento de marca e impulsar conversiones. En La Vicuña nos especializamos en diseñar estrategias de social media a medida, alineadas con tus objetivos digitales más amplios.</p></div>
+        </div>
+        <div class="svc" tabindex="0">
+          <div class="svc-head"><span class="svc-num">02</span><span class="svc-title" data-es="Desarrollo Web" data-en="Web Development">Desarrollo Web</span><span class="svc-mark">+</span></div>
+          <div class="svc-body"><p data-es="Del concepto a la ejecución: diseñamos y construimos aplicando las mejores prácticas y criterios de diseño creativo UX/UI para desarrollo web, garantizando una experiencia fluida y atractiva que genera resultados y potencia tu presencia digital." data-en="From concept to execution, we craft and build using the best practices and insights from UX/UI creative design for web development, ensuring a seamless and engaging user experience that drives results and enhances your digital presence.">Del concepto a la ejecución: diseñamos y construimos aplicando las mejores prácticas y criterios de diseño creativo UX/UI para desarrollo web, garantizando una experiencia fluida y atractiva que genera resultados y potencia tu presencia digital.</p></div>
+        </div>
+        <div class="svc" tabindex="0">
+          <div class="svc-head"><span class="svc-num">03</span><span class="svc-title">SEO</span><span class="svc-mark">+</span></div>
+          <div class="svc-body"><p data-es="El SEO no se trata solo de visibilidad y clics: se trata de ofrecer el contenido más relevante y atractivo para las necesidades de tu audiencia. Nos enfocamos en atraer y retener usuarios trabajando con expertos que adaptan las estrategias a tu negocio, asegurando máximo impacto y conversiones." data-en="SEO isn't just about visibility and clicks—it's about delivering the most relevant and engaging content that meets your audience's needs. We focus on attracting and hooking users by working with experts who tailor strategies to your business, ensuring maximum impact and conversions.">El SEO no se trata solo de visibilidad y clics: se trata de ofrecer el contenido más relevante y atractivo para las necesidades de tu audiencia. Nos enfocamos en atraer y retener usuarios trabajando con expertos que adaptan las estrategias a tu negocio, asegurando máximo impacto y conversiones.</p></div>
+        </div>
+        <div class="svc" tabindex="0">
+          <div class="svc-head"><span class="svc-num">04</span><span class="svc-title">Paid Media</span><span class="svc-mark">+</span></div>
+          <div class="svc-body"><p data-es="El éxito en publicidad digital no se trata solo de alcance: se trata de precisión. Nuestras estrategias de paid media atraen audiencias de alta intención, optimizan la inversión publicitaria y maximizan conversiones. Con segmentación basada en datos, creatividades atractivas y optimización continua, aseguramos que cada campaña genere crecimiento medible." data-en="Success in digital advertising isn't just about reach—it's about precision. Our paid media strategies attract high-intent audiences, optimize ad spend, and maximize conversions. Through data-driven targeting, engaging creatives, and continuous optimization, we ensure every campaign delivers measurable growth.">El éxito en publicidad digital no se trata solo de alcance: se trata de precisión. Nuestras estrategias de paid media atraen audiencias de alta intención, optimizan la inversión publicitaria y maximizan conversiones. Con segmentación basada en datos, creatividades atractivas y optimización continua, aseguramos que cada campaña genere crecimiento medible.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trabajos">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono">02 · <span data-es="Trabajos" data-en="Work">Trabajos</span></span>
+        <h2 data-es="Proyectos seleccionados" data-en="Selected work">Proyectos seleccionados</h2>
+      </div>
+      <div class="works-grid rv">
+        <a class="work" href="https://sliabh.netlify.app/inicio" target="_blank" rel="noopener">
+          <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
+          <h3>Sliabh</h3>
+          <p data-es="Experiencia web inmersiva con renderizado 3D." data-en="Immersive web experience with 3D rendering.">Experiencia web inmersiva con renderizado 3D.</p>
+          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+        </a>
+        <a class="work" href="https://escueladewingfoil.com.ar/" target="_blank" rel="noopener">
+          <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
+          <h3>Escuela de Wingfoil</h3>
+          <p data-es="Sitio web con atmósfera 3D para escuela de wingfoil en Argentina." data-en="Website with 3D atmosphere for a wingfoil school in Argentina.">Sitio web con atmósfera 3D para escuela de wingfoil en Argentina.</p>
+          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+        </a>
+        <a class="work" href="https://www.instagram.com/hmsariego/" target="_blank" rel="noopener">
+          <span class="mono">Social Media</span>
+          <h3>HM Sariego</h3>
+          <p data-es="Gestión de contenido y comunidad en Instagram." data-en="Content and community management on Instagram.">Gestión de contenido y comunidad en Instagram.</p>
+          <span class="go mono"><span data-es="Ver perfil" data-en="View profile">Ver perfil</span> <span class="arr">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="nosotros">
+    <img class="watermark" src="assets/img/logo-bone.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <div class="about-grid rv">
+        <div>
+          <span class="mono">03 · <span data-es="Nosotros" data-en="About us">Nosotros</span></span>
+          <p class="lead" data-es="Un equipo horizontal que piensa en nombre de sus clientes." data-en="A horizontal team that thinks on behalf of its clients.">Un equipo horizontal que piensa en nombre de sus clientes.</p>
+        </div>
+        <p class="body" data-es="Somos un equipo de entusiastas digitales con amplia experiencia en agencias de publicidad. Nos define la vocación de servicio: pensamos en nombre de nuestros clientes y optimizamos su tiempo para lograr exactamente lo que necesitan. El trabajo remoto es nuestro fuerte y nuestro enfoque es horizontal; creemos en trabajar juntos más allá de títulos o jerarquías. Lo que nos importa es la mentalidad, la neuro-inclusividad y el aprovechamiento de las habilidades blandas de cada profesional. Somos La Vicuña, y estamos acá para ayudarte. Escribinos." data-en="We are a team of digital enthusiasts with extensive expertise in advertising agencies. We thrive on being service-oriented, thinking on behalf of our clients, and optimizing their time to achieve exactly what they need. Remote work is our forte, and our approach is horizontalist; we believe in working together regardless of titles or hierarchies. What matters to us are mindset, neuro-inclusivity, and harnessing each professional's strong soft skills. We are La Vicuña, and we're here to assist you. Get in touch with us.">Somos un equipo de entusiastas digitales con amplia experiencia en agencias de publicidad. Nos define la vocación de servicio: pensamos en nombre de nuestros clientes y optimizamos su tiempo para lograr exactamente lo que necesitan. El trabajo remoto es nuestro fuerte y nuestro enfoque es horizontal; creemos en trabajar juntos más allá de títulos o jerarquías. Lo que nos importa es la mentalidad, la neuro-inclusividad y el aprovechamiento de las habilidades blandas de cada profesional. Somos La Vicuña, y estamos acá para ayudarte. Escribinos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper clients" id="clientes">
+    <div class="wrap rv">
+      <span class="mono" data-es="Confían en nosotros" data-en="Trusted by">Confían en nosotros</span>
+      <div class="row">
+        <img class="client-logo" src="assets/img/t-l-irrigation.png" alt="T-L Irrigation">
+        <img class="client-logo tall" src="assets/img/patagon-ink.png" alt="Patagon">
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="wrap rv">
+      <span class="mono">04 · <span data-es="Contacto" data-en="Contact">Contacto</span></span>
+      <h2 style="margin-top:18px" data-es="Estamos acá para ayudarte." data-en="We're here to assist you.">Estamos acá para ayudarte.</h2>
+      <div class="ctas">
+        <a class="btn" href="https://wa.me/5491120498620" target="_blank" rel="noopener">WhatsApp</a>
+        <!-- TODO: URL real de LinkedIn -->
+        <a class="btn" href="#" data-todo="linkedin" target="_blank" rel="noopener" data-es="Seguinos en LinkedIn" data-en="Follow us on LinkedIn">Seguinos en LinkedIn</a>
+        <!-- TODO: URL real de Instagram -->
+        <a class="btn" href="#" data-todo="instagram" target="_blank" rel="noopener" data-es="Seguinos en Instagram" data-en="Follow us on Instagram">Seguinos en Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 La Vicuña Digital Agency</span>
+    <span class="credit" data-es="Una idea de Francisco Deane" data-en="An idea of Francisco Deane">Una idea de Francisco Deane</span>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
