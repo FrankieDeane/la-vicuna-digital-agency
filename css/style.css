@@ -366,7 +366,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .grunge{
   background:
     linear-gradient(rgba(10,8,1,.52),rgba(10,8,1,.62)),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat fixed;
+    url("../assets/img/grunge-filter-II.jpg") center/cover no-repeat fixed;
   color:#D9D7D4;
 }
 .grunge .sec-head .mono{color:#7FAE93}
@@ -494,7 +494,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
   background:
     linear-gradient(rgba(10,8,1,.45),rgba(10,8,1,.6)),
     radial-gradient(ellipse at 30% 70%,rgba(127,174,147,.35),transparent 65%),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat;
+    url("../assets/img/grunge-filter-II.jpg") center/cover no-repeat;
 }
 .thumb-name{
   font-family:var(--serif);
