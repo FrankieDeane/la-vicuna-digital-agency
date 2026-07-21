@@ -12,15 +12,15 @@ Sitio estático (HTML/CSS/JS puro, sin frameworks ni build). Español por defect
 
 | Ítem | Dónde va |
 |---|---|
-| **LinkedIn / Instagram** | En `index.html`, buscar `data-todo="linkedin"` y `data-todo="instagram"` y poner las URLs reales (mientras estén en `#`, los botones se ocultan solos). |
-| **Logos de clientes** | Subir `assets/img/t-l-irrigation.png` y `assets/img/patagon-ink.png`. Mientras falten, se ocultan automáticamente. |
+| **LinkedIn** | En `index.html`, buscar `data-todo="linkedin"` y poner la URL real (mientras esté en `#`, el botón se oculta solo). |
+| **Verde exacto de Patagon Waters** | El acento verde actual (`#7FAE93` / `#3F6B54` en `css/style.css`) es una aproximación; reemplazar por el hex oficial de la marca si se consigue. |
 
 ## Estructura
 
 ```
 index.html        página única (ES/EN)
-css/style.css     estilos — paleta tinta #0A0801 / hueso #D9D7D4
-js/main.js        idioma, reveals, grano, humo del hero, modal de previews
-assets/img/       logo.png (escudo real) y favicon.png
+css/style.css     estilos — tinta #0A0801 / hueso #D9D7D4 / verde #7FAE93 · temas dark/light
+js/main.js        idioma, tema, reveals, grano, humo, previews, cookies, efectos de mouse
+assets/img/       logo.png, favicon.png y logos de clientes
 assets/video/     hero-fog.mp4 (video del hero)
 ```
