@@ -127,6 +127,67 @@
     if (source) source.addEventListener('error', hideVideo);
   }
 
+  /* ---- Efectos de mouse (solo desktop con puntero fino) ------------------- */
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer && !reduceMotion) {
+
+    // Luz cálida que sigue al cursor
+    var spot = document.createElement('div');
+    spot.id = 'spotlight';
+    spot.style.transform = 'translate(-1000px,-1000px)';
+    document.body.appendChild(spot);
+    var spotX = 0, spotY = 0, spotTX = 0, spotTY = 0, spotRaf = null;
+    document.addEventListener('mousemove', function (e) {
+      spotTX = e.clientX;
+      spotTY = e.clientY;
+      if (!spotRaf) spotRaf = requestAnimationFrame(moveSpot);
+    });
+    function moveSpot() {
+      spotX += (spotTX - spotX) * 0.12;
+      spotY += (spotTY - spotY) * 0.12;
+      spot.style.transform = 'translate(' + spotX + 'px,' + spotY + 'px)';
+      spotRaf = (Math.abs(spotTX - spotX) > 0.5 || Math.abs(spotTY - spotY) > 0.5)
+        ? requestAnimationFrame(moveSpot)
+        : null;
+    }
+
+    // Parallax sutil del hero
+    var heroCenter = document.querySelector('.hero-center');
+    var hero = document.querySelector('.hero');
+    if (hero && heroCenter) {
+      hero.addEventListener('mousemove', function (e) {
+        var dx = (e.clientX / window.innerWidth - 0.5) * 18;
+        var dy = (e.clientY / window.innerHeight - 0.5) * 12;
+        heroCenter.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+      hero.addEventListener('mouseleave', function () {
+        heroCenter.style.transform = '';
+      });
+    }
+
+    // Brillo que sigue al mouse dentro de cada tarjeta de trabajo
+    document.querySelectorAll('.work').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+
+    // Botones magnéticos
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('mousemove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - r.left - r.width / 2) * 0.18;
+        var dy = (e.clientY - r.top - r.height / 2) * 0.3;
+        btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.transform = '';
+      });
+    });
+  }
+
   /* ---- Grano de película -------------------------------------------------- */
   var grain = document.getElementById('grain');
   if (grain && !reduceMotion) {
