@@ -233,7 +233,7 @@ header nav a:hover::after,header nav a:focus-visible::after{
   inset:0;
   z-index:-1;
   background:
-    radial-gradient(ellipse at 20% 80%,rgba(127,174,147,.16),transparent 55%),
+    radial-gradient(ellipse at 20% 80%,rgba(127,174,147,.22),transparent 55%),
     radial-gradient(ellipse at 80% 20%,rgba(120,90,150,.10),transparent 55%);
   animation:tint-drift 14s ease-in-out infinite alternate;
   mix-blend-mode:screen;
@@ -343,7 +343,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .paper{
   background:
     var(--grunge),
-    radial-gradient(ellipse at 85% 10%,rgba(127,174,147,.14),transparent 55%),
+    radial-gradient(ellipse at 85% 10%,rgba(127,174,147,.2),transparent 55%),
     var(--bone);
   background-blend-mode:soft-light,normal,normal;
   color:var(--ink);
@@ -352,6 +352,31 @@ main section{padding:clamp(90px,12vw,150px) 0}
 
 .sec-head .mono{color:var(--accent)}
 .paper .sec-head .mono{color:var(--accent-ink)}
+.sec-head h2::after{
+  content:"";
+  display:block;
+  width:56px;
+  height:2px;
+  margin-top:18px;
+  background:var(--accent);
+}
+.paper .sec-head h2::after{background:var(--accent-ink)}
+
+/* ---- Sección con textura grunge (Servicios) ------------------------------- */
+.grunge{
+  background:
+    linear-gradient(rgba(10,8,1,.52),rgba(10,8,1,.62)),
+    url("../assets/img/grunge-filter.jpg") center/cover no-repeat fixed;
+  color:#D9D7D4;
+}
+.grunge .sec-head .mono{color:#7FAE93}
+.grunge .sec-head h2::after{background:#7FAE93}
+.grunge .svc-list{border-top-color:rgba(217,215,212,.22)}
+.grunge .svc{border-bottom-color:rgba(217,215,212,.22)}
+.grunge .svc:hover,.grunge .svc:focus-visible{background:rgba(127,174,147,.1)}
+.grunge .svc-num,.grunge .svc-mark{color:#7FAE93}
+.grunge .svc:hover .svc-title,.grunge .svc:focus-visible .svc-title{color:#7FAE93}
+.grunge .svc-body p{color:rgba(217,215,212,.8)}
 
 
 /* ---- Servicios (acordeón) --------------------------------------------- */
@@ -431,7 +456,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
   position:absolute;
   inset:0;
   background:
-    radial-gradient(ellipse at var(--mx,50%) var(--my,0%),rgba(127,174,147,.16),transparent 60%);
+    radial-gradient(ellipse at var(--mx,50%) var(--my,0%),rgba(127,174,147,.24),transparent 60%);
   opacity:0;
   transition:opacity .45s;
   pointer-events:none;
@@ -460,6 +485,25 @@ main section{padding:clamp(90px,12vw,150px) 0}
   border:0;
   transform-origin:0 0;
   /* se escala por JS al ancho real de la tarjeta */
+}
+
+/* Miniatura estática (sitios que no permiten embeberse) */
+.thumb-static{
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(rgba(10,8,1,.45),rgba(10,8,1,.6)),
+    radial-gradient(ellipse at 30% 70%,rgba(127,174,147,.35),transparent 65%),
+    url("../assets/img/grunge-filter.jpg") center/cover no-repeat;
+}
+.thumb-name{
+  font-family:var(--serif);
+  font-size:clamp(22px,2.6vw,30px);
+  line-height:1.2;
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:uppercase;
+  color:#D9D7D4;
 }
 .work:hover::before,.work:focus-visible::before{opacity:1}
 .work h3{
@@ -555,7 +599,7 @@ body.modal-open{overflow:hidden}
   overflow:hidden;
   background:
     var(--grunge),
-    radial-gradient(ellipse at 10% 90%,rgba(127,174,147,.08),transparent 55%),
+    radial-gradient(ellipse at 10% 90%,rgba(127,174,147,.16),transparent 55%),
     var(--ink);
   background-blend-mode:soft-light,normal,normal;
 }
@@ -618,7 +662,7 @@ body.modal-open{overflow:hidden}
   text-align:center;
   background:
     var(--grunge),
-    radial-gradient(ellipse at 50% 120%,rgba(127,174,147,.13),transparent 60%),
+    radial-gradient(ellipse at 50% 120%,rgba(127,174,147,.22),transparent 60%),
     var(--ink);
   background-blend-mode:soft-light,normal,normal;
 }
