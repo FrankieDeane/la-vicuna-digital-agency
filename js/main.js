@@ -69,6 +69,55 @@
     });
   });
 
+  /* ---- Preview de trabajos (modal con iframe) ---------------------------- */
+  var modal = document.getElementById('preview-modal');
+  if (modal) {
+    var frame = modal.querySelector('.preview-frame');
+    var loadingMsg = modal.querySelector('.preview-loading');
+    var titleEl = modal.querySelector('#preview-title');
+    var openLink = modal.querySelector('.preview-open');
+    var lastFocus = null;
+
+    frame.addEventListener('load', function () {
+      if (frame.src) frame.classList.add('loaded');
+    });
+
+    function openPreview(url, title) {
+      lastFocus = document.activeElement;
+      titleEl.textContent = title;
+      openLink.href = url;
+      frame.classList.remove('loaded');
+      frame.src = url;
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      modal.querySelector('.preview-close').focus();
+    }
+
+    function closePreview() {
+      modal.hidden = true;
+      frame.classList.remove('loaded');
+      frame.src = '';
+      document.body.classList.remove('modal-open');
+      if (lastFocus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-preview]').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        // con modificadores se respeta el comportamiento normal (nueva pestaña)
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        openPreview(card.getAttribute('data-preview'), card.getAttribute('data-title') || 'Preview');
+      });
+    });
+
+    modal.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', closePreview);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) closePreview();
+    });
+  }
+
   /* ---- Video del hero: ocultar si el archivo no está --------------------- */
   var video = document.querySelector('.hero-video');
   if (video) {

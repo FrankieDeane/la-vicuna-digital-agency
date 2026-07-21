@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>La Vicuña Digital Agency</title>
 <meta name="description" content="La Vicuña Digital Agency — Social media, desarrollo web, SEO y paid media. Agencia digital remota y horizontal.">
-<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
@@ -17,7 +17,7 @@
 
 <header>
   <a class="brand" href="#top">
-    <img src="assets/img/logo-bone.svg" alt="La Vicuña — escudo" width="427" height="507">
+    <img src="assets/img/logo.png" alt="La Vicuña — escudo" width="685" height="813">
     <span class="logo">La Vicuña</span>
   </a>
   <nav aria-label="Principal">
@@ -36,7 +36,6 @@
 
   <section class="hero" id="inicio">
     <canvas id="atmos" aria-hidden="true"></canvas>
-    <!-- Video de niebla en montañas (Pexels). Colocar el archivo en assets/video/hero-fog.mp4 — ver README. -->
     <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
       <source src="assets/video/hero-fog.mp4" type="video/mp4">
     </video>
@@ -86,17 +85,17 @@
         <h2 data-es="Proyectos seleccionados" data-en="Selected work">Proyectos seleccionados</h2>
       </div>
       <div class="works-grid rv">
-        <a class="work" href="https://sliabh.netlify.app/inicio" target="_blank" rel="noopener">
+        <a class="work" href="https://sliabh.netlify.app/inicio" data-preview="https://sliabh.netlify.app/inicio" data-title="Sliabh" target="_blank" rel="noopener">
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Sliabh</h3>
-          <p data-es="Experiencia web inmersiva con renderizado 3D." data-en="Immersive web experience with 3D rendering.">Experiencia web inmersiva con renderizado 3D.</p>
-          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+          <p data-es="Experiencia web inmersiva con senderos renderizados en 3D." data-en="Immersive web experience with 3D-rendered trails.">Experiencia web inmersiva con senderos renderizados en 3D.</p>
+          <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
-        <a class="work" href="https://escueladewingfoil.com.ar/" target="_blank" rel="noopener">
+        <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Escuela de Wingfoil</h3>
           <p data-es="Sitio web con atmósfera 3D para escuela de wingfoil en Argentina." data-en="Website with 3D atmosphere for a wingfoil school in Argentina.">Sitio web con atmósfera 3D para escuela de wingfoil en Argentina.</p>
-          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+          <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
         <a class="work" href="https://www.instagram.com/hmsariego/" target="_blank" rel="noopener">
           <span class="mono">Social Media</span>
@@ -109,7 +108,7 @@
   </section>
 
   <section class="about" id="nosotros">
-    <img class="watermark" src="assets/img/logo-bone.svg" alt="" aria-hidden="true">
+    <img class="watermark" src="assets/img/logo.png" alt="" aria-hidden="true">
     <div class="wrap">
       <div class="about-grid rv">
         <div>
@@ -146,6 +145,23 @@
   </section>
 
 </main>
+
+<div class="preview-modal" id="preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-title" hidden>
+  <div class="preview-backdrop" data-close></div>
+  <div class="preview-panel">
+    <div class="preview-bar">
+      <span class="mono" id="preview-title">Preview</span>
+      <div class="preview-actions">
+        <a class="mono preview-open" href="#" target="_blank" rel="noopener" data-es="Abrir sitio ↗" data-en="Open site ↗">Abrir sitio ↗</a>
+        <button class="preview-close mono" type="button" data-close aria-label="Cerrar preview">✕</button>
+      </div>
+    </div>
+    <div class="preview-frame-wrap">
+      <div class="preview-loading mono" data-es="Cargando preview…" data-en="Loading preview…">Cargando preview…</div>
+      <iframe class="preview-frame" title="Preview del sitio" loading="lazy" allow="fullscreen" referrerpolicy="no-referrer"></iframe>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
