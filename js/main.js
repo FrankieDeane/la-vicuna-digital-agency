@@ -28,6 +28,47 @@
     if (saved === 'en') setLang('en');
   }
 
+  /* ---- Tema claro / oscuro ---------------------------------------------- */
+  var themeBtn = document.getElementById('btn-theme');
+  if (themeBtn) {
+    var storedTheme = null;
+    try { storedTheme = localStorage.getItem('lv-theme'); } catch (e) {}
+    if (storedTheme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    themeBtn.addEventListener('click', function () {
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
+      if (light) {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+      try { localStorage.setItem('lv-theme', light ? 'dark' : 'light'); } catch (e) {}
+    });
+  }
+
+  /* ---- Barra de cookies --------------------------------------------------- */
+  var cookieBar = document.getElementById('cookie-bar');
+  if (cookieBar) {
+    var consent = null;
+    try { consent = localStorage.getItem('lv-consent'); } catch (e) {}
+    if (!consent) cookieBar.hidden = false;
+    function answerConsent(value) {
+      try { localStorage.setItem('lv-consent', value); } catch (e) {}
+      cookieBar.hidden = true;
+    }
+    cookieBar.querySelector('.cookie-accept').addEventListener('click', function () { answerConsent('accepted'); });
+    cookieBar.querySelector('.cookie-reject').addEventListener('click', function () { answerConsent('rejected'); });
+  }
+
+  /* ---- Miniaturas embebidas de trabajos: escalar al ancho de la tarjeta --- */
+  function scaleThumbs() {
+    document.querySelectorAll('.work-thumb').forEach(function (thumb) {
+      var iframe = thumb.querySelector('iframe');
+      if (iframe) iframe.style.transform = 'scale(' + (thumb.clientWidth / 1280) + ')';
+    });
+  }
+  scaleThumbs();
+  window.addEventListener('resize', scaleThumbs);
+
   /* ---- Imágenes faltantes: ocultar en vez de mostrar ícono roto --------- */
   document.querySelectorAll('img').forEach(function (img) {
     var hide = function () { img.style.visibility = 'hidden'; };
