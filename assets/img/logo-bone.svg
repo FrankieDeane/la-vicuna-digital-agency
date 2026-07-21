@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 427 507" fill="none">
+  <!-- Escudo provisional La Vicuña — reemplazar por el escudo grabado real -->
+  <path d="M213.5 12 C 290 44 350 52 407 52 L 407 300 C 407 400 330 460 213.5 495 C 97 460 20 400 20 300 L 20 52 C 77 52 137 44 213.5 12 Z"
+        stroke="#D9D7D4" stroke-width="14" fill="none"/>
+  <path d="M213.5 60 C 275 84 322 92 367 94 L 367 296 C 367 372 308 422 213.5 452 C 119 422 60 372 60 296 L 60 94 C 105 92 152 84 213.5 60 Z"
+        stroke="#D9D7D4" stroke-width="5" fill="none" opacity=".55"/>
+  <text x="213.5" y="300" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="170" letter-spacing="6" fill="#D9D7D4">LV</text>
+</svg>
