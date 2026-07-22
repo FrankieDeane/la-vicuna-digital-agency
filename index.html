@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="css/style.css?v=12">
+<link rel="stylesheet" href="css/style.css?v=13">
 </head>
 <body>
 
@@ -174,7 +174,7 @@
           <p data-es="Experiencia web inmersiva con senderos renderizados en 3D." data-en="Immersive web experience with 3D-rendered trails.">Experiencia web inmersiva con senderos renderizados en 3D.</p>
           <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
-        <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
+        <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-preview-img="assets/img/wingfoil-cover.jpg" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
             <img class="cover-img" src="assets/img/wingfoil-cover.jpg" alt="" loading="lazy">
             <svg class="cover-sail" viewBox="0 0 120 120" fill="none" aria-hidden="true">
@@ -235,6 +235,11 @@
     <div class="preview-frame-wrap">
       <div class="preview-loading mono" data-es="Cargando preview…" data-en="Loading preview…">Cargando preview…</div>
       <iframe class="preview-frame" title="Preview del sitio" loading="lazy" allow="fullscreen" referrerpolicy="no-referrer"></iframe>
+      <img class="preview-img" alt="" hidden>
+      <div class="preview-fallback" hidden>
+        <p class="mono" data-es="Este sitio no permite vista previa embebida." data-en="This site can't be previewed inline.">Este sitio no permite vista previa embebida.</p>
+        <a class="btn preview-fallback-open" href="#" target="_blank" rel="noopener" data-es="Abrir sitio ↗" data-en="Open site ↗">Abrir sitio ↗</a>
+      </div>
     </div>
   </div>
 </div>
@@ -254,6 +259,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=12" defer></script>
+<script src="js/main.js?v=13" defer></script>
 </body>
 </html>

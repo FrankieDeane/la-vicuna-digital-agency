@@ -346,6 +346,9 @@
   var modal = document.getElementById('preview-modal');
   if (modal) {
     var frame = modal.querySelector('.preview-frame');
+    var previewImg = modal.querySelector('.preview-img');
+    var fallback = modal.querySelector('.preview-fallback');
+    var fallbackOpen = modal.querySelector('.preview-fallback-open');
     var loadingMsg = modal.querySelector('.preview-loading');
     var titleEl = modal.querySelector('#preview-title');
     var openLink = modal.querySelector('.preview-open');
@@ -354,13 +357,45 @@
     frame.addEventListener('load', function () {
       if (frame.src) frame.classList.add('loaded');
     });
+    // Modo imagen: mostrar screenshot; si falla, mostrar el fallback con "Abrir sitio"
+    previewImg.addEventListener('load', function () {
+      if (previewImg.getAttribute('src')) {
+        previewImg.classList.add('loaded');
+        loadingMsg.style.display = 'none';
+      }
+    });
+    previewImg.addEventListener('error', function () {
+      previewImg.hidden = true;
+      loadingMsg.style.display = 'none';
+      fallback.hidden = false;
+    });
 
-    function openPreview(url, title) {
+    function resetPreview() {
+      frame.classList.remove('loaded');
+      frame.src = '';
+      frame.hidden = false;
+      previewImg.classList.remove('loaded');
+      previewImg.removeAttribute('src');
+      previewImg.hidden = true;
+      fallback.hidden = true;
+      loadingMsg.style.display = '';
+    }
+
+    function openPreview(url, title, imgSrc) {
       lastFocus = document.activeElement;
       titleEl.textContent = title;
       openLink.href = url;
-      frame.classList.remove('loaded');
-      frame.src = url;
+      if (fallbackOpen) fallbackOpen.href = url;
+      resetPreview();
+      if (imgSrc) {
+        // recuadro con la imagen del sitio (para sitios que no se embeben)
+        frame.hidden = true;
+        previewImg.hidden = false;
+        previewImg.src = imgSrc;
+      } else {
+        // recuadro con el sitio en vivo
+        frame.src = url;
+      }
       modal.hidden = false;
       document.body.classList.add('modal-open');
       modal.querySelector('.preview-close').focus();
@@ -368,8 +403,7 @@
 
     function closePreview() {
       modal.hidden = true;
-      frame.classList.remove('loaded');
-      frame.src = '';
+      resetPreview();
       document.body.classList.remove('modal-open');
       if (lastFocus) lastFocus.focus();
     }
@@ -379,7 +413,11 @@
         // con modificadores se respeta el comportamiento normal (nueva pestaña)
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
         e.preventDefault();
-        openPreview(card.getAttribute('data-preview'), card.getAttribute('data-title') || 'Preview');
+        openPreview(
+          card.getAttribute('data-preview'),
+          card.getAttribute('data-title') || 'Preview',
+          card.getAttribute('data-preview-img')
+        );
       });
     });
 
