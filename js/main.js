@@ -100,12 +100,15 @@
 
   /* ---- Servicios: pintar palabra y desplegar descripción ---------------- */
   var finePointerSvc = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // Modo "campo flotante": solo desktop ancho, con puntero fino y sin reduce-motion
+  var svcScatter = finePointerSvc && !reduceMotion && window.innerWidth > 760;
   var svcTriggers = document.querySelectorAll('.svc-trigger');
   svcTriggers.forEach(function (trigger) {
+    // En modo lista: click despliega la descripción inline (acordeón)
     trigger.addEventListener('click', function () {
+      if (svcScatter) return; // en campo flotante lo maneja el overlay
       var item = trigger.closest('.svc-item');
       var isOpen = item.classList.contains('open');
-      // acordeón: cerrar los demás
       document.querySelectorAll('.svc-item.open').forEach(function (other) {
         if (other !== item) {
           other.classList.remove('open');
@@ -117,8 +120,8 @@
       trigger.setAttribute('aria-expanded', String(!isOpen));
     });
 
-    // Imán suave: la palabra se acerca levemente al cursor (solo desktop)
-    if (finePointerSvc && !reduceMotion) {
+    // Imán suave (solo modo lista, no en campo flotante)
+    if (finePointerSvc && !reduceMotion && !svcScatter) {
       var word = trigger.querySelector('.svc-word');
       trigger.addEventListener('mousemove', function (e) {
         if (trigger.closest('.svc-item').classList.contains('open')) return;
@@ -132,6 +135,113 @@
       });
     }
   });
+
+  /* ---- Servicios: campo flotante (deriva libre + rebote en bordes) ------- */
+  (function initScatter() {
+    if (!svcScatter) return;
+    var section = document.querySelector('.services');
+    var list = section && section.querySelector('.svc-lines');
+    if (!section || !list) return;
+    section.classList.add('scatter');
+
+    var items = Array.prototype.slice.call(list.querySelectorAll('.svc-item')).map(function (el) {
+      return { el: el, trigger: el.querySelector('.svc-trigger'), x: 0, y: 0, vx: 0, vy: 0, w: 0, h: 0, paused: false };
+    });
+
+    // Panel de descripción (overlay)
+    var overlay = document.createElement('div');
+    overlay.className = 'svc-overlay';
+    overlay.innerHTML =
+      '<div class="svc-overlay-card">' +
+        '<span class="ov-num mono"></span>' +
+        '<h3 class="ov-word"></h3>' +
+        '<p class="ov-desc"></p>' +
+        '<button class="ov-close mono" type="button" data-es="Cerrar ✕" data-en="Close ✕">Cerrar ✕</button>' +
+      '</div>';
+    section.appendChild(overlay);
+    var ovNum = overlay.querySelector('.ov-num');
+    var ovWord = overlay.querySelector('.ov-word');
+    var ovDesc = overlay.querySelector('.ov-desc');
+    var overlayOpen = false;
+
+    function openOverlay(it) {
+      var num = it.el.querySelector('.svc-num');
+      var word = it.el.querySelector('.w-base');
+      var desc = it.el.querySelector('.svc-desc p');
+      ovNum.textContent = (num ? num.textContent : '') + ' · Servicio';
+      ovWord.textContent = word ? word.textContent : '';
+      ovDesc.textContent = desc ? desc.textContent : '';
+      overlay.classList.add('show');
+      overlayOpen = true;
+    }
+    function closeOverlay() {
+      overlay.classList.remove('show');
+      overlayOpen = false;
+    }
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay || e.target.classList.contains('ov-close')) closeOverlay();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlayOpen) closeOverlay();
+    });
+
+    var box = { w: 0, h: 0 };
+    function measure() {
+      var r = list.getBoundingClientRect();
+      box.w = r.width; box.h = r.height;
+      items.forEach(function (it) {
+        var ir = it.el.getBoundingClientRect();
+        it.w = ir.width; it.h = ir.height;
+        // clamp por si el resize dejó algo afuera
+        it.x = Math.max(0, Math.min(it.x, box.w - it.w));
+        it.y = Math.max(0, Math.min(it.y, box.h - it.h));
+      });
+    }
+
+    // Posiciones iniciales repartidas en una grilla 3×2 con jitter
+    function seed() {
+      var cols = 3, rows = 2;
+      items.forEach(function (it, i) {
+        var cw = box.w / cols, ch = box.h / rows;
+        var cx = (i % cols) * cw, cy = Math.floor(i / cols) * ch;
+        it.x = Math.max(0, Math.min(cx + Math.random() * (cw - it.w), box.w - it.w));
+        it.y = Math.max(0, Math.min(cy + Math.random() * (ch - it.h), box.h - it.h));
+        var ang = Math.random() * Math.PI * 2;
+        var sp = 0.28 + Math.random() * 0.26;
+        it.vx = Math.cos(ang) * sp;
+        it.vy = Math.sin(ang) * sp;
+        it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+      });
+    }
+
+    // Hover: pausar esa opción (fácil de clickear) + resaltar
+    items.forEach(function (it) {
+      it.trigger.addEventListener('mouseenter', function () { it.paused = true; it.el.classList.add('grabbed'); });
+      it.trigger.addEventListener('mouseleave', function () { it.paused = false; it.el.classList.remove('grabbed'); });
+      it.trigger.addEventListener('focus', function () { it.paused = true; });
+      it.trigger.addEventListener('blur', function () { it.paused = false; });
+      it.trigger.addEventListener('click', function () { openOverlay(it); });
+    });
+
+    measure(); seed();
+    window.addEventListener('resize', measure);
+
+    (function tick() {
+      if (!overlayOpen) {
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.paused) continue;
+          it.x += it.vx; it.y += it.vy;
+          if (it.x <= 0) { it.x = 0; it.vx = Math.abs(it.vx); }
+          else if (it.x >= box.w - it.w) { it.x = box.w - it.w; it.vx = -Math.abs(it.vx); }
+          if (it.y <= 0) { it.y = 0; it.vy = Math.abs(it.vy); }
+          else if (it.y >= box.h - it.h) { it.y = box.h - it.h; it.vy = -Math.abs(it.vy); }
+          it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+        }
+      }
+      requestAnimationFrame(tick);
+    })();
+  })();
 
   /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
   var svcBg = document.querySelector('.svc-bg');

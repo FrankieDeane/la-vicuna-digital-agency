@@ -552,6 +552,86 @@ main section{padding:clamp(90px,12vw,150px) 0}
   .svc-desc > p{margin-left:34px}
 }
 
+/* ---- Servicios: modo "campo flotante" (desktop) ------------------------ */
+/* Activado por JS (.services.scatter). Cada opción se mueve libre por la
+   pantalla; el fallback es la lista vertical de arriba. */
+.services.scatter .svc-hint{opacity:0}
+.services.scatter .svc-lines{
+  position:relative;
+  height:min(74vh,760px);
+  margin-top:clamp(24px,4vw,44px);
+}
+.services.scatter .svc-item{
+  position:absolute;
+  top:0;left:0;
+  width:auto;
+  margin:0;
+  border:0!important;
+  will-change:transform;
+}
+.services.scatter .svc-trigger{
+  width:auto;
+  gap:12px;
+  padding:8px 12px;
+  cursor:grab;
+}
+.services.scatter .svc-word{animation:none;transform:none}
+.services.scatter .svc-word::after{display:none}
+.services.scatter .svc-plus{display:none}
+.services.scatter .svc-desc{display:none}
+/* halo suave detrás de cada palabra flotante para despegarla del fondo */
+.services.scatter .svc-trigger::before{
+  content:"";
+  position:absolute;
+  inset:-18px -22px;
+  z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(10,8,1,.55),transparent 72%);
+  opacity:.9;
+  pointer-events:none;
+}
+.services.scatter .svc-item.grabbed .svc-word{color:var(--accent)}
+.services.scatter .svc-item.grabbed .w-base{color:var(--accent)}
+
+/* Panel de descripción que se abre al clickear una opción flotante */
+.svc-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:grid;
+  place-items:center;
+  padding:clamp(24px,6vw,72px);
+  background:rgba(10,8,1,.74);
+  backdrop-filter:blur(9px);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .45s,visibility .45s;
+}
+.svc-overlay.show{opacity:1;visibility:visible}
+.svc-overlay-card{
+  max-width:640px;
+  transform:translateY(14px);
+  transition:transform .5s cubic-bezier(.22,.6,.2,1);
+}
+.svc-overlay.show .svc-overlay-card{transform:none}
+.ov-num{display:block;color:var(--accent);margin-bottom:14px}
+.ov-word{
+  font-family:var(--serif);
+  font-size:clamp(38px,6vw,72px);
+  line-height:1.06;
+  color:var(--bone);
+  margin-bottom:20px;
+  text-wrap:balance;
+}
+.ov-desc{color:var(--bone-dim);font-size:16px;line-height:1.7;margin-bottom:30px}
+.ov-close{
+  color:var(--bone-dim);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:10px 20px;
+  transition:color .3s,border-color .3s;
+}
+.ov-close:hover,.ov-close:focus-visible{color:var(--accent);border-color:var(--accent)}
+
 /* ---- Trabajos ---------------------------------------------------------- */
 .works-grid{
   display:grid;
@@ -608,21 +688,52 @@ main section{padding:clamp(90px,12vw,150px) 0}
   /* se escala por JS al ancho real de la tarjeta */
 }
 
-/* Miniatura estática (sitios que no permiten embeberse) */
-.thumb-static{
-  display:grid;
-  place-items:center;
+/* Portada de trabajo: imagen real del sitio + escena diseñada de fallback.
+   Si la imagen falta, main.js oculta <img> y queda la escena de abajo. */
+.thumb-cover{
+  display:block;
+  overflow:hidden;
   background:
-    linear-gradient(rgba(10,8,1,.45),rgba(10,8,1,.6)),
-    radial-gradient(ellipse at 30% 70%,rgba(127,174,147,.35),transparent 65%),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat;
+    radial-gradient(ellipse at 72% 30%,rgba(127,174,147,.4),transparent 55%),
+    linear-gradient(180deg,#0d1512 0%,#12100a 52%,#0a0d0c 100%);
 }
-.thumb-name{
+.thumb-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--grunge);
+  opacity:.5;
+  mix-blend-mode:soft-light;
+  pointer-events:none;
+}
+.cover-img{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+.cover-sail{
+  position:absolute;
+  right:14%;
+  top:16%;
+  width:44%;
+  height:auto;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.4));
+  transition:transform .6s cubic-bezier(.22,.6,.2,1);
+}
+.work:hover .cover-sail{transform:translateY(-6px) rotate(-3deg)}
+.cover-name{
+  position:absolute;
+  left:clamp(16px,3vw,26px);
+  bottom:clamp(14px,2.6vw,22px);
+  max-width:60%;
   font-family:var(--serif);
-  font-size:clamp(22px,2.6vw,30px);
-  line-height:1.2;
-  letter-spacing:.08em;
-  text-align:center;
+  font-size:clamp(20px,2.4vw,28px);
+  line-height:1.14;
+  letter-spacing:.04em;
   text-transform:uppercase;
   color:#D9D7D4;
 }
