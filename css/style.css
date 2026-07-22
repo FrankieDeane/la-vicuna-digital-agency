@@ -367,7 +367,19 @@ main section{padding:clamp(90px,12vw,150px) 0}
   position:relative;
   padding-top:0;
   overflow:hidden;
-  background:linear-gradient(180deg,var(--ink),var(--ink));
+  background:#0A0801;
+}
+/* Servicios es una sección "cine" siempre oscura (como el hero): en light
+   mode mantenemos fondo oscuro y re-escalamos la paleta a claro-sobre-oscuro
+   para que el texto (incluida la descripción y el overlay) sea legible. */
+:root[data-theme="light"] .services{
+  --bone:#D9D7D4;
+  --bone-dim:rgba(217,215,212,.62);
+  --accent:#7FAE93;
+  --accent-soft:rgba(127,174,147,.32);
+  --ink:#0A0801;
+  --line:rgba(217,215,212,.16);
+  color:var(--bone);
 }
 /* Video de fondo de la sección */
 .svc-video{
