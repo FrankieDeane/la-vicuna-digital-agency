@@ -362,74 +362,302 @@ main section{padding:clamp(90px,12vw,150px) 0}
 }
 .paper .sec-head h2::after{background:var(--accent-ink)}
 
-/* ---- Sección con textura grunge (Servicios) ------------------------------- */
-.grunge{
+/* ---- Servicios --------------------------------------------------------- */
+.services{
+  position:relative;
+  padding-top:0;
+  overflow:hidden;
+  background:#0A0801;
+}
+/* Servicios es una sección "cine" siempre oscura (como el hero): en light
+   mode mantenemos fondo oscuro y re-escalamos la paleta a claro-sobre-oscuro
+   para que el texto (incluida la descripción y el overlay) sea legible. */
+:root[data-theme="light"] .services{
+  --bone:#D9D7D4;
+  --bone-dim:rgba(217,215,212,.62);
+  --accent:#7FAE93;
+  --accent-soft:rgba(127,174,147,.32);
+  --ink:#0A0801;
+  --line:rgba(217,215,212,.16);
+  color:var(--bone);
+}
+/* Video de fondo de la sección */
+.svc-video{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.62;
+  filter:grayscale(.15) contrast(1.04);
+  pointer-events:none;
+}
+/* Velo + textura para que el texto sea legible sobre el video */
+.services::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
   background:
-    linear-gradient(rgba(10,8,1,.52),rgba(10,8,1,.62)),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat fixed;
-  color:#D9D7D4;
+    var(--grunge),
+    radial-gradient(ellipse at 50% 45%,rgba(10,8,1,.22),rgba(10,8,1,.6));
+  background-blend-mode:soft-light,normal;
+  opacity:.82;
+  pointer-events:none;
 }
-.grunge .sec-head .mono{color:#7FAE93}
-.grunge .sec-head h2::after{background:#7FAE93}
-.grunge .svc-list{border-top-color:rgba(217,215,212,.22)}
-.grunge .svc{border-bottom-color:rgba(217,215,212,.22)}
-.grunge .svc:hover,.grunge .svc:focus-visible{background:rgba(127,174,147,.1)}
-.grunge .svc-num,.grunge .svc-mark{color:#7FAE93}
-.grunge .svc:hover .svc-title,.grunge .svc:focus-visible .svc-title{color:#7FAE93}
-.grunge .svc-body p{color:rgba(217,215,212,.8)}
-
-
-/* ---- Servicios (acordeón) --------------------------------------------- */
-.svc-list{border-top:1px solid var(--line-ink)}
-
-.svc{
-  border-bottom:1px solid var(--line-ink);
-  cursor:pointer;
-  outline:none;
-  transition:background .4s;
+.services > .marquee,
+.services > .wrap{position:relative;z-index:1}
+.services .sec-head{margin-bottom:clamp(30px,4vw,50px)}
+.svc-hint{margin-top:16px;color:var(--accent)}
+/* El hint de "arrastrar" solo aplica en desktop (donde hay campo flotante);
+   en touch se muestra el de "tocar". */
+.svc-hint .hint-tap{display:none}
+@media (hover:none){
+  .svc-hint .hint-drag{display:none}
+  .svc-hint .hint-tap{display:inline}
 }
-.svc:hover,.svc:focus-visible{background:var(--accent-faint)}
 
-.svc-head{
+/* ---- Marquee ----------------------------------------------------------- */
+.marquee{
+  overflow:hidden;
+  border-block:1px solid var(--line);
+  padding:18px 0;
+  margin-bottom:clamp(70px,9vw,120px);
+  mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);
+}
+.marquee-track{
   display:flex;
-  align-items:baseline;
-  gap:clamp(16px,4vw,42px);
-  padding:clamp(22px,3.4vw,34px) 0;
+  align-items:center;
+  gap:clamp(26px,4vw,56px);
+  width:max-content;
+  animation:marquee 28s linear infinite;
+}
+.marquee-track span{
+  font-family:var(--serif);
+  font-size:clamp(20px,2.6vw,30px);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:var(--bone-dim);
+}
+.marquee-track .dot{
+  font-size:15px;
+  color:var(--accent);
+  animation:dot-spin 6s linear infinite;
+}
+@keyframes marquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+@keyframes dot-spin{
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
+}
+
+/* ---- Servicios: palabras flotantes + pintado al clickear --------------- */
+.svc-lines{list-style:none}
+.svc-item{border-bottom:1px solid var(--line)}
+.svc-item:first-child{border-top:1px solid var(--line)}
+
+.svc-trigger{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:clamp(16px,3.4vw,40px);
+  padding:clamp(20px,3vw,32px) 0;
+  text-align:left;
+  outline:none;
 }
 .svc-num{
   font-family:var(--mono);
   font-size:13px;
-  color:var(--accent-ink);
+  color:var(--accent);
+  flex-shrink:0;
 }
-.svc-title{
+
+/* La palabra flota suspendida: deriva en X/Y + leve rotación */
+.svc-word{
+  position:relative;
+  display:inline-block;
   font-family:var(--serif);
-  font-size:clamp(24px,3.6vw,42px);
-  transition:transform .4s cubic-bezier(.22,.6,.2,1),color .4s;
+  font-size:clamp(38px,7vw,88px);
+  line-height:1.06;
+  letter-spacing:.01em;
+  animation:svc-float var(--dur,8.5s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+  will-change:transform;
 }
-.svc:hover .svc-title,.svc:focus-visible .svc-title{
-  transform:translateX(10px);
-  color:var(--accent-ink);
+/* Sombra que "respira" bajo la palabra, reforzando que flota */
+.svc-word::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;
+  bottom:-.36em;
+  height:.22em;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 72%);
+  filter:blur(7px);
+  transform:scaleX(.7);
+  transform-origin:center;
+  animation:svc-shadow var(--dur,8.5s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+  pointer-events:none;
 }
-.svc-mark{
+.svc-item:nth-child(1) .svc-word{--dur:8.5s;--delay:0s}
+.svc-item:nth-child(2) .svc-word{--dur:9.2s;--delay:-1.6s}
+.svc-item:nth-child(3) .svc-word{--dur:7.8s;--delay:-3.1s}
+.svc-item:nth-child(4) .svc-word{--dur:9.6s;--delay:-4.4s}
+.svc-item:nth-child(5) .svc-word{--dur:8.1s;--delay:-2.3s}
+.svc-item:nth-child(6) .svc-word{--dur:9s;--delay:-5.2s}
+@keyframes svc-float{
+  0%{transform:translate3d(0,0,0) rotate(0deg)}
+  25%{transform:translate3d(5px,-10px,0) rotate(-.5deg)}
+  50%{transform:translate3d(0,-15px,0) rotate(0deg)}
+  75%{transform:translate3d(-5px,-7px,0) rotate(.5deg)}
+  100%{transform:translate3d(0,0,0) rotate(0deg)}
+}
+@keyframes svc-shadow{
+  0%,100%{transform:scaleX(.7);opacity:.5}
+  50%{transform:scaleX(.56);opacity:.28}
+}
+
+/* Capa base: contorno tenue. Capa fill: color acento que se "pinta". */
+.w-base{color:var(--bone-dim);transition:color .4s}
+.w-fill{
+  position:absolute;
+  left:0;top:0;
+  color:var(--accent);
+  white-space:nowrap;
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path .55s cubic-bezier(.22,.6,.2,1);
+  pointer-events:none;
+}
+.svc-trigger:hover .w-base,.svc-trigger:focus-visible .w-base{color:var(--bone)}
+.svc-item.open .w-fill{clip-path:inset(0 0 0 0)}
+.svc-item.open .w-base{color:transparent}
+.svc-item.open .svc-word,
+.svc-item.open .svc-word::after{animation-play-state:paused}
+.svc-item.open .svc-word::after{opacity:.4}
+
+.svc-plus{
   margin-left:auto;
   font-family:var(--mono);
-  font-size:22px;
-  color:var(--accent-ink);
-  transition:transform .4s;
+  font-size:24px;
+  color:var(--accent);
+  transition:transform .45s cubic-bezier(.22,.6,.2,1);
+  flex-shrink:0;
 }
-.svc.open .svc-mark{transform:rotate(45deg)}
+.svc-item.open .svc-plus{transform:rotate(135deg)}
 
-.svc-body{
-  max-height:0;
+/* Texto descriptivo que se despliega */
+.svc-desc{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .55s cubic-bezier(.22,.6,.2,1);
+}
+.svc-item.open .svc-desc{grid-template-rows:1fr}
+.svc-desc > p{
   overflow:hidden;
-  transition:max-height .6s cubic-bezier(.22,.6,.2,1);
+  max-width:680px;
+  margin-left:clamp(30px,7vw,88px);
+  color:var(--bone-dim);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .5s .1s,transform .5s .1s;
 }
-.svc.open .svc-body{max-height:400px}
-.svc-body p{
-  max-width:720px;
-  padding-bottom:clamp(22px,3.4vw,34px);
-  color:rgba(10,8,1,.78);
+.svc-item.open .svc-desc > p{
+  opacity:1;
+  transform:none;
+  padding-bottom:clamp(24px,3.4vw,36px);
 }
+
+@media (max-width:640px){
+  .svc-desc > p{margin-left:34px}
+}
+
+/* ---- Servicios: modo "campo flotante" (desktop) ------------------------ */
+/* Activado por JS (.services.scatter). Cada opción se mueve libre por la
+   pantalla; el fallback es la lista vertical de arriba. */
+.services.scatter .svc-hint{opacity:0}
+.services.scatter .svc-lines{
+  position:relative;
+  height:min(84vh,900px);
+  margin-top:clamp(24px,4vw,44px);
+}
+.services.scatter .svc-item{
+  position:absolute;
+  top:0;left:0;
+  width:auto;
+  margin:0;
+  border:0!important;
+  will-change:transform;
+}
+.services.scatter .svc-trigger{
+  width:auto;
+  gap:12px;
+  padding:8px 12px;
+  cursor:grab;
+}
+.services.scatter .svc-word{animation:none;transform:none}
+.services.scatter .svc-word::after{display:none}
+.services.scatter .svc-plus{display:none}
+.services.scatter .svc-desc{display:none}
+/* halo suave detrás de cada palabra flotante para despegarla del fondo */
+.services.scatter .svc-trigger::before{
+  content:"";
+  position:absolute;
+  inset:-18px -22px;
+  z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(10,8,1,.55),transparent 72%);
+  opacity:.9;
+  pointer-events:none;
+}
+.services.scatter .svc-item.grabbed .svc-word{color:var(--accent)}
+.services.scatter .svc-item.grabbed .w-base{color:var(--accent)}
+.services.scatter .svc-item.dragging{z-index:4}
+.services.scatter .svc-item.dragging .svc-trigger{cursor:grabbing}
+.services.scatter .svc-item.dragging .svc-word{color:var(--accent);animation-play-state:paused}
+
+/* Panel de descripción que se abre al clickear una opción flotante */
+.svc-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:grid;
+  place-items:center;
+  padding:clamp(24px,6vw,72px);
+  background:rgba(10,8,1,.74);
+  backdrop-filter:blur(9px);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .45s,visibility .45s;
+}
+.svc-overlay.show{opacity:1;visibility:visible}
+.svc-overlay-card{
+  max-width:640px;
+  transform:translateY(14px);
+  transition:transform .5s cubic-bezier(.22,.6,.2,1);
+}
+.svc-overlay.show .svc-overlay-card{transform:none}
+.ov-num{display:block;color:var(--accent);margin-bottom:14px}
+.ov-word{
+  font-family:var(--serif);
+  font-size:clamp(38px,6vw,72px);
+  line-height:1.06;
+  color:var(--bone);
+  margin-bottom:20px;
+  text-wrap:balance;
+}
+.ov-desc{color:var(--bone-dim);font-size:16px;line-height:1.7;margin-bottom:30px}
+.ov-close{
+  color:var(--bone-dim);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:10px 20px;
+  transition:color .3s,border-color .3s;
+}
+.ov-close:hover,.ov-close:focus-visible{color:var(--accent);border-color:var(--accent)}
 
 /* ---- Trabajos ---------------------------------------------------------- */
 .works-grid{
@@ -487,21 +715,52 @@ main section{padding:clamp(90px,12vw,150px) 0}
   /* se escala por JS al ancho real de la tarjeta */
 }
 
-/* Miniatura estática (sitios que no permiten embeberse) */
-.thumb-static{
-  display:grid;
-  place-items:center;
+/* Portada de trabajo: imagen real del sitio + escena diseñada de fallback.
+   Si la imagen falta, main.js oculta <img> y queda la escena de abajo. */
+.thumb-cover{
+  display:block;
+  overflow:hidden;
   background:
-    linear-gradient(rgba(10,8,1,.45),rgba(10,8,1,.6)),
-    radial-gradient(ellipse at 30% 70%,rgba(127,174,147,.35),transparent 65%),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat;
+    radial-gradient(ellipse at 72% 30%,rgba(127,174,147,.4),transparent 55%),
+    linear-gradient(180deg,#0d1512 0%,#12100a 52%,#0a0d0c 100%);
 }
-.thumb-name{
+.thumb-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--grunge);
+  opacity:.5;
+  mix-blend-mode:soft-light;
+  pointer-events:none;
+}
+.cover-img{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+.cover-sail{
+  position:absolute;
+  right:14%;
+  top:16%;
+  width:44%;
+  height:auto;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.4));
+  transition:transform .6s cubic-bezier(.22,.6,.2,1);
+}
+.work:hover .cover-sail{transform:translateY(-6px) rotate(-3deg)}
+.cover-name{
+  position:absolute;
+  left:clamp(16px,3vw,26px);
+  bottom:clamp(14px,2.6vw,22px);
+  max-width:60%;
   font-family:var(--serif);
-  font-size:clamp(22px,2.6vw,30px);
-  line-height:1.2;
-  letter-spacing:.08em;
-  text-align:center;
+  font-size:clamp(20px,2.4vw,28px);
+  line-height:1.14;
+  letter-spacing:.04em;
   text-transform:uppercase;
   color:#D9D7D4;
 }
@@ -591,6 +850,34 @@ main section{padding:clamp(90px,12vw,150px) 0}
 }
 .preview-frame.loaded{opacity:1}
 
+/* Modo imagen (sitios que no se embeben): screenshot en el recuadro */
+.preview-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  opacity:0;
+  transition:opacity .5s;
+}
+.preview-img[hidden]{display:none}
+.preview-img.loaded{opacity:1}
+/* Fallback si no hay imagen: mensaje + botón para abrir el sitio */
+.preview-fallback{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  text-align:center;
+  padding:clamp(20px,4vw,40px);
+}
+.preview-fallback[hidden]{display:none}
+.preview-fallback p{color:var(--bone-dim);max-width:36ch;line-height:1.6}
+
 body.modal-open{overflow:hidden}
 
 /* ---- Nosotros ---------------------------------------------------------- */
@@ -613,29 +900,43 @@ body.modal-open{overflow:hidden}
   pointer-events:none;
 }
 
-.about-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(30px,6vw,80px);
-  align-items:start;
-}
-.about .lead{
+.about .sec-head{margin-bottom:clamp(26px,4vw,44px)}
+.lead-xl{
   font-family:var(--serif);
-  font-size:clamp(26px,3.6vw,42px);
-  line-height:1.25;
-  margin-top:16px;
+  font-size:clamp(32px,5.4vw,66px);
+  line-height:1.16;
+  max-width:18ch;
 }
-.about .body{color:var(--bone-dim)}
-
-@media (max-width:820px){
-  .about-grid{grid-template-columns:1fr}
+.about-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:clamp(30px,4.6vw,48px);
+}
+.about-tags span{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--bone-dim);
+  padding:9px 16px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  transition:color .35s,border-color .35s;
+}
+.about-tags span:hover{color:var(--accent);border-color:var(--accent)}
+.about .body{
+  color:var(--bone-dim);
+  max-width:520px;
+  margin-top:clamp(24px,3.6vw,36px);
 }
 
 /* ---- Clientes ----------------------------------------------------------- */
-.clients{padding-block:clamp(60px,8vw,90px)}
+.clients{padding-block:clamp(60px,8vw,90px);text-align:center}
 .clients .row{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:clamp(36px,7vw,90px);
   flex-wrap:wrap;
   margin-top:34px;

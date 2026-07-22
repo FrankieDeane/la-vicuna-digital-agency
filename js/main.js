@@ -1,5 +1,5 @@
 /* La Vicuña Digital Agency — main.js
-   Idioma ES/EN · reveals · grano · humo del hero · acordeón de servicios */
+   Idioma ES/EN · reveals · grano · humo del hero · previews de trabajos */
 (function () {
   'use strict';
 
@@ -98,22 +98,257 @@
     revealed.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ---- Acordeón de servicios -------------------------------------------- */
-  document.querySelectorAll('.svc').forEach(function (svc) {
-    function toggle() { svc.classList.toggle('open'); }
-    svc.addEventListener('click', toggle);
-    svc.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle();
-      }
+  /* ---- Servicios: pintar palabra y desplegar descripción ---------------- */
+  var finePointerSvc = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // Modo "campo flotante": solo desktop ancho, con puntero fino y sin reduce-motion
+  var svcScatter = finePointerSvc && !reduceMotion && window.innerWidth > 760;
+  var svcTriggers = document.querySelectorAll('.svc-trigger');
+  svcTriggers.forEach(function (trigger) {
+    // En modo lista: click despliega la descripción inline (acordeón)
+    trigger.addEventListener('click', function () {
+      if (svcScatter) return; // en campo flotante lo maneja el overlay
+      var item = trigger.closest('.svc-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.svc-item.open').forEach(function (other) {
+        if (other !== item) {
+          other.classList.remove('open');
+          var t = other.querySelector('.svc-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
     });
+
+    // Imán suave (solo modo lista, no en campo flotante)
+    if (finePointerSvc && !reduceMotion && !svcScatter) {
+      var word = trigger.querySelector('.svc-word');
+      trigger.addEventListener('mousemove', function (e) {
+        if (trigger.closest('.svc-item').classList.contains('open')) return;
+        var r = trigger.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) * 0.05;
+        var dy = (e.clientY - (r.top + r.height / 2)) * 0.12;
+        word.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+      trigger.addEventListener('mouseleave', function () {
+        word.style.transform = '';
+      });
+    }
   });
+
+  /* ---- Servicios: campo flotante (deriva libre + rebote en bordes) ------- */
+  (function initScatter() {
+    if (!svcScatter) return;
+    var section = document.querySelector('.services');
+    var list = section && section.querySelector('.svc-lines');
+    if (!section || !list) return;
+    section.classList.add('scatter');
+
+    var items = Array.prototype.slice.call(list.querySelectorAll('.svc-item')).map(function (el) {
+      return { el: el, trigger: el.querySelector('.svc-trigger'), x: 0, y: 0, vx: 0, vy: 0, w: 0, h: 0, paused: false, dragging: false };
+    });
+
+    // Panel de descripción (overlay)
+    var overlay = document.createElement('div');
+    overlay.className = 'svc-overlay';
+    overlay.innerHTML =
+      '<div class="svc-overlay-card">' +
+        '<span class="ov-num mono"></span>' +
+        '<h3 class="ov-word"></h3>' +
+        '<p class="ov-desc"></p>' +
+        '<button class="ov-close mono" type="button" data-es="Cerrar ✕" data-en="Close ✕">Cerrar ✕</button>' +
+      '</div>';
+    section.appendChild(overlay);
+    var ovNum = overlay.querySelector('.ov-num');
+    var ovWord = overlay.querySelector('.ov-word');
+    var ovDesc = overlay.querySelector('.ov-desc');
+    var overlayOpen = false;
+
+    function openOverlay(it) {
+      var num = it.el.querySelector('.svc-num');
+      var word = it.el.querySelector('.w-base');
+      var desc = it.el.querySelector('.svc-desc p');
+      ovNum.textContent = (num ? num.textContent : '') + ' · Servicio';
+      ovWord.textContent = word ? word.textContent : '';
+      ovDesc.textContent = desc ? desc.textContent : '';
+      overlay.classList.add('show');
+      overlayOpen = true;
+    }
+    function closeOverlay() {
+      overlay.classList.remove('show');
+      overlayOpen = false;
+    }
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay || e.target.classList.contains('ov-close')) closeOverlay();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlayOpen) closeOverlay();
+    });
+
+    var box = { w: 0, h: 0 };
+    function measure() {
+      var r = list.getBoundingClientRect();
+      box.w = r.width; box.h = r.height;
+      items.forEach(function (it) {
+        var ir = it.el.getBoundingClientRect();
+        it.w = ir.width; it.h = ir.height;
+        // clamp por si el resize dejó algo afuera
+        it.x = Math.max(0, Math.min(it.x, box.w - it.w));
+        it.y = Math.max(0, Math.min(it.y, box.h - it.h));
+      });
+    }
+
+    // Posiciones iniciales en bandas por fila (evita solaparse al arrancar):
+    // 3 filas × 2 columnas; cada palabra queda en su banda vertical.
+    function seed() {
+      var rows = 3, cols = 2;
+      // orden alternado para que palabras largas no caigan en la misma columna
+      items.forEach(function (it, i) {
+        var row = Math.floor(i / cols), colIndex = i % cols;
+        var bandH = box.h / rows;
+        var colW = box.w / cols;
+        var maxX = Math.max(0, colW - it.w);
+        it.x = Math.max(0, Math.min(colIndex * colW + Math.random() * maxX, box.w - it.w));
+        // centrado dentro de su banda + jitter chico, así no se pisan verticalmente
+        var slack = Math.max(0, bandH - it.h);
+        it.y = Math.min(row * bandH + slack * (0.3 + Math.random() * 0.4), box.h - it.h);
+        var ang = Math.random() * Math.PI * 2;
+        var sp = 0.26 + Math.random() * 0.22;
+        it.vx = Math.cos(ang) * sp;
+        it.vy = Math.sin(ang) * sp;
+        it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+      });
+    }
+
+    // Hover: pausar y resaltar. Pointer: arrastrar para mover, click para abrir.
+    items.forEach(function (it) {
+      it.trigger.addEventListener('mouseenter', function () { if (!it.dragging) it.paused = true; it.el.classList.add('grabbed'); });
+      it.trigger.addEventListener('mouseleave', function () { if (!it.dragging) it.paused = false; it.el.classList.remove('grabbed'); });
+      it.trigger.addEventListener('focus', function () { it.paused = true; });
+      it.trigger.addEventListener('blur', function () { if (!it.dragging) it.paused = false; });
+      // Abrir con teclado (Enter/Espacio)
+      it.trigger.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOverlay(it); }
+      });
+
+      var startX = 0, startY = 0, origX = 0, origY = 0, moved = false;
+      function onMove(e) {
+        var dx = e.clientX - startX, dy = e.clientY - startY;
+        if (!moved && Math.hypot(dx, dy) > 5) { moved = true; it.el.classList.add('dragging'); }
+        if (moved) {
+          it.x = Math.max(0, Math.min(origX + dx, box.w - it.w));
+          it.y = Math.max(0, Math.min(origY + dy, box.h - it.h));
+          it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+          // velocidad de "lanzamiento" según el desplazamiento reciente
+          it.vx = Math.max(-1.2, Math.min(1.2, dx * 0.02));
+          it.vy = Math.max(-1.2, Math.min(1.2, dy * 0.02));
+        }
+      }
+      function onUp() {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        it.dragging = false;
+        it.paused = false;
+        it.el.classList.remove('dragging');
+        if (!moved) openOverlay(it); // fue un click, no un arrastre
+        // reanuda con una velocidad mínima para que no quede frenada
+        if (Math.hypot(it.vx, it.vy) < 0.12) {
+          var a = Math.random() * 6.28; it.vx = Math.cos(a) * 0.3; it.vy = Math.sin(a) * 0.3;
+        }
+      }
+      it.trigger.addEventListener('pointerdown', function (e) {
+        if (overlayOpen) return;
+        e.preventDefault();
+        startX = e.clientX; startY = e.clientY;
+        origX = it.x; origY = it.y; moved = false;
+        it.dragging = true; it.paused = true;
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
+    });
+
+    measure(); seed();
+    window.addEventListener('resize', measure);
+
+    (function tick() {
+      if (!overlayOpen) {
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.paused) continue;
+          it.x += it.vx; it.y += it.vy;
+          if (it.x <= 0) { it.x = 0; it.vx = Math.abs(it.vx); }
+          else if (it.x >= box.w - it.w) { it.x = box.w - it.w; it.vx = -Math.abs(it.vx); }
+          if (it.y <= 0) { it.y = 0; it.vy = Math.abs(it.vy); }
+          else if (it.y >= box.h - it.h) { it.y = box.h - it.h; it.vy = -Math.abs(it.vy); }
+          it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+        }
+      }
+      requestAnimationFrame(tick);
+    })();
+  })();
+
+  /* ---- Servicios: video de fondo (ocultar si falta) --------------------- */
+  var svcVideo = document.querySelector('.svc-video');
+  if (svcVideo) {
+    var svcSrc = svcVideo.querySelector('source');
+    var hideSvcVideo = function () { svcVideo.style.display = 'none'; };
+    svcVideo.addEventListener('error', hideSvcVideo);
+    if (svcSrc) svcSrc.addEventListener('error', hideSvcVideo);
+  }
+
+  /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
+  var svcBg = document.querySelector('.svc-bg');
+  if (svcBg && !reduceMotion) {
+    var sctx = svcBg.getContext('2d');
+    var SW, SH, SDPR = Math.min(window.devicePixelRatio || 1, 2);
+    var palette = [[127,174,147],[90,140,112],[63,107,84],[120,95,150],[160,180,150]];
+    var svcBlobs = [];
+    function sizeSvcBg() {
+      var rect = svcBg.getBoundingClientRect();
+      SW = svcBg.width = Math.max(1, Math.floor(rect.width * SDPR));
+      SH = svcBg.height = Math.max(1, Math.floor(rect.height * SDPR));
+    }
+    sizeSvcBg();
+    window.addEventListener('resize', sizeSvcBg);
+    for (var sb = 0; sb < 6; sb++) {
+      var col = palette[sb % palette.length];
+      svcBlobs.push({
+        x: Math.random(), y: Math.random(),
+        r: 0.30 + Math.random() * 0.26,
+        dx: (Math.random() - 0.5) * 0.00016,
+        dy: (Math.random() - 0.5) * 0.00013,
+        col: col, a: 0.14 + Math.random() * 0.12,
+        ph: Math.random() * 6.28, sp: 0.0006 + Math.random() * 0.0006
+      });
+    }
+    (function drawSvcBg(t) {
+      sctx.clearRect(0, 0, SW, SH);
+      sctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < svcBlobs.length; i++) {
+        var b = svcBlobs[i];
+        b.x += b.dx; b.y += b.dy;
+        if (b.x < -0.3) b.x = 1.3; else if (b.x > 1.3) b.x = -0.3;
+        if (b.y < -0.3) b.y = 1.3; else if (b.y > 1.3) b.y = -0.3;
+        var pulse = 0.85 + 0.15 * Math.sin(t * b.sp + b.ph);
+        var R = b.r * Math.max(SW, SH) * pulse;
+        var g = sctx.createRadialGradient(b.x * SW, b.y * SH, 0, b.x * SW, b.y * SH, R);
+        g.addColorStop(0, 'rgba(' + b.col[0] + ',' + b.col[1] + ',' + b.col[2] + ',' + b.a + ')');
+        g.addColorStop(1, 'rgba(' + b.col[0] + ',' + b.col[1] + ',' + b.col[2] + ',0)');
+        sctx.fillStyle = g;
+        sctx.beginPath(); sctx.arc(b.x * SW, b.y * SH, R, 0, 6.2832); sctx.fill();
+      }
+      sctx.globalCompositeOperation = 'source-over';
+      requestAnimationFrame(drawSvcBg);
+    })(0);
+  }
 
   /* ---- Preview de trabajos (modal con iframe) ---------------------------- */
   var modal = document.getElementById('preview-modal');
   if (modal) {
     var frame = modal.querySelector('.preview-frame');
+    var previewImg = modal.querySelector('.preview-img');
+    var fallback = modal.querySelector('.preview-fallback');
+    var fallbackOpen = modal.querySelector('.preview-fallback-open');
     var loadingMsg = modal.querySelector('.preview-loading');
     var titleEl = modal.querySelector('#preview-title');
     var openLink = modal.querySelector('.preview-open');
@@ -122,13 +357,46 @@
     frame.addEventListener('load', function () {
       if (frame.src) frame.classList.add('loaded');
     });
+    // Modo imagen: mostrar screenshot; si falla, mostrar el fallback con "Abrir sitio"
+    previewImg.addEventListener('load', function () {
+      if (previewImg.getAttribute('src')) {
+        previewImg.classList.add('loaded');
+        loadingMsg.style.display = 'none';
+      }
+    });
+    previewImg.addEventListener('error', function () {
+      previewImg.hidden = true;
+      loadingMsg.style.display = 'none';
+      fallback.hidden = false;
+    });
 
-    function openPreview(url, title) {
+    function resetPreview() {
+      frame.classList.remove('loaded');
+      frame.src = '';
+      frame.hidden = false;
+      previewImg.classList.remove('loaded');
+      previewImg.removeAttribute('src');
+      previewImg.hidden = true;
+      fallback.hidden = true;
+      loadingMsg.style.display = '';
+    }
+
+    function openPreview(url, title, imgSrc) {
       lastFocus = document.activeElement;
       titleEl.textContent = title;
       openLink.href = url;
-      frame.classList.remove('loaded');
-      frame.src = url;
+      if (fallbackOpen) fallbackOpen.href = url;
+      resetPreview();
+      if (imgSrc) {
+        // recuadro con la imagen del sitio (para sitios que no se embeben)
+        frame.hidden = true;
+        previewImg.hidden = false;
+        previewImg.style.visibility = 'visible'; // el hide genérico de imágenes rotas la había ocultado
+        previewImg.src = imgSrc;
+      } else {
+        // recuadro con el sitio en vivo
+        frame.src = url;
+      }
       modal.hidden = false;
       document.body.classList.add('modal-open');
       modal.querySelector('.preview-close').focus();
@@ -136,8 +404,7 @@
 
     function closePreview() {
       modal.hidden = true;
-      frame.classList.remove('loaded');
-      frame.src = '';
+      resetPreview();
       document.body.classList.remove('modal-open');
       if (lastFocus) lastFocus.focus();
     }
@@ -147,7 +414,11 @@
         // con modificadores se respeta el comportamiento normal (nueva pestaña)
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
         e.preventDefault();
-        openPreview(card.getAttribute('data-preview'), card.getAttribute('data-title') || 'Preview');
+        openPreview(
+          card.getAttribute('data-preview'),
+          card.getAttribute('data-title') || 'Preview',
+          card.getAttribute('data-preview-img')
+        );
       });
     });
 
