@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="stylesheet" href="css/style.css?v=12">
 </head>
 <body>
 
@@ -72,7 +72,9 @@
   </section>
 
   <section class="services" id="servicios">
-    <canvas class="svc-bg" aria-hidden="true"></canvas>
+    <video class="svc-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="assets/video/servicios.mp4" type="video/mp4">
+    </video>
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
         <span>Social Media</span><span class="dot">✳</span><span>Web</span><span class="dot">✳</span><span>SEO</span><span class="dot">✳</span><span>Paid Media</span><span class="dot">✳</span><span data-es="Creatividad" data-en="Creativity">Creatividad</span><span class="dot">✳</span><span>IA</span><span class="dot">✳</span>
@@ -83,7 +85,7 @@
       <div class="sec-head rv">
         <span class="mono">02 · <span data-es="Servicios" data-en="Services">Servicios</span></span>
         <h2 data-es="Lo que hacemos" data-en="What we do">Lo que hacemos</h2>
-        <p class="svc-hint mono" data-es="Tocá cada palabra para descubrir" data-en="Tap each word to reveal">Tocá cada palabra para descubrir</p>
+        <p class="svc-hint mono" data-es="Arrastrá las palabras · clic para leer" data-en="Drag the words · click to read">Arrastrá las palabras · clic para leer</p>
       </div>
       <ul class="svc-lines rv">
         <li class="svc-item">
@@ -172,7 +174,7 @@
           <p data-es="Experiencia web inmersiva con senderos renderizados en 3D." data-en="Immersive web experience with 3D-rendered trails.">Experiencia web inmersiva con senderos renderizados en 3D.</p>
           <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
-        <a class="work" href="https://escueladewingfoil.com.ar/" target="_blank" rel="noopener">
+        <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
             <img class="cover-img" src="assets/img/wingfoil-cover.jpg" alt="" loading="lazy">
             <svg class="cover-sail" viewBox="0 0 120 120" fill="none" aria-hidden="true">
@@ -186,7 +188,7 @@
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Escuela de Wingfoil</h3>
           <p data-es="Sitio web con atmósfera 3D para escuela de wingfoil en Argentina." data-en="Website with 3D atmosphere for a wingfoil school in Argentina.">Sitio web con atmósfera 3D para escuela de wingfoil en Argentina.</p>
-          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+          <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
       </div>
     </div>
@@ -252,6 +254,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=10" defer></script>
+<script src="js/main.js?v=12" defer></script>
 </body>
 </html>

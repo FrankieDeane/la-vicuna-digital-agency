@@ -369,24 +369,29 @@ main section{padding:clamp(90px,12vw,150px) 0}
   overflow:hidden;
   background:linear-gradient(180deg,var(--ink),var(--ink));
 }
-/* Animación de fondo: manchas de color a la deriva (estilo Animal Studio) */
-.svc-bg{
+/* Video de fondo de la sección */
+.svc-video{
   position:absolute;
   inset:0;
   z-index:0;
   width:100%;
   height:100%;
+  object-fit:cover;
+  opacity:.62;
+  filter:grayscale(.15) contrast(1.04);
   pointer-events:none;
-  filter:blur(6px);
 }
+/* Velo + textura para que el texto sea legible sobre el video */
 .services::after{
   content:"";
   position:absolute;
   inset:0;
   z-index:0;
-  background:var(--grunge);
-  opacity:.5;
-  mix-blend-mode:soft-light;
+  background:
+    var(--grunge),
+    radial-gradient(ellipse at 50% 45%,rgba(10,8,1,.22),rgba(10,8,1,.6));
+  background-blend-mode:soft-light,normal;
+  opacity:.82;
   pointer-events:none;
 }
 .services > .marquee,
@@ -458,8 +463,8 @@ main section{padding:clamp(90px,12vw,150px) 0}
   position:relative;
   display:inline-block;
   font-family:var(--serif);
-  font-size:clamp(30px,5.4vw,64px);
-  line-height:1.08;
+  font-size:clamp(38px,7vw,88px);
+  line-height:1.06;
   letter-spacing:.01em;
   animation:svc-float var(--dur,8.5s) ease-in-out infinite;
   animation-delay:var(--delay,0s);
@@ -558,7 +563,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .services.scatter .svc-hint{opacity:0}
 .services.scatter .svc-lines{
   position:relative;
-  height:min(74vh,760px);
+  height:min(84vh,900px);
   margin-top:clamp(24px,4vw,44px);
 }
 .services.scatter .svc-item{
@@ -591,6 +596,9 @@ main section{padding:clamp(90px,12vw,150px) 0}
 }
 .services.scatter .svc-item.grabbed .svc-word{color:var(--accent)}
 .services.scatter .svc-item.grabbed .w-base{color:var(--accent)}
+.services.scatter .svc-item.dragging{z-index:4}
+.services.scatter .svc-item.dragging .svc-trigger{cursor:grabbing}
+.services.scatter .svc-item.dragging .svc-word{color:var(--accent);animation-play-state:paused}
 
 /* Panel de descripción que se abre al clickear una opción flotante */
 .svc-overlay{

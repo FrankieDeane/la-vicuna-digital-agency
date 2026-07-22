@@ -145,7 +145,7 @@
     section.classList.add('scatter');
 
     var items = Array.prototype.slice.call(list.querySelectorAll('.svc-item')).map(function (el) {
-      return { el: el, trigger: el.querySelector('.svc-trigger'), x: 0, y: 0, vx: 0, vy: 0, w: 0, h: 0, paused: false };
+      return { el: el, trigger: el.querySelector('.svc-trigger'), x: 0, y: 0, vx: 0, vy: 0, w: 0, h: 0, paused: false, dragging: false };
     });
 
     // Panel de descripción (overlay)
@@ -198,29 +198,73 @@
       });
     }
 
-    // Posiciones iniciales repartidas en una grilla 3×2 con jitter
+    // Posiciones iniciales en bandas por fila (evita solaparse al arrancar):
+    // 3 filas × 2 columnas; cada palabra queda en su banda vertical.
     function seed() {
-      var cols = 3, rows = 2;
+      var rows = 3, cols = 2;
+      // orden alternado para que palabras largas no caigan en la misma columna
       items.forEach(function (it, i) {
-        var cw = box.w / cols, ch = box.h / rows;
-        var cx = (i % cols) * cw, cy = Math.floor(i / cols) * ch;
-        it.x = Math.max(0, Math.min(cx + Math.random() * (cw - it.w), box.w - it.w));
-        it.y = Math.max(0, Math.min(cy + Math.random() * (ch - it.h), box.h - it.h));
+        var row = Math.floor(i / cols), colIndex = i % cols;
+        var bandH = box.h / rows;
+        var colW = box.w / cols;
+        var maxX = Math.max(0, colW - it.w);
+        it.x = Math.max(0, Math.min(colIndex * colW + Math.random() * maxX, box.w - it.w));
+        // centrado dentro de su banda + jitter chico, así no se pisan verticalmente
+        var slack = Math.max(0, bandH - it.h);
+        it.y = Math.min(row * bandH + slack * (0.3 + Math.random() * 0.4), box.h - it.h);
         var ang = Math.random() * Math.PI * 2;
-        var sp = 0.28 + Math.random() * 0.26;
+        var sp = 0.26 + Math.random() * 0.22;
         it.vx = Math.cos(ang) * sp;
         it.vy = Math.sin(ang) * sp;
         it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
       });
     }
 
-    // Hover: pausar esa opción (fácil de clickear) + resaltar
+    // Hover: pausar y resaltar. Pointer: arrastrar para mover, click para abrir.
     items.forEach(function (it) {
-      it.trigger.addEventListener('mouseenter', function () { it.paused = true; it.el.classList.add('grabbed'); });
-      it.trigger.addEventListener('mouseleave', function () { it.paused = false; it.el.classList.remove('grabbed'); });
+      it.trigger.addEventListener('mouseenter', function () { if (!it.dragging) it.paused = true; it.el.classList.add('grabbed'); });
+      it.trigger.addEventListener('mouseleave', function () { if (!it.dragging) it.paused = false; it.el.classList.remove('grabbed'); });
       it.trigger.addEventListener('focus', function () { it.paused = true; });
-      it.trigger.addEventListener('blur', function () { it.paused = false; });
-      it.trigger.addEventListener('click', function () { openOverlay(it); });
+      it.trigger.addEventListener('blur', function () { if (!it.dragging) it.paused = false; });
+      // Abrir con teclado (Enter/Espacio)
+      it.trigger.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOverlay(it); }
+      });
+
+      var startX = 0, startY = 0, origX = 0, origY = 0, moved = false;
+      function onMove(e) {
+        var dx = e.clientX - startX, dy = e.clientY - startY;
+        if (!moved && Math.hypot(dx, dy) > 5) { moved = true; it.el.classList.add('dragging'); }
+        if (moved) {
+          it.x = Math.max(0, Math.min(origX + dx, box.w - it.w));
+          it.y = Math.max(0, Math.min(origY + dy, box.h - it.h));
+          it.el.style.transform = 'translate(' + it.x + 'px,' + it.y + 'px)';
+          // velocidad de "lanzamiento" según el desplazamiento reciente
+          it.vx = Math.max(-1.2, Math.min(1.2, dx * 0.02));
+          it.vy = Math.max(-1.2, Math.min(1.2, dy * 0.02));
+        }
+      }
+      function onUp() {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        it.dragging = false;
+        it.paused = false;
+        it.el.classList.remove('dragging');
+        if (!moved) openOverlay(it); // fue un click, no un arrastre
+        // reanuda con una velocidad mínima para que no quede frenada
+        if (Math.hypot(it.vx, it.vy) < 0.12) {
+          var a = Math.random() * 6.28; it.vx = Math.cos(a) * 0.3; it.vy = Math.sin(a) * 0.3;
+        }
+      }
+      it.trigger.addEventListener('pointerdown', function (e) {
+        if (overlayOpen) return;
+        e.preventDefault();
+        startX = e.clientX; startY = e.clientY;
+        origX = it.x; origY = it.y; moved = false;
+        it.dragging = true; it.paused = true;
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
     });
 
     measure(); seed();
@@ -242,6 +286,15 @@
       requestAnimationFrame(tick);
     })();
   })();
+
+  /* ---- Servicios: video de fondo (ocultar si falta) --------------------- */
+  var svcVideo = document.querySelector('.svc-video');
+  if (svcVideo) {
+    var svcSrc = svcVideo.querySelector('source');
+    var hideSvcVideo = function () { svcVideo.style.display = 'none'; };
+    svcVideo.addEventListener('error', hideSvcVideo);
+    if (svcSrc) svcSrc.addEventListener('error', hideSvcVideo);
+  }
 
   /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
   var svcBg = document.querySelector('.svc-bg');
