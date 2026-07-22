@@ -282,6 +282,16 @@ header nav a:hover::after,header nav a:focus-visible::after{
   letter-spacing:.04em;
   margin-bottom:34px;
 }
+/* Slogan/hashtag del hero */
+.hero-tag{
+  font-family:var(--mono);
+  font-size:clamp(14px,2vw,19px);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--accent);
+  text-indent:.3em;
+}
+:root[data-theme="light"] .hero .hero-tag{color:#7FAE93}
 
 .btn{
   position:relative;
@@ -1092,12 +1102,19 @@ body.modal-open{overflow:hidden}
 }
 .client-logo:hover{opacity:1;filter:none}
 /* Logo de T-L: azul sobre fondo amarillo opaco; en grises se funde con el
-   papel claro. Se muestra siempre en su color real para que sea legible. */
+   papel claro. Se muestra en su color real, dentro de un marco claro para
+   que sea legible sobre cualquier fondo/tema. */
 .client-logo.tl{
-  filter:none;
-  opacity:1;
-  border-radius:4px;
+  filter:none !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  height:58px;
+  padding:7px;
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
 }
+.client-logo.tl:hover{filter:none !important;opacity:1 !important}
 /* Logo de Patagon: es blanco puro; sobre papel hueso se invierte a tinta */
 .client-logo.patagon{
   height:52px;
