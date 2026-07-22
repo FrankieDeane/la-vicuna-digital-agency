@@ -391,6 +391,7 @@
         // recuadro con la imagen del sitio (para sitios que no se embeben)
         frame.hidden = true;
         previewImg.hidden = false;
+        previewImg.style.visibility = 'visible'; // el hide genérico de imágenes rotas la había ocultado
         previewImg.src = imgSrc;
       } else {
         // recuadro con el sitio en vivo
