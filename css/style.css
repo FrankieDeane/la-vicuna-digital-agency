@@ -398,6 +398,13 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .services > .wrap{position:relative;z-index:1}
 .services .sec-head{margin-bottom:clamp(30px,4vw,50px)}
 .svc-hint{margin-top:16px;color:var(--accent)}
+/* El hint de "arrastrar" solo aplica en desktop (donde hay campo flotante);
+   en touch se muestra el de "tocar". */
+.svc-hint .hint-tap{display:none}
+@media (hover:none){
+  .svc-hint .hint-drag{display:none}
+  .svc-hint .hint-tap{display:inline}
+}
 
 /* ---- Marquee ----------------------------------------------------------- */
 .marquee{
