@@ -173,10 +173,10 @@
       ovNum.textContent = (num ? num.textContent : '') + ' · Servicio';
       ovWord.textContent = word ? word.textContent : '';
       ovDesc.textContent = desc ? desc.textContent : '';
-      // Contenido extra (ej. diagrama de flujo): se clona al panel si existe
+      // Contenido extra (ej. diagramas de flujo): se clonan al panel si existen
       ovExtra.innerHTML = '';
-      var flow = it.el.querySelector('.flow');
-      if (flow) ovExtra.appendChild(flow.cloneNode(true));
+      var flows = it.el.querySelector('.flows');
+      if (flows) ovExtra.appendChild(flows.cloneNode(true));
       overlay.classList.add('show');
       overlayOpen = true;
     }
