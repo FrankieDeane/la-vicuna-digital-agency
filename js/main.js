@@ -1,5 +1,5 @@
 /* La Vicuña Digital Agency — main.js
-   Idioma ES/EN · reveals · grano · humo del hero · acordeón de servicios */
+   Idioma ES/EN · reveals · grano · humo del hero · previews de trabajos */
 (function () {
   'use strict';
 
@@ -97,18 +97,6 @@
   } else {
     revealed.forEach(function (el) { el.classList.add('in'); });
   }
-
-  /* ---- Acordeón de servicios -------------------------------------------- */
-  document.querySelectorAll('.svc').forEach(function (svc) {
-    function toggle() { svc.classList.toggle('open'); }
-    svc.addEventListener('click', toggle);
-    svc.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle();
-      }
-    });
-  });
 
   /* ---- Preview de trabajos (modal con iframe) ---------------------------- */
   var modal = document.getElementById('preview-modal');
