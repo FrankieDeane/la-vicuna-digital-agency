@@ -99,6 +99,7 @@
   }
 
   /* ---- Servicios: pintar palabra y desplegar descripción ---------------- */
+  var finePointerSvc = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var svcTriggers = document.querySelectorAll('.svc-trigger');
   svcTriggers.forEach(function (trigger) {
     trigger.addEventListener('click', function () {
@@ -115,7 +116,68 @@
       item.classList.toggle('open', !isOpen);
       trigger.setAttribute('aria-expanded', String(!isOpen));
     });
+
+    // Imán suave: la palabra se acerca levemente al cursor (solo desktop)
+    if (finePointerSvc && !reduceMotion) {
+      var word = trigger.querySelector('.svc-word');
+      trigger.addEventListener('mousemove', function (e) {
+        if (trigger.closest('.svc-item').classList.contains('open')) return;
+        var r = trigger.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) * 0.05;
+        var dy = (e.clientY - (r.top + r.height / 2)) * 0.12;
+        word.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      });
+      trigger.addEventListener('mouseleave', function () {
+        word.style.transform = '';
+      });
+    }
   });
+
+  /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
+  var svcBg = document.querySelector('.svc-bg');
+  if (svcBg && !reduceMotion) {
+    var sctx = svcBg.getContext('2d');
+    var SW, SH, SDPR = Math.min(window.devicePixelRatio || 1, 2);
+    var palette = [[127,174,147],[90,140,112],[63,107,84],[120,95,150],[160,180,150]];
+    var svcBlobs = [];
+    function sizeSvcBg() {
+      var rect = svcBg.getBoundingClientRect();
+      SW = svcBg.width = Math.max(1, Math.floor(rect.width * SDPR));
+      SH = svcBg.height = Math.max(1, Math.floor(rect.height * SDPR));
+    }
+    sizeSvcBg();
+    window.addEventListener('resize', sizeSvcBg);
+    for (var sb = 0; sb < 6; sb++) {
+      var col = palette[sb % palette.length];
+      svcBlobs.push({
+        x: Math.random(), y: Math.random(),
+        r: 0.30 + Math.random() * 0.26,
+        dx: (Math.random() - 0.5) * 0.00016,
+        dy: (Math.random() - 0.5) * 0.00013,
+        col: col, a: 0.14 + Math.random() * 0.12,
+        ph: Math.random() * 6.28, sp: 0.0006 + Math.random() * 0.0006
+      });
+    }
+    (function drawSvcBg(t) {
+      sctx.clearRect(0, 0, SW, SH);
+      sctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < svcBlobs.length; i++) {
+        var b = svcBlobs[i];
+        b.x += b.dx; b.y += b.dy;
+        if (b.x < -0.3) b.x = 1.3; else if (b.x > 1.3) b.x = -0.3;
+        if (b.y < -0.3) b.y = 1.3; else if (b.y > 1.3) b.y = -0.3;
+        var pulse = 0.85 + 0.15 * Math.sin(t * b.sp + b.ph);
+        var R = b.r * Math.max(SW, SH) * pulse;
+        var g = sctx.createRadialGradient(b.x * SW, b.y * SH, 0, b.x * SW, b.y * SH, R);
+        g.addColorStop(0, 'rgba(' + b.col[0] + ',' + b.col[1] + ',' + b.col[2] + ',' + b.a + ')');
+        g.addColorStop(1, 'rgba(' + b.col[0] + ',' + b.col[1] + ',' + b.col[2] + ',0)');
+        sctx.fillStyle = g;
+        sctx.beginPath(); sctx.arc(b.x * SW, b.y * SH, R, 0, 6.2832); sctx.fill();
+      }
+      sctx.globalCompositeOperation = 'source-over';
+      requestAnimationFrame(drawSvcBg);
+    })(0);
+  }
 
   /* ---- Preview de trabajos (modal con iframe) ---------------------------- */
   var modal = document.getElementById('preview-modal');

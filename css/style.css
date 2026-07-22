@@ -367,13 +367,30 @@ main section{padding:clamp(90px,12vw,150px) 0}
   position:relative;
   padding-top:0;
   overflow:hidden;
-  background:
-    var(--grunge),
-    radial-gradient(ellipse at 15% 20%,var(--accent-faint),transparent 55%),
-    radial-gradient(ellipse at 85% 90%,var(--accent-faint),transparent 55%),
-    var(--ink);
-  background-blend-mode:soft-light,normal,normal,normal;
+  background:linear-gradient(180deg,var(--ink),var(--ink));
 }
+/* Animación de fondo: manchas de color a la deriva (estilo Animal Studio) */
+.svc-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  filter:blur(6px);
+}
+.services::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:var(--grunge);
+  opacity:.5;
+  mix-blend-mode:soft-light;
+  pointer-events:none;
+}
+.services > .marquee,
+.services > .wrap{position:relative;z-index:1}
 .services .sec-head{margin-bottom:clamp(30px,4vw,50px)}
 .svc-hint{margin-top:16px;color:var(--accent)}
 
@@ -436,7 +453,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
   flex-shrink:0;
 }
 
-/* La palabra "flota" suavemente hasta que se abre */
+/* La palabra flota suspendida: deriva en X/Y + leve rotación */
 .svc-word{
   position:relative;
   display:inline-block;
@@ -444,17 +461,41 @@ main section{padding:clamp(90px,12vw,150px) 0}
   font-size:clamp(30px,5.4vw,64px);
   line-height:1.08;
   letter-spacing:.01em;
-  animation:svc-float 6s ease-in-out infinite;
+  animation:svc-float var(--dur,8.5s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
   will-change:transform;
 }
-.svc-item:nth-child(2) .svc-word{animation-delay:-1s}
-.svc-item:nth-child(3) .svc-word{animation-delay:-2s}
-.svc-item:nth-child(4) .svc-word{animation-delay:-3s}
-.svc-item:nth-child(5) .svc-word{animation-delay:-4s}
-.svc-item:nth-child(6) .svc-word{animation-delay:-5s}
+/* Sombra que "respira" bajo la palabra, reforzando que flota */
+.svc-word::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;
+  bottom:-.36em;
+  height:.22em;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 72%);
+  filter:blur(7px);
+  transform:scaleX(.7);
+  transform-origin:center;
+  animation:svc-shadow var(--dur,8.5s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+  pointer-events:none;
+}
+.svc-item:nth-child(1) .svc-word{--dur:8.5s;--delay:0s}
+.svc-item:nth-child(2) .svc-word{--dur:9.2s;--delay:-1.6s}
+.svc-item:nth-child(3) .svc-word{--dur:7.8s;--delay:-3.1s}
+.svc-item:nth-child(4) .svc-word{--dur:9.6s;--delay:-4.4s}
+.svc-item:nth-child(5) .svc-word{--dur:8.1s;--delay:-2.3s}
+.svc-item:nth-child(6) .svc-word{--dur:9s;--delay:-5.2s}
 @keyframes svc-float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-7px)}
+  0%{transform:translate3d(0,0,0) rotate(0deg)}
+  25%{transform:translate3d(5px,-10px,0) rotate(-.5deg)}
+  50%{transform:translate3d(0,-15px,0) rotate(0deg)}
+  75%{transform:translate3d(-5px,-7px,0) rotate(.5deg)}
+  100%{transform:translate3d(0,0,0) rotate(0deg)}
+}
+@keyframes svc-shadow{
+  0%,100%{transform:scaleX(.7);opacity:.5}
+  50%{transform:scaleX(.56);opacity:.28}
 }
 
 /* Capa base: contorno tenue. Capa fill: color acento que se "pinta". */
@@ -471,7 +512,9 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .svc-trigger:hover .w-base,.svc-trigger:focus-visible .w-base{color:var(--bone)}
 .svc-item.open .w-fill{clip-path:inset(0 0 0 0)}
 .svc-item.open .w-base{color:transparent}
-.svc-item.open .svc-word{animation-play-state:paused}
+.svc-item.open .svc-word,
+.svc-item.open .svc-word::after{animation-play-state:paused}
+.svc-item.open .svc-word::after{opacity:.4}
 
 .svc-plus{
   margin-left:auto;
