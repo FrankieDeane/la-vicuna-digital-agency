@@ -296,6 +296,36 @@
     if (svcSrc) svcSrc.addEventListener('error', hideSvcVideo);
   }
 
+  /* ---- Autoplay robusto de los videos de fondo -------------------------- */
+  /* En mobile el autoplay no dispara si el video está fuera del viewport al
+     cargar (caso de Servicios). Forzamos play() cuando entra en pantalla y
+     como fallback ante el primer gesto del usuario. */
+  (function () {
+    var bgVideos = document.querySelectorAll('.hero-video, .svc-video');
+    if (!bgVideos.length) return;
+    function tryPlay(v) {
+      v.muted = true; // requisito para autoplay inline
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function () {});
+    }
+    if ('IntersectionObserver' in window) {
+      var vio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var v = e.target;
+          if (e.isIntersecting) tryPlay(v);
+          else if (!v.paused) { try { v.pause(); } catch (err) {} }
+        });
+      }, { threshold: 0.15 });
+      bgVideos.forEach(function (v) { vio.observe(v); });
+    } else {
+      bgVideos.forEach(tryPlay);
+    }
+    // Fallback: algunos navegadores mobile recién permiten play tras un gesto
+    var kick = function () { bgVideos.forEach(tryPlay); };
+    window.addEventListener('touchstart', kick, { once: true, passive: true });
+    window.addEventListener('scroll', kick, { once: true, passive: true });
+  })();
+
   /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
   var svcBg = document.querySelector('.svc-bg');
   if (svcBg && !reduceMotion) {
