@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
 
@@ -60,7 +60,7 @@
       <div class="sec-head rv">
         <span class="mono">01 · <span data-es="Nosotros" data-en="About us">Nosotros</span></span>
       </div>
-      <p class="lead-xl rv" data-es="Una agencia remota y horizontal que piensa en nombre de sus clientes." data-en="A remote, horizontal agency that thinks on behalf of its clients.">Una agencia remota y horizontal que piensa en nombre de sus clientes.</p>
+      <p class="lead-xl rv" data-es="Somos cercanos y trabajamos de manera horizontalista. Potenciá tus proyectos, llegá a la cima." data-en="We're close and we work horizontally. Power up your projects, reach the summit.">Somos cercanos y trabajamos de manera horizontalista. Potenciá tus proyectos, llegá a la cima.</p>
       <div class="about-tags rv">
         <span data-es="100% remoto" data-en="100% remote">100% remoto</span>
         <span data-es="Sin jerarquías" data-en="No hierarchies">Sin jerarquías</span>
@@ -71,7 +71,7 @@
     </div>
   </section>
 
-  <section class="grunge services" id="servicios">
+  <section class="services" id="servicios">
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
         <span>Social Media</span><span class="dot">✳</span><span>Web</span><span class="dot">✳</span><span>SEO</span><span class="dot">✳</span><span>Paid Media</span><span class="dot">✳</span><span data-es="Creatividad" data-en="Creativity">Creatividad</span><span class="dot">✳</span><span>IA</span><span class="dot">✳</span>
@@ -82,37 +82,74 @@
       <div class="sec-head rv">
         <span class="mono">02 · <span data-es="Servicios" data-en="Services">Servicios</span></span>
         <h2 data-es="Lo que hacemos" data-en="What we do">Lo que hacemos</h2>
+        <p class="svc-hint mono" data-es="Tocá cada palabra para descubrir" data-en="Tap each word to reveal">Tocá cada palabra para descubrir</p>
       </div>
       <ul class="svc-lines rv">
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">01</span>
-          <span class="svc-word">Social Media</span>
-          <span class="svc-tag" data-es="Conversaciones que se vuelven comunidad." data-en="Conversations that become community.">Conversaciones que se vuelven comunidad.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">01</span>
+            <span class="svc-word">
+              <span class="w-base">Social Media</span>
+              <span class="w-fill" aria-hidden="true">Social Media</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="El marketing en redes sociales es un motor clave para el crecimiento: conecta con tu audiencia, aumenta el reconocimiento de marca e impulsa conversiones. Diseñamos estrategias a medida, alineadas con tus objetivos digitales." data-en="Social media marketing is a key growth driver: it connects with your audience, boosts brand awareness and drives conversions. We craft custom strategies aligned with your digital goals.">El marketing en redes sociales es un motor clave para el crecimiento: conecta con tu audiencia, aumenta el reconocimiento de marca e impulsa conversiones. Diseñamos estrategias a medida, alineadas con tus objetivos digitales.</p></div>
         </li>
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">02</span>
-          <span class="svc-word" data-es="Desarrollo Web" data-en="Web Development">Desarrollo Web</span>
-          <span class="svc-tag" data-es="Sitios que se sienten, no solo se ven." data-en="Sites you feel, not just see.">Sitios que se sienten, no solo se ven.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">02</span>
+            <span class="svc-word">
+              <span class="w-base" data-es="Desarrollo Web" data-en="Web Development">Desarrollo Web</span>
+              <span class="w-fill" aria-hidden="true" data-es="Desarrollo Web" data-en="Web Development">Desarrollo Web</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="Del concepto a la ejecución: diseñamos y construimos con las mejores prácticas y criterio UX/UI, para una experiencia fluida y atractiva que genera resultados y potencia tu presencia digital." data-en="From concept to execution: we design and build with best practices and UX/UI judgment, for a smooth, engaging experience that drives results and boosts your digital presence.">Del concepto a la ejecución: diseñamos y construimos con las mejores prácticas y criterio UX/UI, para una experiencia fluida y atractiva que genera resultados y potencia tu presencia digital.</p></div>
         </li>
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">03</span>
-          <span class="svc-word">SEO</span>
-          <span class="svc-tag" data-es="Que te encuentren antes de que te busquen." data-en="Be found before they even search.">Que te encuentren antes de que te busquen.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">03</span>
+            <span class="svc-word">
+              <span class="w-base">SEO</span>
+              <span class="w-fill" aria-hidden="true">SEO</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="El SEO no es solo visibilidad y clics: es ofrecer el contenido más relevante para tu audiencia. Trabajamos con expertos que adaptan la estrategia a tu negocio para atraer, retener y convertir con el máximo impacto." data-en="SEO isn't just visibility and clicks: it's delivering the most relevant content for your audience. We work with experts who tailor the strategy to your business to attract, retain and convert with maximum impact.">El SEO no es solo visibilidad y clics: es ofrecer el contenido más relevante para tu audiencia. Trabajamos con expertos que adaptan la estrategia a tu negocio para atraer, retener y convertir con el máximo impacto.</p></div>
         </li>
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">04</span>
-          <span class="svc-word">Paid Media</span>
-          <span class="svc-tag" data-es="Cada peso invertido, apuntado con precisión." data-en="Every dollar aimed with precision.">Cada peso invertido, apuntado con precisión.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">04</span>
+            <span class="svc-word">
+              <span class="w-base">Paid Media</span>
+              <span class="w-fill" aria-hidden="true">Paid Media</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="El éxito en publicidad digital no es solo alcance: es precisión. Atraemos audiencias de alta intención, optimizamos la inversión y maximizamos conversiones con segmentación basada en datos, creatividades atractivas y optimización continua." data-en="Success in digital advertising isn't just reach: it's precision. We attract high-intent audiences, optimize spend and maximize conversions with data-driven targeting, engaging creatives and continuous optimization.">El éxito en publicidad digital no es solo alcance: es precisión. Atraemos audiencias de alta intención, optimizamos la inversión y maximizamos conversiones con segmentación basada en datos, creatividades atractivas y optimización continua.</p></div>
         </li>
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">05</span>
-          <span class="svc-word" data-es="Creatividad" data-en="Creativity">Creatividad</span>
-          <span class="svc-tag" data-es="Ideas con oficio, no con plantilla." data-en="Ideas with craft, not templates.">Ideas con oficio, no con plantilla.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">05</span>
+            <span class="svc-word">
+              <span class="w-base" data-es="Creatividad" data-en="Creativity">Creatividad</span>
+              <span class="w-fill" aria-hidden="true" data-es="Creatividad" data-en="Creativity">Creatividad</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="La IA ofrece la creatividad; nosotros la potenciamos. Partimos de conceptos generados con las mejores herramientas y les sumamos criterio humano, identidad de marca y oficio publicitario, para que cada pieza cuente algo genuino sobre tu negocio." data-en="AI offers creativity; we amplify it. We start from concepts made with the best tools and add human judgment, brand identity and advertising craft, so every piece says something genuine about your business.">La IA ofrece la creatividad; nosotros la potenciamos. Partimos de conceptos generados con las mejores herramientas y les sumamos criterio humano, identidad de marca y oficio publicitario, para que cada pieza cuente algo genuino sobre tu negocio.</p></div>
         </li>
-        <li class="svc-line" tabindex="0">
-          <span class="svc-num">06</span>
-          <span class="svc-word" data-es="Inteligencia Artificial" data-en="Artificial Intelligence">Inteligencia Artificial</span>
-          <span class="svc-tag" data-es="El futuro, ya integrado a tu marca." data-en="The future, already built into your brand.">El futuro, ya integrado a tu marca.</span>
+        <li class="svc-item">
+          <button class="svc-trigger" type="button" aria-expanded="false">
+            <span class="svc-num">06</span>
+            <span class="svc-word">
+              <span class="w-base" data-es="Inteligencia Artificial" data-en="Artificial Intelligence">Inteligencia Artificial</span>
+              <span class="w-fill" aria-hidden="true" data-es="Inteligencia Artificial" data-en="Artificial Intelligence">Inteligencia Artificial</span>
+            </span>
+            <span class="svc-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="svc-desc"><p data-es="Usamos IA de vanguardia —Claude, ChatGPT, Kimi K2— para estar en las tendencias y ofrecer turning points: automatizamos lo repetitivo, aceleramos la producción de contenido y encontramos ángulos que de otra forma quedarían en el tintero." data-en="We use cutting-edge AI —Claude, ChatGPT, Kimi K2— to stay on trend and deliver turning points: we automate the repetitive, speed up content production and find angles that would otherwise stay in the drawer.">Usamos IA de vanguardia —Claude, ChatGPT, Kimi K2— para estar en las tendencias y ofrecer turning points: automatizamos lo repetitivo, aceleramos la producción de contenido y encontramos ángulos que de otra forma quedarían en el tintero.</p></div>
         </li>
       </ul>
     </div>
@@ -134,14 +171,14 @@
           <p data-es="Experiencia web inmersiva con senderos renderizados en 3D." data-en="Immersive web experience with 3D-rendered trails.">Experiencia web inmersiva con senderos renderizados en 3D.</p>
           <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
-        <a class="work" href="https://escueladewingfoil.com.ar/" target="_blank" rel="noopener">
-          <span class="work-thumb thumb-static" aria-hidden="true">
-            <span class="thumb-name">Escuela de<br>Wingfoil</span>
+        <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
+          <span class="work-thumb" aria-hidden="true">
+            <iframe src="https://escueladewingfoil.com.ar/" title="" loading="lazy" tabindex="-1" scrolling="no" referrerpolicy="no-referrer"></iframe>
           </span>
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Escuela de Wingfoil</h3>
           <p data-es="Sitio web con atmósfera 3D para escuela de wingfoil en Argentina." data-en="Website with 3D atmosphere for a wingfoil school in Argentina.">Sitio web con atmósfera 3D para escuela de wingfoil en Argentina.</p>
-          <span class="go mono"><span data-es="Ver sitio" data-en="View site">Ver sitio</span> <span class="arr">→</span></span>
+          <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
         </a>
       </div>
     </div>
@@ -207,6 +244,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=7" defer></script>
+<script src="js/main.js?v=8" defer></script>
 </body>
 </html>

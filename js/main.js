@@ -98,6 +98,25 @@
     revealed.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* ---- Servicios: pintar palabra y desplegar descripción ---------------- */
+  var svcTriggers = document.querySelectorAll('.svc-trigger');
+  svcTriggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var item = trigger.closest('.svc-item');
+      var isOpen = item.classList.contains('open');
+      // acordeón: cerrar los demás
+      document.querySelectorAll('.svc-item.open').forEach(function (other) {
+        if (other !== item) {
+          other.classList.remove('open');
+          var t = other.querySelector('.svc-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
   /* ---- Preview de trabajos (modal con iframe) ---------------------------- */
   var modal = document.getElementById('preview-modal');
   if (modal) {

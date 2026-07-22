@@ -362,21 +362,25 @@ main section{padding:clamp(90px,12vw,150px) 0}
 }
 .paper .sec-head h2::after{background:var(--accent-ink)}
 
-/* ---- Sección con textura grunge (Servicios) ------------------------------- */
-.grunge{
+/* ---- Servicios --------------------------------------------------------- */
+.services{
+  position:relative;
+  padding-top:0;
+  overflow:hidden;
   background:
-    linear-gradient(rgba(10,8,1,.52),rgba(10,8,1,.62)),
-    url("../assets/img/grunge-filter.jpg") center/cover no-repeat fixed;
-  color:#D9D7D4;
+    var(--grunge),
+    radial-gradient(ellipse at 15% 20%,var(--accent-faint),transparent 55%),
+    radial-gradient(ellipse at 85% 90%,var(--accent-faint),transparent 55%),
+    var(--ink);
+  background-blend-mode:soft-light,normal,normal,normal;
 }
-.grunge .sec-head .mono{color:#7FAE93}
-.grunge .sec-head h2::after{background:#7FAE93}
+.services .sec-head{margin-bottom:clamp(30px,4vw,50px)}
+.svc-hint{margin-top:16px;color:var(--accent)}
 
-/* ---- Marquee de servicios ---------------------------------------------- */
-.services{padding-top:0;overflow:hidden}
+/* ---- Marquee ----------------------------------------------------------- */
 .marquee{
   overflow:hidden;
-  border-block:1px solid rgba(217,215,212,.18);
+  border-block:1px solid var(--line);
   padding:18px 0;
   margin-bottom:clamp(70px,9vw,120px);
   mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);
@@ -395,11 +399,11 @@ main section{padding:clamp(90px,12vw,150px) 0}
   letter-spacing:.08em;
   text-transform:uppercase;
   white-space:nowrap;
-  color:rgba(217,215,212,.85);
+  color:var(--bone-dim);
 }
 .marquee-track .dot{
   font-size:15px;
-  color:#7FAE93;
+  color:var(--accent);
   animation:dot-spin 6s linear infinite;
 }
 @keyframes marquee{
@@ -411,80 +415,98 @@ main section{padding:clamp(90px,12vw,150px) 0}
   to{transform:rotate(360deg)}
 }
 
-/* ---- Servicios (líneas editoriales) ------------------------------------ */
-.svc-lines{
-  list-style:none;
-  border-top:1px solid rgba(217,215,212,.22);
-}
-.svc-line{
-  position:relative;
-  display:flex;
-  align-items:baseline;
-  gap:clamp(16px,3.4vw,40px);
-  padding:clamp(20px,3vw,30px) 0;
-  border-bottom:1px solid rgba(217,215,212,.22);
-  outline:none;
-  cursor:default;
-}
-.svc-line::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;top:0;
-  height:100%;
-  background:linear-gradient(90deg,rgba(127,174,147,.14),transparent 70%);
-  transform:scaleY(0);
-  transform-origin:bottom;
-  transition:transform .45s cubic-bezier(.22,.6,.2,1);
-  pointer-events:none;
-}
-.svc-line:hover::before,.svc-line:focus-visible::before{transform:scaleY(1)}
+/* ---- Servicios: palabras flotantes + pintado al clickear --------------- */
+.svc-lines{list-style:none}
+.svc-item{border-bottom:1px solid var(--line)}
+.svc-item:first-child{border-top:1px solid var(--line)}
 
+.svc-trigger{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:clamp(16px,3.4vw,40px);
+  padding:clamp(20px,3vw,32px) 0;
+  text-align:left;
+  outline:none;
+}
 .svc-num{
   font-family:var(--mono);
   font-size:13px;
-  color:#7FAE93;
+  color:var(--accent);
   flex-shrink:0;
 }
+
+/* La palabra "flota" suavemente hasta que se abre */
 .svc-word{
+  position:relative;
+  display:inline-block;
   font-family:var(--serif);
   font-size:clamp(30px,5.4vw,64px);
   line-height:1.08;
   letter-spacing:.01em;
-  color:#D9D7D4;
-  transition:transform .45s cubic-bezier(.22,.6,.2,1),color .45s,letter-spacing .45s;
+  animation:svc-float 6s ease-in-out infinite;
+  will-change:transform;
 }
-.svc-line:hover .svc-word,.svc-line:focus-visible .svc-word{
-  transform:translateX(14px);
-  letter-spacing:.03em;
-  color:#7FAE93;
-}
-.svc-tag{
-  margin-left:auto;
-  max-width:300px;
-  text-align:right;
-  font-size:14.5px;
-  line-height:1.45;
-  color:rgba(217,215,212,.6);
-  opacity:0;
-  transform:translateX(-14px);
-  transition:opacity .45s,transform .45s cubic-bezier(.22,.6,.2,1);
-}
-.svc-line:hover .svc-tag,.svc-line:focus-visible .svc-tag{
-  opacity:1;
-  transform:none;
-  color:rgba(217,215,212,.85);
+.svc-item:nth-child(2) .svc-word{animation-delay:-1s}
+.svc-item:nth-child(3) .svc-word{animation-delay:-2s}
+.svc-item:nth-child(4) .svc-word{animation-delay:-3s}
+.svc-item:nth-child(5) .svc-word{animation-delay:-4s}
+.svc-item:nth-child(6) .svc-word{animation-delay:-5s}
+@keyframes svc-float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
 }
 
-@media (max-width:720px){
-  .svc-line{flex-wrap:wrap;row-gap:6px}
-  .svc-tag{
-    margin-left:0;
-    width:100%;
-    max-width:none;
-    text-align:left;
-    opacity:1;
-    transform:none;
-  }
+/* Capa base: contorno tenue. Capa fill: color acento que se "pinta". */
+.w-base{color:var(--bone-dim);transition:color .4s}
+.w-fill{
+  position:absolute;
+  left:0;top:0;
+  color:var(--accent);
+  white-space:nowrap;
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path .55s cubic-bezier(.22,.6,.2,1);
+  pointer-events:none;
+}
+.svc-trigger:hover .w-base,.svc-trigger:focus-visible .w-base{color:var(--bone)}
+.svc-item.open .w-fill{clip-path:inset(0 0 0 0)}
+.svc-item.open .w-base{color:transparent}
+.svc-item.open .svc-word{animation-play-state:paused}
+
+.svc-plus{
+  margin-left:auto;
+  font-family:var(--mono);
+  font-size:24px;
+  color:var(--accent);
+  transition:transform .45s cubic-bezier(.22,.6,.2,1);
+  flex-shrink:0;
+}
+.svc-item.open .svc-plus{transform:rotate(135deg)}
+
+/* Texto descriptivo que se despliega */
+.svc-desc{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .55s cubic-bezier(.22,.6,.2,1);
+}
+.svc-item.open .svc-desc{grid-template-rows:1fr}
+.svc-desc > p{
+  overflow:hidden;
+  max-width:680px;
+  margin-left:clamp(30px,7vw,88px);
+  color:var(--bone-dim);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .5s .1s,transform .5s .1s;
+}
+.svc-item.open .svc-desc > p{
+  opacity:1;
+  transform:none;
+  padding-bottom:clamp(24px,3.4vw,36px);
+}
+
+@media (max-width:640px){
+  .svc-desc > p{margin-left:34px}
 }
 
 /* ---- Trabajos ---------------------------------------------------------- */
