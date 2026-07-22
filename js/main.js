@@ -156,12 +156,14 @@
         '<span class="ov-num mono"></span>' +
         '<h3 class="ov-word"></h3>' +
         '<p class="ov-desc"></p>' +
+        '<div class="ov-extra"></div>' +
         '<button class="ov-close mono" type="button" data-es="Cerrar ✕" data-en="Close ✕">Cerrar ✕</button>' +
       '</div>';
     section.appendChild(overlay);
     var ovNum = overlay.querySelector('.ov-num');
     var ovWord = overlay.querySelector('.ov-word');
     var ovDesc = overlay.querySelector('.ov-desc');
+    var ovExtra = overlay.querySelector('.ov-extra');
     var overlayOpen = false;
 
     function openOverlay(it) {
@@ -171,6 +173,10 @@
       ovNum.textContent = (num ? num.textContent : '') + ' · Servicio';
       ovWord.textContent = word ? word.textContent : '';
       ovDesc.textContent = desc ? desc.textContent : '';
+      // Contenido extra (ej. diagrama de flujo): se clona al panel si existe
+      ovExtra.innerHTML = '';
+      var flow = it.el.querySelector('.flow');
+      if (flow) ovExtra.appendChild(flow.cloneNode(true));
       overlay.classList.add('show');
       overlayOpen = true;
     }
@@ -199,10 +205,9 @@
     }
 
     // Posiciones iniciales en bandas por fila (evita solaparse al arrancar):
-    // 3 filas × 2 columnas; cada palabra queda en su banda vertical.
+    // 2 columnas y tantas filas como haga falta según la cantidad de servicios.
     function seed() {
-      var rows = 3, cols = 2;
-      // orden alternado para que palabras largas no caigan en la misma columna
+      var cols = 2, rows = Math.ceil(items.length / cols);
       items.forEach(function (it, i) {
         var row = Math.floor(i / cols), colIndex = i % cols;
         var bandH = box.h / rows;
