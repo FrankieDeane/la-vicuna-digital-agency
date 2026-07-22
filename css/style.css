@@ -410,6 +410,16 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .services > .wrap{position:relative;z-index:1}
 .services .sec-head{margin-bottom:clamp(30px,4vw,50px)}
 .svc-hint{margin-top:16px;color:var(--accent)}
+
+/* En mobile (lista, sin campo flotante) el video se ve más: velo más suave
+   y sombra en el texto para mantener la legibilidad. */
+@media (hover:none){
+  .svc-video{opacity:.74}
+  .services::after{opacity:.6}
+  .services .sec-head h2,
+  .services .svc-word{text-shadow:0 2px 20px rgba(10,8,1,.9)}
+  .svc-desc p{text-shadow:0 1px 12px rgba(10,8,1,.85)}
+}
 /* El hint de "arrastrar" solo aplica en desktop (donde hay campo flotante);
    en touch se muestra el de "tocar". */
 .svc-hint .hint-tap{display:none}
@@ -949,6 +959,13 @@ body.modal-open{overflow:hidden}
   transition:opacity .3s,filter .3s;
 }
 .client-logo:hover{opacity:1;filter:none}
+/* Logo de T-L: azul sobre fondo amarillo opaco; en grises se funde con el
+   papel claro. Se muestra siempre en su color real para que sea legible. */
+.client-logo.tl{
+  filter:none;
+  opacity:1;
+  border-radius:4px;
+}
 /* Logo de Patagon: es blanco puro; sobre papel hueso se invierte a tinta */
 .client-logo.patagon{
   height:52px;
