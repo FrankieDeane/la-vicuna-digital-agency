@@ -520,6 +520,7 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .svc-item:nth-child(4) .svc-word{--dur:9.6s;--delay:-4.4s}
 .svc-item:nth-child(5) .svc-word{--dur:8.1s;--delay:-2.3s}
 .svc-item:nth-child(6) .svc-word{--dur:9s;--delay:-5.2s}
+.svc-item:nth-child(7) .svc-word{--dur:8.7s;--delay:-6.5s}
 @keyframes svc-float{
   0%{transform:translate3d(0,0,0) rotate(0deg)}
   25%{transform:translate3d(5px,-10px,0) rotate(-.5deg)}
@@ -584,6 +585,115 @@ main section{padding:clamp(90px,12vw,150px) 0}
 
 @media (max-width:640px){
   .svc-desc > p{margin-left:34px}
+}
+
+/* Descripción con diagrama (Automatización de flujos): colapso por max-height
+   para admitir varios hijos (texto + flujo). */
+.svc-desc.has-flow{
+  display:block;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .6s cubic-bezier(.22,.6,.2,1);
+}
+.svc-item.open .svc-desc.has-flow{max-height:700px}
+.svc-desc.has-flow > p{
+  max-width:680px;
+  margin-left:clamp(30px,7vw,88px);
+  color:var(--bone-dim);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .5s .1s,transform .5s .1s;
+}
+.svc-item.open .svc-desc.has-flow > p{opacity:1;transform:none}
+
+/* ---- Diagrama de flujo animado (pipeline vertical) --------------------- */
+.flow{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  margin:clamp(18px,2.4vw,26px) 0 clamp(24px,3.4vw,34px) clamp(30px,7vw,88px);
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .6s .18s,transform .6s .18s;
+}
+.svc-item.open .svc-desc.has-flow .flow{opacity:1;transform:none}
+
+.flow-node{display:flex;align-items:center;gap:14px}
+.flow-ico{
+  display:grid;
+  place-items:center;
+  width:46px;height:46px;
+  flex-shrink:0;
+  border:1px solid var(--line);
+  border-radius:11px;
+  color:var(--bone-dim);
+  background:rgba(10,8,1,.28);
+  animation:flow-ico 3.2s ease-in-out infinite var(--d,0s);
+}
+.flow-ico svg{width:22px;height:22px}
+.flow-lbl{
+  font-family:var(--mono);
+  font-size:12.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--bone-dim);
+  animation:flow-lbl 3.2s ease-in-out infinite var(--d,0s);
+}
+/* conector vertical, centrado bajo el ícono (46px de ancho) */
+.flow-link{
+  position:relative;
+  width:46px;
+  height:26px;
+  flex-shrink:0;
+}
+.flow-link::before{
+  content:"";
+  position:absolute;
+  left:50%;top:0;
+  width:2px;height:100%;
+  margin-left:-1px;
+  background:var(--line);
+}
+.flow-link::after{
+  content:"";
+  position:absolute;
+  left:50%;top:0;
+  width:8px;height:8px;
+  margin-left:-4px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 10px var(--accent);
+  opacity:0;
+  animation:flow-run 3.2s linear infinite var(--ld,0s);
+}
+.flow-node:nth-of-type(1){--d:0s}
+.flow-node:nth-of-type(2){--d:.8s}
+.flow-node:nth-of-type(3){--d:1.6s}
+.flow-node:nth-of-type(4){--d:2.4s}
+.flow-link:nth-of-type(1){--ld:.45s}
+.flow-link:nth-of-type(2){--ld:1.25s}
+.flow-link:nth-of-type(3){--ld:2.05s}
+
+@keyframes flow-ico{
+  0%,100%{border-color:var(--line);color:var(--bone-dim);box-shadow:none;transform:none}
+  10%{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-faint),0 0 24px var(--accent-soft);transform:translateY(-2px)}
+  32%{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px var(--accent-faint),0 0 16px var(--accent-soft);transform:none}
+  46%{border-color:var(--line);color:var(--bone-dim);box-shadow:none}
+}
+@keyframes flow-lbl{
+  0%,100%{color:var(--bone-dim)}
+  10%,32%{color:var(--accent)}
+  46%{color:var(--bone-dim)}
+}
+@keyframes flow-run{
+  0%{top:-2px;opacity:0}
+  12%{opacity:1}
+  46%{top:100%;opacity:1}
+  56%,100%{top:100%;opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .flow-ico,.flow-lbl,.flow-link::after{animation:none}
+  .flow-link::after{opacity:0}
 }
 
 /* ---- Servicios: modo "campo flotante" (desktop) ------------------------ */
@@ -659,7 +769,9 @@ main section{padding:clamp(90px,12vw,150px) 0}
   margin-bottom:20px;
   text-wrap:balance;
 }
-.ov-desc{color:var(--bone-dim);font-size:16px;line-height:1.7;margin-bottom:30px}
+.ov-desc{color:var(--bone-dim);font-size:16px;line-height:1.7;margin-bottom:24px}
+/* Diagrama clonado dentro del panel: visible y sin sangría */
+.ov-extra .flow{opacity:1;transform:none;margin:0 0 28px}
 .ov-close{
   color:var(--bone-dim);
   border:1px solid var(--line);
