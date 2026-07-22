@@ -1,0 +1,15 @@
+{
+  "name": "La Vicuña Digital Agency",
+  "short_name": "La Vicuña",
+  "description": "Agencia digital remota y horizontal: social media, desarrollo web, SEO y paid media.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A0801",
+  "theme_color": "#0A0801",
+  "icons": [
+    { "src": "assets/img/favicon.png", "sizes": "any", "type": "image/png" },
+    { "src": "assets/img/logo.png", "sizes": "685x813", "type": "image/png", "purpose": "any" }
+  ]
+}
