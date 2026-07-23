@@ -610,4 +610,61 @@
       requestAnimationFrame(drawAtmos);
     })();
   }
+
+  /* ---- Formulario de contacto -> Google Apps Script -> Google Sheets ----- */
+  (function () {
+    var form = document.getElementById('lead-form');
+    if (!form) return;
+    var statusEl = form.querySelector('.form-status');
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    function t(es, en) {
+      return document.documentElement.lang === 'en' ? en : es;
+    }
+    function setStatus(msg, kind) {
+      statusEl.textContent = msg;
+      statusEl.className = 'form-status mono' + (kind ? ' is-' + kind : '');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Honeypot: si un bot completó el campo oculto, simulamos éxito y no enviamos.
+      var trap = form.querySelector('[name="_gotcha"]');
+      if (trap && trap.value) {
+        setStatus(t('¡Gracias! Te contactaremos pronto.', 'Thanks! We’ll be in touch soon.'), 'ok');
+        form.reset();
+        return;
+      }
+
+      var endpoint = form.getAttribute('data-endpoint') || '';
+      if (!endpoint || endpoint.indexOf('REEMPLAZAR') === 0) {
+        setStatus(t('El formulario todavía no está configurado.', 'The form is not configured yet.'), 'err');
+        return;
+      }
+      if (!form.checkValidity()) {
+        setStatus(t('Revisá los campos obligatorios.', 'Please check the required fields.'), 'err');
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      setStatus(t('Enviando…', 'Sending…'), '');
+
+      var data = new FormData(form);
+      data.append('_page', location.href);
+
+      // FormData sin cabeceras extra = "simple request": no dispara preflight CORS,
+      // por lo que Apps Script recibe los datos y escribe la fila en la planilla.
+      fetch(endpoint, { method: 'POST', body: data })
+        .then(function () {
+          setStatus(t('¡Gracias! Te contactaremos a la brevedad.', 'Thanks! We’ll get back to you shortly.'), 'ok');
+          form.reset();
+        })
+        .catch(function () {
+          setStatus(t('No pudimos enviar el mensaje. Probá de nuevo o escribinos por Instagram.', 'We couldn’t send your message. Please try again or reach us on Instagram.'), 'err');
+        })
+        .then(function () { submitBtn.disabled = false; });
+    });
+  })();
 })();
