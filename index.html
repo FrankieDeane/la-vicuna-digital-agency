@@ -544,37 +544,14 @@
     <div class="wrap rv">
       <span class="mono">04 · <span data-es="Contacto" data-en="Contact">Contacto</span></span>
       <h2 style="margin-top:18px" data-es="Estamos acá para ayudarte." data-en="We're here to assist you.">Estamos acá para ayudarte.</h2>
-      <p class="contact-lead" data-es="Contanos sobre tu proyecto y te respondemos a la brevedad." data-en="Tell us about your project and we'll get back to you shortly.">Contanos sobre tu proyecto y te respondemos a la brevedad.</p>
+      <p class="contact-lead" data-es="Contanos sobre tu proyecto y te respondemos a la brevedad. Completá el formulario y nos ponemos en contacto." data-en="Tell us about your project and we'll get back to you shortly. Fill out the form and we'll reach out.">Contanos sobre tu proyecto y te respondemos a la brevedad. Completá el formulario y nos ponemos en contacto.</p>
 
-      <!-- Para activarlo: pegá la URL de tu Web App de Google Apps Script en data-endpoint (ver README). -->
-      <form class="lead-form" id="lead-form" data-endpoint="REEMPLAZAR_CON_TU_URL_DE_APPS_SCRIPT" novalidate>
-        <div class="field">
-          <label class="mono" for="lf-name" data-es="Nombre" data-en="Name">Nombre</label>
-          <input id="lf-name" name="nombre" type="text" autocomplete="name" required maxlength="80">
-        </div>
-        <div class="field">
-          <label class="mono" for="lf-email" data-es="Email" data-en="Email">Email</label>
-          <input id="lf-email" name="email" type="email" autocomplete="email" required maxlength="120">
-        </div>
-        <div class="field">
-          <label class="mono" for="lf-phone" data-es="Teléfono (opcional)" data-en="Phone (optional)">Teléfono (opcional)</label>
-          <input id="lf-phone" name="telefono" type="tel" autocomplete="tel" maxlength="40">
-        </div>
-        <div class="field field-wide">
-          <label class="mono" for="lf-msg" data-es="Mensaje" data-en="Message">Mensaje</label>
-          <textarea id="lf-msg" name="mensaje" rows="4" required maxlength="1200"></textarea>
-        </div>
-        <!-- Honeypot anti-spam: oculto para humanos; si un bot lo completa, se descarta. -->
-        <div class="lf-hp" aria-hidden="true">
-          <label data-es="No completar este campo" data-en="Leave this field empty">No completar este campo
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
-          </label>
-        </div>
-        <div class="lf-actions">
-          <button class="btn btn-submit" type="submit" data-es="Enviar mensaje" data-en="Send message">Enviar mensaje</button>
-          <p class="form-status mono" role="status" aria-live="polite"></p>
-        </div>
-      </form>
+      <div class="ctas">
+        <a class="btn btn-lead" href="https://forms.gle/wC1t1wrdBC8UdTvB7" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="8.5" y1="8" x2="15.5" y2="8"/><line x1="8.5" y1="12" x2="15.5" y2="12"/><line x1="8.5" y1="16" x2="13" y2="16"/></svg>
+          <span data-es="Completar formulario" data-en="Open the form">Completar formulario</span>
+        </a>
+      </div>
 
       <div class="ctas ctas-social">
         <a class="btn btn-ig" href="https://www.instagram.com/lavicuna_agency/" target="_blank" rel="noopener">

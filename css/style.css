@@ -1256,72 +1256,13 @@ footer .wrap{
   #spotlight{display:none}
 }
 
-/* ---- Formulario de contacto (leads -> Google Sheets) -------------------- */
+/* ---- Contacto: intro + botón al formulario ----------------------------- */
 .contact-lead{
   color:var(--bone-dim);
   max-width:520px;
-  margin:14px 0 26px;
+  margin:14px auto 26px;
   line-height:1.6;
 }
-.lead-form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px 22px;
-  max-width:620px;
-  margin:0 0 30px;
-}
-.lead-form .field{display:flex;flex-direction:column;gap:8px}
-.lead-form .field-wide{grid-column:1 / -1}
-.lead-form label{
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--bone-dim);
-}
-.lead-form input,
-.lead-form textarea{
-  width:100%;
-  font-family:var(--sans);
-  font-size:15px;
-  color:var(--bone);
-  background:rgba(217,215,212,.04);
-  border:1px solid var(--line);
-  border-radius:3px;
-  padding:12px 14px;
-  transition:border-color .3s,box-shadow .3s,background .3s;
-}
-:root[data-theme="light"] .lead-form input,
-:root[data-theme="light"] .lead-form textarea{background:rgba(10,8,1,.03)}
-.lead-form textarea{resize:vertical;min-height:104px}
-.lead-form input:focus,
-.lead-form textarea:focus{
-  outline:none;
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px var(--accent-faint);
-  background:rgba(217,215,212,.06);
-}
-.lead-form input::placeholder,
-.lead-form textarea::placeholder{color:var(--bone-faint)}
-/* Honeypot: fuera de la vista pero accesible para los bots */
-.lf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.lf-actions{
-  grid-column:1 / -1;
-  display:flex;
-  align-items:center;
-  gap:18px;
-  flex-wrap:wrap;
-}
-.btn-submit{cursor:pointer;background:transparent}
-.btn-submit[disabled]{opacity:.55;cursor:progress}
-.form-status{
-  font-size:12px;
-  letter-spacing:.04em;
-  color:var(--bone-dim);
-  min-height:1em;
-}
-.form-status.is-ok{color:var(--accent)}
-.form-status.is-err{color:#d98a7f}
-.ctas-social{margin-top:6px}
-@media (max-width:560px){
-  .lead-form{grid-template-columns:1fr}
-}
+.btn-lead{display:inline-flex;align-items:center;gap:10px}
+.btn-lead svg{flex-shrink:0}
+.ctas-social{margin-top:18px}
