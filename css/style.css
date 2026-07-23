@@ -699,6 +699,25 @@ main section{padding:clamp(90px,12vw,150px) 0}
 .flow-link:nth-of-type(2){--ld:1.25s}
 .flow-link:nth-of-type(3){--ld:2.05s}
 
+/* Variante "proceso": pipeline mas largo (5-6 pasos) con barrido pausado
+   para que el punto recorra todos los nodos de arriba a abajo. */
+.flows.proc .flow-ico,
+.flows.proc .flow-lbl,
+.flows.proc .flow-link::after{animation-duration:5s}
+.flows.proc .flow-node:nth-of-type(1){--d:0s}
+.flows.proc .flow-node:nth-of-type(2){--d:.7s}
+.flows.proc .flow-node:nth-of-type(3){--d:1.4s}
+.flows.proc .flow-node:nth-of-type(4){--d:2.1s}
+.flows.proc .flow-node:nth-of-type(5){--d:2.8s}
+.flows.proc .flow-node:nth-of-type(6){--d:3.5s}
+.flows.proc .flow-node:nth-of-type(7){--d:4.2s}
+.flows.proc .flow-link:nth-of-type(1){--ld:.35s}
+.flows.proc .flow-link:nth-of-type(2){--ld:1.05s}
+.flows.proc .flow-link:nth-of-type(3){--ld:1.75s}
+.flows.proc .flow-link:nth-of-type(4){--ld:2.45s}
+.flows.proc .flow-link:nth-of-type(5){--ld:3.15s}
+.flows.proc .flow-link:nth-of-type(6){--ld:3.85s}
+
 @keyframes flow-ico{
   0%,100%{border-color:var(--line);color:var(--bone-dim);box-shadow:none;transform:none}
   10%{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-faint),0 0 24px var(--accent-soft);transform:translateY(-2px)}
