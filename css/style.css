@@ -1260,7 +1260,7 @@ footer .wrap{
 .contact-lead{
   color:var(--bone-dim);
   max-width:520px;
-  margin:14px 0 26px;
+  margin:14px auto 26px;
   line-height:1.6;
 }
 .btn-lead{display:inline-flex;align-items:center;gap:10px}
