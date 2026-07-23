@@ -37,7 +37,7 @@
     #   frame-src https:             -> previews de portfolio (sitios externos)
     #   frame-ancestors 'none'       -> nadie puede embeber este sitio
     #   object-src 'none'            -> sin Flash/plugins
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://script.google.com https://script.googleusercontent.com; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https:; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; frame-src https:; upgrade-insecure-requests"
 
 # ---------------------------------------------------------------------------
 # Cache agresivo para assets estaticos (imagenes, etc.)
