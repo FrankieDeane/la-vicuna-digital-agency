@@ -18,11 +18,7 @@ Seguí estos pasos **una sola vez** para activarlo.
 1. En esa planilla, andá al menú **Extensiones → Apps Script**.
 2. Borrá el código de ejemplo que aparece.
 3. Copiá y pegá todo el contenido de [`apps-script/Codigo.gs`](apps-script/Codigo.gs).
-4. (Opcional) Si querés recibir un mail por cada lead, poné tu correo en la línea:
-   ```js
-   var NOTIFY_EMAIL = 'tucorreo@gmail.com';
-   ```
-5. Guardá con el ícono de disquete (o `Ctrl/Cmd + S`).
+4. Guardá con el ícono de disquete (o `Ctrl/Cmd + S`).
 
 ## 3. Publicar como aplicación web
 
@@ -33,7 +29,8 @@ Seguí estos pasos **una sola vez** para activarlo.
    - **Ejecutar como:** *Yo* (tu cuenta)
    - **Quién tiene acceso:** **Cualquier usuario** (o "Cualquier persona")
 4. Tocá **Implementar**. Google te va a pedir **autorizar permisos**: aceptá
-   (es tu propio script escribiendo en tu propia planilla).
+   (es tu propio script escribiendo en tu propia planilla). Si aparece
+   *"Google hasn't verified this app"*, tocá **Advanced → Go to … (unsafe) → Allow**.
 5. Copiá la **URL de la aplicación web**. Es larga y termina en `/exec`, algo así:
    ```
    https://script.google.com/macros/s/AKfycb....../exec
@@ -64,3 +61,16 @@ en tu planilla (Fecha, Nombre, Email, Teléfono, Mensaje, Página).
   (la URL `/exec` se mantiene).
 - **Probar el endpoint:** si abrís la URL `/exec` en el navegador, deberías ver
   `{"ok":true,"msg":"La Vicuña lead endpoint activo"}`.
+- **"This app is blocked":** el script NO usa envío de correo justamente para evitar
+  ese bloqueo (el permiso de mail es "sensible" y Google lo bloquea en algunas
+  cuentas). Solo pide permiso sobre tu planilla.
+
+## Recibir un aviso por mail de cada lead (sin permisos sensibles)
+
+En vez de que el script mande mails, usá la notificación nativa de Google Sheets:
+
+1. En la planilla: menú **Herramientas → Reglas de notificación**
+   (*Tools → Notification settings → Edit notifications*).
+2. Elegí **"Se realizan cambios"** (*Any changes are made*) y **"Avísame al instante"**
+   (*Email - right away*).
+3. Guardá. Listo: cada vez que entra un lead nuevo, Google te manda un mail.

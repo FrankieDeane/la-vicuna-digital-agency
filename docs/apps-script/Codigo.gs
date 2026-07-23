@@ -2,17 +2,18 @@
  * La Vicuña Digital Agency — Recepción de leads del formulario web.
  *
  * Este script recibe los envíos del formulario de contacto del sitio y agrega
- * una fila en la planilla de Google Sheets. Opcionalmente te avisa por mail.
+ * una fila en la planilla de Google Sheets.
+ *
+ * Solo pide permiso para escribir en tu planilla (permiso común). NO usa envío
+ * de correo a propósito: ese permiso es "sensible" y hace que Google bloquee la
+ * app en algunas cuentas ("This app is blocked"). Para recibir avisos por mail,
+ * ver la nota al final de docs/formulario-google-sheets.md.
  *
  * Cómo usarlo: ver docs/formulario-google-sheets.md
  */
 
 // Nombre de la pestaña donde se guardan los leads (se crea sola si no existe).
 var SHEET_NAME = 'Leads';
-
-// (Opcional) Poné tu mail entre las comillas para recibir un aviso por cada lead.
-// Dejalo vacío ('') si no querés notificaciones por correo.
-var NOTIFY_EMAIL = '';
 
 function doPost(e) {
   try {
@@ -43,18 +44,6 @@ function doPost(e) {
       p.mensaje || '',
       p._page || ''
     ]);
-
-    if (NOTIFY_EMAIL) {
-      MailApp.sendEmail({
-        to: NOTIFY_EMAIL,
-        subject: 'Nuevo lead — ' + (p.nombre || 'sin nombre'),
-        body: 'Nombre: ' + (p.nombre || '') +
-              '\nEmail: ' + (p.email || '') +
-              '\nTeléfono: ' + (p.telefono || '') +
-              '\nPágina: ' + (p._page || '') +
-              '\n\nMensaje:\n' + (p.mensaje || '')
-      });
-    }
 
     lock.releaseLock();
     return json({ ok: true });
