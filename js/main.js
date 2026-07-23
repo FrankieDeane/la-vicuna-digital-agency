@@ -301,34 +301,52 @@
     if (svcSrc) svcSrc.addEventListener('error', hideSvcVideo);
   }
 
-  /* ---- Autoplay robusto de los videos de fondo -------------------------- */
-  /* En mobile el autoplay no dispara si el video está fuera del viewport al
-     cargar (caso de Servicios). Forzamos play() cuando entra en pantalla y
-     como fallback ante el primer gesto del usuario. */
+  /* ---- Videos de fondo: carga diferida + ahorro de ancho de banda -------- */
+  /* Los videos son decorativos (aria-hidden) y pesan varios MB cada uno.
+     Para no gastar ancho de banda de Netlify:
+       1. La fuente vive en data-src y solo se asigna cuando el video entra en
+          el viewport (el de Servicios no se descarga si no se llega a scrollear).
+       2. No se cargan en absoluto si el visitante pidió reduce-motion, tiene
+          activado el ahorro de datos, está en una red lenta (2G) o en pantalla
+          chica (mobile) — que es donde el ancho de banda más importa. */
   (function () {
     var bgVideos = document.querySelectorAll('.hero-video, .svc-video');
     if (!bgVideos.length) return;
-    function tryPlay(v) {
+
+    var conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+    var saveData = !!(conn && conn.saveData);
+    var slowNet = !!(conn && /(^|-)2g$/.test(conn.effectiveType || ''));
+    var smallScreen = window.matchMedia('(max-width: 760px)').matches;
+
+    if (reduceMotion || saveData || slowNet || smallScreen) {
+      // Sin video: se ve el fondo/gradiente de la sección. Cero descarga.
+      bgVideos.forEach(function (v) { v.style.display = 'none'; });
+      return;
+    }
+
+    function loadAndPlay(v) {
+      if (!v.dataset.loaded) {
+        var s = v.querySelector('source[data-src]');
+        if (s) { s.src = s.getAttribute('data-src'); v.load(); }
+        v.dataset.loaded = '1';
+      }
       v.muted = true; // requisito para autoplay inline
       var pr = v.play();
       if (pr && pr.catch) pr.catch(function () {});
     }
+
     if ('IntersectionObserver' in window) {
       var vio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           var v = e.target;
-          if (e.isIntersecting) tryPlay(v);
+          if (e.isIntersecting) loadAndPlay(v);
           else if (!v.paused) { try { v.pause(); } catch (err) {} }
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0.1 });
       bgVideos.forEach(function (v) { vio.observe(v); });
     } else {
-      bgVideos.forEach(tryPlay);
+      bgVideos.forEach(loadAndPlay);
     }
-    // Fallback: algunos navegadores mobile recién permiten play tras un gesto
-    var kick = function () { bgVideos.forEach(tryPlay); };
-    window.addEventListener('touchstart', kick, { once: true, passive: true });
-    window.addEventListener('scroll', kick, { once: true, passive: true });
   })();
 
   /* ---- Servicios: animación de fondo (blobs a la deriva) ----------------- */
