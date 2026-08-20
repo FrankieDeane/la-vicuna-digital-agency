@@ -1220,6 +1220,35 @@ body.modal-open{overflow:hidden}
   opacity:.7;
 }
 
+/* Fotos del proyecto: grilla pareja pese a que los originales tienen
+   distintas proporciones (aspect-ratio + cover recorta al mismo formato).
+   Cargan recién al abrir la ficha: hasta entonces el <figure> está dentro
+   de un ancestro [hidden] y el lazy-loading no las descarga. */
+.case-shots{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:clamp(10px,1.6vw,18px);
+  margin-top:clamp(30px,4.4vw,46px);
+}
+.case-shots img{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  border-radius:12px;
+  filter:saturate(.9);
+  transition:filter .5s;
+}
+.case-shots img:hover{filter:none}
+.case .case-shots figcaption{
+  grid-column:1/-1;
+  margin-top:4px;
+  color:var(--ink);
+  opacity:.45;
+}
+@media (max-width:640px){
+  .case-shots{grid-template-columns:1fr}
+}
+
 .case .case-close{
   margin-top:clamp(24px,3.2vw,34px);
   padding:10px 20px;
