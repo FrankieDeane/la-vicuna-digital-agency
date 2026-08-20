@@ -483,6 +483,43 @@
     });
   }
 
+  /* ---- Clientes: ficha del caso T-L -------------------------------------- */
+  var tlTrigger = document.getElementById('tl-trigger');
+  var tlCase = document.getElementById('tl-case');
+  if (tlTrigger && tlCase) {
+    var tlClose = tlCase.querySelector('.case-close');
+
+    function openCase() {
+      tlCase.hidden = false;
+      // un frame de margen para que la transición arranque desde el estado inicial
+      requestAnimationFrame(function () { tlCase.classList.add('show'); });
+      tlTrigger.setAttribute('aria-expanded', 'true');
+      tlCase.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+    }
+
+    function closeCase() {
+      tlCase.classList.remove('show');
+      tlTrigger.setAttribute('aria-expanded', 'false');
+      tlTrigger.focus();
+      if (reduceMotion) {
+        tlCase.hidden = true;
+      } else {
+        setTimeout(function () {
+          if (!tlCase.classList.contains('show')) tlCase.hidden = true;
+        }, 600);
+      }
+    }
+
+    tlTrigger.addEventListener('click', function () {
+      if (tlTrigger.getAttribute('aria-expanded') === 'true') closeCase();
+      else openCase();
+    });
+    if (tlClose) tlClose.addEventListener('click', closeCase);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && tlTrigger.getAttribute('aria-expanded') === 'true') closeCase();
+    });
+  }
+
   /* ---- Video del hero: ocultar si el archivo no está --------------------- */
   var video = document.querySelector('.hero-video');
   if (video) {
