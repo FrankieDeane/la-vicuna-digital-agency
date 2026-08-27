@@ -216,6 +216,26 @@ header nav a:hover::after,header nav a:focus-visible::after{
 .hero-video{opacity:.5;filter:grayscale(1) contrast(1.05)}
 #atmos{z-index:-3}
 
+/* Cover estatico para mobile (donde el video se oculta a proposito para no
+   gastar datos). Objeto posicionado a la derecha para que el escudo de la
+   imagen no quede recortado por el object-fit:cover en pantallas angostas. */
+.hero-cover-mobile{
+  display:none;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:80% 45%;
+  z-index:-2;
+  opacity:.5;
+  filter:grayscale(1) contrast(1.05);
+}
+/* Mismo corte que usa js/main.js para ocultar el video de fondo */
+@media (max-width:760px){
+  .hero-cover-mobile{display:block}
+}
+
 .hero::after{
   content:"";
   position:absolute;
