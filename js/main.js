@@ -45,15 +45,33 @@
     });
   }
 
+  /* ---- Analítica (GA4): solo se carga si el visitante acepta cookies ----- */
+  var GA_ID = 'G-MBV9FFVYGG';
+  var analyticsLoaded = false;
+  function loadAnalytics() {
+    if (analyticsLoaded) return;
+    analyticsLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+
   /* ---- Barra de cookies --------------------------------------------------- */
   var cookieBar = document.getElementById('cookie-bar');
   if (cookieBar) {
     var consent = null;
     try { consent = localStorage.getItem('lv-consent'); } catch (e) {}
     if (!consent) cookieBar.hidden = false;
+    else if (consent === 'accepted') loadAnalytics();
     function answerConsent(value) {
       try { localStorage.setItem('lv-consent', value); } catch (e) {}
       cookieBar.hidden = true;
+      if (value === 'accepted') loadAnalytics();
     }
     cookieBar.querySelector('.cookie-accept').addEventListener('click', function () { answerConsent('accepted'); });
     cookieBar.querySelector('.cookie-reject').addEventListener('click', function () { answerConsent('rejected'); });
