@@ -30,17 +30,14 @@
 
     # Content Security Policy: define exactamente que recursos puede cargar el
     # sitio. Bloquea la inyeccion de scripts maliciosos (XSS).
-    #   script-src 'self' + googletagmanager -> scripts propios + gtag.js (GA4)
-    #     El hash sha256 autoriza únicamente el bloque inline exacto de
-    #     inicialización de gtag en index.html (no cualquier script inline).
-    #   connect-src ... google-analytics    -> beacons de medición de GA4
+    #   script-src 'self'           -> solo scripts propios (js/main.js)
     #   style-src ... fonts...       -> estilos propios + Google Fonts
     #   font-src ... gstatic         -> fuentes de Google
     #   img-src 'self' data: https:  -> imagenes propias, data-URI y https
     #   frame-src https:             -> previews de portfolio (sitios externos)
     #   frame-ancestors 'none'       -> nadie puede embeber este sitio
     #   object-src 'none'            -> sin Flash/plugins
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com 'sha256-Vip0UXJiiNcp9Bhu+p2CB0Y2GsHvjJ7RvaxqBD37PIY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com; frame-src https:; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; frame-src https:; upgrade-insecure-requests"
 
 # ---------------------------------------------------------------------------
 # Cache agresivo para assets estaticos (imagenes, etc.)
