@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sin secciones privadas: se permite el rastreo completo.
-Sitemap: https://www.lavicunaagencia.com.ar/sitemap.xml
+Sitemap: https://www.lavicuna.com.ar/sitemap.xml
