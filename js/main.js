@@ -91,8 +91,10 @@
   document.querySelectorAll('img').forEach(function (img) {
     var hide = function () { img.style.visibility = 'hidden'; };
     img.addEventListener('error', hide);
-    // el script corre con defer: la carga pudo fallar antes de llegar acá
-    if (img.complete && img.naturalWidth === 0) hide();
+    // Ojo: los <img> con carga diferida (data-src, ej. .hero-cover-mobile)
+    // arrancan sin "src" a propósito — sin este chequeo, complete=true y
+    // naturalWidth=0 los marca como "rotos" antes de que lleguen a cargarse.
+    if (img.getAttribute('src') && img.complete && img.naturalWidth === 0) hide();
   });
 
   /* ---- Links pendientes (data-todo) ------------------------------------ */
