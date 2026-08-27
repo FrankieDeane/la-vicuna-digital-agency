@@ -339,6 +339,12 @@
     if (reduceMotion || saveData || slowNet || smallScreen) {
       // Sin video: se ve el fondo/gradiente de la sección. Cero descarga.
       bgVideos.forEach(function (v) { v.style.display = 'none'; });
+      // En mobile, en vez del degradé vacío se ve una imagen liviana de portada
+      // (mucho más chica que el video: se carga solo acá, nunca en desktop).
+      if (smallScreen) {
+        var heroCover = document.querySelector('.hero-cover-mobile');
+        if (heroCover && !heroCover.src) heroCover.src = heroCover.getAttribute('data-src');
+      }
       return;
     }
 
