@@ -405,6 +405,7 @@
     var loadingMsg = modal.querySelector('.preview-loading');
     var titleEl = modal.querySelector('#preview-title');
     var openLink = modal.querySelector('.preview-open');
+    var frameLink = modal.querySelector('.preview-frame-link');
     var lastFocus = null;
 
     frame.addEventListener('load', function () {
@@ -439,6 +440,7 @@
       titleEl.textContent = title;
       openLink.href = url;
       if (fallbackOpen) fallbackOpen.href = url;
+      if (frameLink) frameLink.href = url;
       resetPreview();
       if (imgSrc) {
         // recuadro con la imagen del sitio (para sitios que no se embeben)

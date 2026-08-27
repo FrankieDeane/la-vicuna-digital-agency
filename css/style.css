@@ -1034,6 +1034,11 @@ main section{padding:clamp(90px,12vw,150px) 0}
 }
 .preview-img[hidden]{display:none}
 .preview-img.loaded{opacity:1}
+/* Clic en cualquier parte del recuadro (no solo en "Abrir sitio ↗") abre el
+   sitio real en pestaña nueva. Va encima del iframe/imagen para que el clic
+   no interactue con el sitio embebido, y debajo del fallback (que tiene su
+   propio botón visible). */
+.preview-frame-link{position:absolute;inset:0;cursor:pointer}
 /* Fallback si no hay imagen: mensaje + botón para abrir el sitio */
 .preview-fallback{
   position:absolute;
