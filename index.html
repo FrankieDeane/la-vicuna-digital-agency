@@ -505,16 +505,16 @@
         <!-- sliabh.com.ar corre en Amplify/CloudFront con X-Frame-Options: no se
              puede embeber en vivo (a diferencia del deploy viejo en Netlify).
              Se usa modo "thumb-cover" (imagen estática), igual que Wingfoil.
-             TODO: reemplazar sliabh-cover.svg por una captura real del sitio. -->
-        <a class="work" href="https://sliabh.com.ar/inicio" data-preview="https://sliabh.com.ar/inicio" data-preview-img="assets/img/sliabh-cover.svg" data-title="Sliabh" target="_blank" rel="noopener">
+             Sin data-preview: el click no abre el modal, va directo al sitio. -->
+        <a class="work" href="https://sliabh.com.ar/inicio" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
-            <img class="cover-img" src="assets/img/sliabh-cover.svg" width="1280" height="800" alt="">
+            <img class="cover-img" src="assets/img/sliabh-cover.webp" width="1418" height="627" loading="lazy" alt="">
             <span class="cover-name">Sliabh</span>
           </span>
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Sliabh</h3>
           <p data-es="Experiencia web inmersiva con senderos renderizados en 3D." data-en="Immersive web experience with 3D-rendered trails.">Experiencia web inmersiva con senderos renderizados en 3D.</p>
-          <span class="go mono"><span data-es="Ver preview" data-en="Preview">Ver preview</span> <span class="arr">→</span></span>
+          <span class="go mono"><span data-es="Visitar sitio" data-en="Visit site">Visitar sitio</span> <span class="arr">→</span></span>
         </a>
         <a class="work" href="https://escueladewingfoil.com.ar/" data-preview="https://escueladewingfoil.com.ar/" data-preview-img="assets/img/wingfoil-cover.png" data-title="Escuela de Wingfoil" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
@@ -546,7 +546,7 @@
         </button>
         <img class="client-logo patagon" src="assets/img/patagon-waters.png" width="443" height="125" alt="Patagon Waters">
         <button class="client-btn" type="button" id="sliabh-trigger" aria-expanded="false" aria-controls="sliabh-case">
-          <span class="client-logo sliabh-word mono">Sliabh</span>
+          <img class="client-logo sliabh" src="assets/img/sliabh-logo.png" width="100" height="100" alt="Sliabh — Crest of the Hike">
           <span class="client-cue mono" data-es="Ver caso" data-en="View case">Ver caso</span>
         </button>
       </div>
@@ -585,13 +585,12 @@
 
           <p class="case-note" data-es="Sliabh es una experiencia web inmersiva con senderos renderizados en 3D para explorar los parques nacionales argentinos. Desde La Vicuña diseñamos el sitio, el tracking y la estrategia de lanzamiento: en la primera semana sumó más de 367 usuarios activos y 3.3k eventos registrados, con picos de interés en Buenos Aires (CABA y GBA), Rosario, Santa Fe, Córdoba y Mendoza, sumado a audiencias en ciudades de EE. UU. (Savannah, Nueva York, Boardman, Prineville, Dallas, entre otras) y de Europa (Estocolmo, Londres, Madrid, Berlín, Roma, Dublín, Oslo, entre otras). El 100% de stickiness confirma que quienes entraron volvieron a usar el sitio, y ya en el primer mes el proyecto logró captar sus primeros sponsors." data-en="Sliabh is an immersive web experience with 3D-rendered trails to explore Argentina's national parks. La Vicuña designed the site, the tracking setup and the launch strategy: in its first week it reached over 367 active users and 3.3k tracked events, with strong interest from Buenos Aires (CABA and GBA), Rosario, Santa Fe, Córdoba and Mendoza, alongside audiences in U.S. cities (Savannah, New York, Boardman, Prineville, Dallas, among others) and European cities (Stockholm, London, Madrid, Berlin, Rome, Dublin, Oslo, among others). 100% user stickiness confirms that visitors kept coming back, and the project landed its first sponsors within the first month.">Sliabh es una experiencia web inmersiva con senderos renderizados en 3D para explorar los parques nacionales argentinos. Desde La Vicuña diseñamos el sitio, el tracking y la estrategia de lanzamiento: en la primera semana sumó más de 367 usuarios activos y 3.3k eventos registrados, con picos de interés en Buenos Aires (CABA y GBA), Rosario, Santa Fe, Córdoba y Mendoza, sumado a audiencias en ciudades de EE. UU. (Savannah, Nueva York, Boardman, Prineville, Dallas, entre otras) y de Europa (Estocolmo, Londres, Madrid, Berlín, Roma, Dublín, Oslo, entre otras). El 100% de stickiness confirma que quienes entraron volvieron a usar el sitio, y ya en el primer mes el proyecto logró captar sus primeros sponsors.</p>
 
-          <!-- TODO: reemplazar estos placeholders por fotos reales del sitio (Laguna de los Tres, Aconcagua, mapa 3D, Tierra del Fuego, etc.) -->
           <figure class="case-shots">
-            <img src="assets/img/sliabh-laguna-de-los-tres.svg" width="1080" height="675" loading="lazy" decoding="async" alt="Laguna de los Tres renderizada en el sendero 3D de Sliabh">
-            <img src="assets/img/sliabh-aconcagua.svg" width="1080" height="675" loading="lazy" decoding="async" alt="Aconcagua renderizado en el sendero 3D de Sliabh">
-            <img src="assets/img/sliabh-mapa-3d.svg" width="1080" height="675" loading="lazy" decoding="async" alt="Mapa 3D interactivo de senderos en Sliabh">
-            <img src="assets/img/sliabh-tierra-del-fuego.svg" width="1080" height="675" loading="lazy" decoding="async" alt="Tierra del Fuego renderizada en el sendero 3D de Sliabh">
-            <figcaption class="mono" data-es="Senderos y parques nacionales renderizados en 3D en Sliabh" data-en="National park trails rendered in 3D on Sliabh">Senderos y parques nacionales renderizados en 3D en Sliabh</figcaption>
+            <img src="assets/img/sliabh-mapa-3d.webp" width="1077" height="476" loading="lazy" decoding="async" alt="Mapa 3D interactivo de senderos de Sliabh en la Patagonia, con filtros por región">
+            <img src="assets/img/sliabh-topografia-3d.webp" width="706" height="411" loading="lazy" decoding="async" alt="Vista satelital 3D de un sendero en Sliabh, con curva de pendiente y desnivel">
+            <img src="assets/img/sliabh-trails.webp" width="1338" height="595" loading="lazy" decoding="async" alt="Sección de senderos (Trails) de Sliabh, con ficha de detalle de una ruta en el Parque Nacional Lanín">
+            <img src="assets/img/sliabh-supervivencia.png" width="210" height="464" loading="lazy" decoding="async" alt="Guía de supervivencia de Sliabh en vista mobile, con consejos sobre frío extremo e hipotermia">
+            <figcaption class="mono" data-es="Mapas y senderos renderizados en 3D, y guías de supervivencia, en la plataforma Sliabh" data-en="3D-rendered maps and trails, plus survival guides, on the Sliabh platform">Mapas y senderos renderizados en 3D, y guías de supervivencia, en la plataforma Sliabh</figcaption>
           </figure>
 
           <button class="case-close mono" type="button" data-es="Cerrar ✕" data-en="Close ✕">Cerrar ✕</button>
