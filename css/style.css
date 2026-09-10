@@ -1168,7 +1168,20 @@ body.modal-open{overflow:hidden}
 :root[data-theme="light"] .client-logo.patagon,
 :root[data-theme="light"] .client-logo.patagon:hover{filter:none}
 
-/* T-L es el único logo clickeable: abre la ficha del caso */
+/* Sliabh todavía no tiene isologo: se muestra como wordmark tipográfico,
+   consistente con el resto del sitio, hasta contar con el archivo real. */
+.client-logo.sliabh-word{
+  height:auto;
+  font-size:22px;
+  letter-spacing:.02em;
+  color:var(--ink);
+  filter:none;
+  opacity:.8;
+}
+.client-btn:hover .client-logo.sliabh-word,
+.client-btn:focus-visible .client-logo.sliabh-word{opacity:1}
+
+/* T-L y Sliabh son clickeables: abren su ficha de caso */
 .client-btn{
   display:flex;
   flex-direction:column;
