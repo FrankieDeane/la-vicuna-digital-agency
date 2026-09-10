@@ -502,9 +502,14 @@
         <h2 data-es="Proyectos seleccionados" data-en="Selected work">Proyectos seleccionados</h2>
       </div>
       <div class="works-grid rv">
-        <a class="work" href="https://sliabh.com.ar/inicio" data-preview="https://sliabh.com.ar/inicio" data-title="Sliabh" target="_blank" rel="noopener">
-          <span class="work-thumb" aria-hidden="true">
-            <iframe src="https://sliabh.com.ar/inicio" title="" loading="lazy" tabindex="-1" scrolling="no" referrerpolicy="no-referrer"></iframe>
+        <!-- sliabh.com.ar corre en Amplify/CloudFront con X-Frame-Options: no se
+             puede embeber en vivo (a diferencia del deploy viejo en Netlify).
+             Se usa modo "thumb-cover" (imagen estática), igual que Wingfoil.
+             TODO: reemplazar sliabh-cover.svg por una captura real del sitio. -->
+        <a class="work" href="https://sliabh.com.ar/inicio" data-preview="https://sliabh.com.ar/inicio" data-preview-img="assets/img/sliabh-cover.svg" data-title="Sliabh" target="_blank" rel="noopener">
+          <span class="work-thumb thumb-cover" aria-hidden="true">
+            <img class="cover-img" src="assets/img/sliabh-cover.svg" width="1280" height="800" alt="">
+            <span class="cover-name">Sliabh</span>
           </span>
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
           <h3>Sliabh</h3>
