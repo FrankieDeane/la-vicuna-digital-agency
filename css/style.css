@@ -1168,18 +1168,20 @@ body.modal-open{overflow:hidden}
 :root[data-theme="light"] .client-logo.patagon,
 :root[data-theme="light"] .client-logo.patagon:hover{filter:none}
 
-/* Sliabh todavía no tiene isologo: se muestra como wordmark tipográfico,
-   consistente con el resto del sitio, hasta contar con el archivo real. */
-.client-logo.sliabh-word{
-  height:auto;
-  font-size:22px;
-  letter-spacing:.02em;
-  color:var(--ink);
-  filter:none;
-  opacity:.8;
+/* Logo de Sliabh: isologo circular a color (verde/dorado) sobre fondo
+   blanco propio, igual tratamiento que el de T-L para que se lea sobre
+   cualquier fondo/tema. */
+.client-logo.sliabh{
+  filter:none !important;
+  opacity:1 !important;
+  height:58px;
+  width:58px;
+  padding:6px;
+  background:#fff;
+  border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
 }
-.client-btn:hover .client-logo.sliabh-word,
-.client-btn:focus-visible .client-logo.sliabh-word{opacity:1}
+.client-logo.sliabh:hover{filter:none !important;opacity:1 !important}
 
 /* T-L y Sliabh son clickeables: abren su ficha de caso */
 .client-btn{
