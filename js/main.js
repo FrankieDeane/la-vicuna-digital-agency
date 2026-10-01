@@ -512,23 +512,39 @@
   }
 
   /* ---- Clientes: fichas de caso (T-L, Sliabh, ...) ------------------------ */
-  function setupClientCase(triggerId, caseId) {
+  // Cada caso tiene su propio enlace compartible (ej. lavicuna.com.ar/#caso-tl):
+  // al abrirlo se escribe el hash en la URL y al entrar con ese hash se abre solo.
+  function setupClientCase(triggerId, caseId, slug) {
     var trigger = document.getElementById(triggerId);
     var caseEl = document.getElementById(caseId);
     if (!trigger || !caseEl) return;
     var closeBtn = caseEl.querySelector('.case-close');
+    var hash = '#' + slug;
 
-    function openCase() {
+    function setHash(on) {
+      if (!window.history || !history.replaceState) return;
+      if (on) history.replaceState(null, '', hash);
+      else if (location.hash === hash) history.replaceState(null, '', location.pathname + location.search);
+    }
+
+    function openCase(fromLink) {
       caseEl.hidden = false;
       // un frame de margen para que la transición arranque desde el estado inicial
       requestAnimationFrame(function () { caseEl.classList.add('show'); });
       trigger.setAttribute('aria-expanded', 'true');
-      caseEl.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+      setHash(true);
+      if (fromLink) {
+        // entrada por enlace directo: mostrar el logo y la ficha desde arriba
+        (caseEl.closest('section') || caseEl).scrollIntoView({ behavior: 'auto', block: 'start' });
+      } else {
+        caseEl.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+      }
     }
 
     function closeCase() {
       caseEl.classList.remove('show');
       trigger.setAttribute('aria-expanded', 'false');
+      setHash(false);
       trigger.focus();
       if (reduceMotion) {
         caseEl.hidden = true;
@@ -547,10 +563,16 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') closeCase();
     });
+
+    function openFromHash() {
+      if (location.hash === hash && trigger.getAttribute('aria-expanded') !== 'true') openCase(true);
+    }
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
   }
 
-  setupClientCase('tl-trigger', 'tl-case');
-  setupClientCase('sliabh-trigger', 'sliabh-case');
+  setupClientCase('tl-trigger', 'tl-case', 'caso-tl');
+  setupClientCase('sliabh-trigger', 'sliabh-case', 'caso-sliabh');
 
   /* ---- Video del hero: ocultar si el archivo no está --------------------- */
   var video = document.querySelector('.hero-video');
