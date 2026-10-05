@@ -6,9 +6,8 @@
 <!-- Google tag (gtag.js): se carga desde js/main.js solo si el visitante acepta cookies -->
 <title>La Vicuña Digital Agency — Social media, web, SEO y paid media</title>
 <meta name="description" content="Agencia de marketing digital en Argentina potenciada con IA. Expertos en todo: SEM, SEO, social media y desarrollo web para hacer crecer tu marca.">
-<meta name="keywords" content="agencia digital, marketing digital, social media, desarrollo web, SEO, paid media, publicidad online, inteligencia artificial, Argentina, La Vicuña">
 <meta name="author" content="La Vicuña Digital Agency">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#0A0801">
 <link rel="canonical" href="https://www.lavicuna.com.ar/">
 
@@ -21,8 +20,8 @@
 <meta property="og:image" content="https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg">
 <meta property="og:image:secure_url" content="https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg">
 <meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1920">
-<meta property="og:image:height" content="1080">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="La Vicuña Digital Agency">
 <meta property="og:locale" content="es_AR">
 <meta property="og:locale:alternate" content="en_US">
@@ -35,7 +34,7 @@
 <meta name="twitter:image:alt" content="La Vicuña Digital Agency">
 
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="apple-touch-icon" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon-180.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,37 +44,215 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "La Vicuña Digital Agency",
-  "alternateName": "La Vicuña",
-  "url": "https://www.lavicuna.com.ar/",
-  "logo": "https://www.lavicuna.com.ar/assets/img/logo.png",
-  "image": "https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg",
-  "description": "Agencia digital remota y horizontal: social media, desarrollo web, SEO y paid media potenciados con IA.",
-  "founder": { "@type": "Person", "name": "Francisco Deane" },
-  "areaServed": "AR",
-  "availableLanguage": ["es", "en"],
-  "priceRange": "$$",
-  "sameAs": ["https://www.instagram.com/lavicuna_agency/"],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "customer service",
-    "url": "https://wa.me/5491120498620",
-    "availableLanguage": ["es", "en"]
-  },
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Servicios",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Social Media" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Desarrollo Web" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paid Media" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Creatividad" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Inteligencia Artificial" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatización de flujos" } }
-    ]
-  }
+  "@graph": [
+    {
+      "@type": [
+        "Organization",
+        "ProfessionalService"
+      ],
+      "@id": "https://www.lavicuna.com.ar/#organization",
+      "name": "La Vicuña Digital Agency",
+      "alternateName": "La Vicuña",
+      "url": "https://www.lavicuna.com.ar/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://www.lavicuna.com.ar/#logo",
+        "url": "https://www.lavicuna.com.ar/assets/img/logo.png",
+        "width": 685,
+        "height": 813,
+        "caption": "La Vicuña Digital Agency"
+      },
+      "image": "https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg",
+      "description": "Agencia de marketing digital en Argentina potenciada con IA. Expertos en todo: SEM, SEO, social media y desarrollo web para hacer crecer tu marca.",
+      "slogan": "#ReachYourPeak",
+      "founder": {
+        "@type": "Person",
+        "@id": "https://www.lavicuna.com.ar/#founder",
+        "name": "Francisco Deane"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "AR"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "knowsAbout": [
+        "Marketing digital",
+        "SEO",
+        "SEM",
+        "Google Ads",
+        "Meta Ads",
+        "Paid media",
+        "Social media marketing",
+        "Desarrollo web",
+        "Inteligencia artificial aplicada al marketing",
+        "Automatización de marketing",
+        "Analítica web"
+      ],
+      "availableLanguage": [
+        "es",
+        "en"
+      ],
+      "priceRange": "$$",
+      "sameAs": [
+        "https://www.instagram.com/lavicuna_agency/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "https://wa.me/5491120498620",
+        "areaServed": "AR",
+        "availableLanguage": [
+          "es",
+          "en"
+        ]
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de marketing digital",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Social Media",
+              "description": "El marketing en redes sociales es un motor clave para el crecimiento: conecta con tu audiencia, aumenta el reconocimiento de marca e impulsa conversiones. Diseñamos estrategias a medida, alineadas con tus objetivos digitales.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Desarrollo Web",
+              "description": "Del concepto a la ejecución: diseñamos y construimos con las mejores prácticas y criterio UX/UI, para una experiencia fluida y atractiva que genera resultados y potencia tu presencia digital.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "SEO",
+              "description": "El SEO no es solo visibilidad y clics: es ofrecer el contenido más relevante para tu audiencia. Trabajamos con expertos que adaptan la estrategia a tu negocio para atraer, retener y convertir con el máximo impacto.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Paid Media",
+              "description": "Publicidad digital (SEM y redes): atraemos audiencias de alta intención, optimizamos la inversión y maximizamos conversiones con segmentación basada en datos, creatividades atractivas y optimización continua.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Creatividad",
+              "description": "Partimos de conceptos generados con las mejores herramientas de IA y les sumamos criterio humano, identidad de marca y oficio publicitario.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Inteligencia Artificial",
+              "description": "Usamos IA de vanguardia para automatizar lo repetitivo, acelerar la producción de contenido y encontrar nuevos ángulos creativos.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Automatización de flujos",
+              "description": "Conectamos tus herramientas para que trabajen solas: desde pipelines de datos hasta tareas repetitivas. Menos trabajo manual, menos errores.",
+              "provider": {
+                "@id": "https://www.lavicuna.com.ar/#organization"
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Argentina"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.lavicuna.com.ar/#website",
+      "url": "https://www.lavicuna.com.ar/",
+      "name": "La Vicuña Digital Agency",
+      "alternateName": "La Vicuña",
+      "inLanguage": "es-AR",
+      "publisher": {
+        "@id": "https://www.lavicuna.com.ar/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.lavicuna.com.ar/#webpage",
+      "url": "https://www.lavicuna.com.ar/",
+      "name": "La Vicuña Digital Agency — Social media, web, SEO y paid media",
+      "description": "Agencia de marketing digital en Argentina potenciada con IA. Expertos en todo: SEM, SEO, social media y desarrollo web para hacer crecer tu marca.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "https://www.lavicuna.com.ar/#website"
+      },
+      "about": {
+        "@id": "https://www.lavicuna.com.ar/#organization"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg",
+        "width": 1200,
+        "height": 630
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -85,7 +262,7 @@
 
 <header>
   <a class="brand" href="#top">
-    <img src="assets/img/logo.png" alt="La Vicuña — escudo" width="685" height="813">
+    <img src="assets/img/logo-120.webp" alt="La Vicuña — escudo" width="120" height="142">
     <span class="logo">La Vicuña</span>
   </a>
   <nav aria-label="Principal">
@@ -123,7 +300,7 @@
   </section>
 
   <section class="about" id="nosotros">
-    <img class="watermark" src="assets/img/logo.png" alt="" aria-hidden="true">
+    <img class="watermark" src="assets/img/logo-mark.webp" width="685" height="813" alt="" aria-hidden="true" loading="lazy" decoding="async">
     <div class="wrap">
       <div class="sec-head rv">
         <span class="mono">01 · <span data-es="Nosotros" data-en="About us">Nosotros</span></span>
@@ -508,7 +685,7 @@
              Sin data-preview: el click no abre el modal, va directo al sitio. -->
         <a class="work" href="https://sliabh.com.ar/inicio" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
-            <img class="cover-img" src="assets/img/sliabh-cover.webp" width="1418" height="627" loading="lazy" alt="">
+            <img class="cover-img" src="assets/img/sliabh-cover.webp" width="1418" height="627" loading="lazy" decoding="async" alt="">
             <span class="cover-name">Sliabh</span>
           </span>
           <span class="mono" data-es="Desarrollo web · 3D" data-en="Web development · 3D">Desarrollo web · 3D</span>
@@ -519,7 +696,7 @@
         <!-- Sin data-preview: el click no abre el modal, va directo al sitio (igual que Sliabh). -->
         <a class="work" href="https://escueladewingfoil.com.ar/" target="_blank" rel="noopener">
           <span class="work-thumb thumb-cover" aria-hidden="true">
-            <img class="cover-img" src="assets/img/wingfoil-cover.png" width="820" height="566" alt="" loading="lazy">
+            <img class="cover-img" src="assets/img/wingfoil-cover.webp" width="820" height="566" alt="" loading="lazy" decoding="async">
             <svg class="cover-sail" viewBox="0 0 120 120" fill="none" aria-hidden="true">
               <path d="M92 14 C60 26 40 54 30 100 L92 100 Z" fill="rgba(127,174,147,.9)"/>
               <path d="M92 14 L92 100 L60 100 C70 60 80 34 92 14 Z" fill="rgba(217,215,212,.85)"/>

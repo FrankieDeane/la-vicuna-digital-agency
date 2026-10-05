@@ -21,6 +21,7 @@ Sitio estático (HTML/CSS/JS puro, sin frameworks ni build). Español por defect
 index.html        página única (ES/EN)
 css/style.css     estilos — tinta #0A0801 / hueso #D9D7D4 / verde #7FAE93 · temas dark/light
 js/main.js        idioma, tema, reveals, grano, humo, previews, cookies, efectos de mouse
-assets/img/       logo.png, favicon.png y logos de clientes
+assets/img/       logo.png (original), logo-120.webp / logo-mark.webp (versiones livianas), icon-*.png y logos de clientes
+llms.txt          resumen de la agencia para buscadores con IA (ChatGPT, Claude, Perplexity)
 assets/video/     hero-fog.mp4 (video del hero)
 ```
