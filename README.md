@@ -1,6 +1,6 @@
 # La Vicuña Digital Agency
 
-Sitio estático (HTML/CSS/JS puro, sin frameworks ni build). Español por defecto con selector ES/EN.
+Sitio estático (HTML/CSS/JS puro, sin frameworks ni build). Español en `/` e inglés en `/en/`, cada versión con su propia URL (hreflang) para que Google indexe las dos.
 
 ## Deploy en Netlify
 
@@ -19,8 +19,10 @@ Sitio estático (HTML/CSS/JS puro, sin frameworks ni build). Español por defect
 
 ```
 index.html        home (ES/EN)
-servicios/*/      landings por servicio (SEO, paid media, social media, desarrollo web), solo ES
-casos/*/          casos completos (Sliabh, T-L / HMSA), solo ES
+servicios/*/      landings por servicio (SEO, paid media, social media, desarrollo web)
+casos/*/          casos completos (Sliabh, T-L / HMSA)
+en/               versión en inglés: en/index.html se genera desde index.html (usa los data-en),
+                  más en/services/* y en/cases/*. Si cambiás textos de la home, actualizá también en/index.html.
 css/style.css     estilos — tinta #0A0801 / hueso #D9D7D4 / verde #7FAE93 · temas dark/light
 js/main.js        idioma, tema, reveals, grano, humo, previews, cookies, efectos de mouse
 assets/img/       logo.png (original), logo-120.webp / logo-mark.webp (versiones livianas), icon-*.png y logos de clientes

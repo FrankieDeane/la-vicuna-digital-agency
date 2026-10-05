@@ -10,6 +10,9 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#0A0801">
 <link rel="canonical" href="https://www.lavicuna.com.ar/">
+<link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/">
+<link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/">
+<link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
@@ -39,7 +42,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="css/style.css?v=25">
+<link rel="stylesheet" href="css/style.css?v=26">
 
 <script type="application/ld+json">
 {
@@ -231,7 +234,10 @@
       "url": "https://www.lavicuna.com.ar/",
       "name": "La Vicuña Digital Agency",
       "alternateName": "La Vicuña",
-      "inLanguage": "es-AR",
+      "inLanguage": [
+        "es-AR",
+        "en"
+      ],
       "publisher": {
         "@id": "https://www.lavicuna.com.ar/#organization"
       }
@@ -278,8 +284,8 @@
   <div class="header-tools">
     <button id="btn-theme" class="theme-toggle" aria-label="Cambiar tema / Toggle theme" title="Light / Dark">◐</button>
     <div class="lang" role="group" aria-label="Idioma / Language">
-      <button id="btn-es" aria-pressed="true">ES</button>
-      <button id="btn-en" aria-pressed="false">EN</button>
+      <a id="btn-es" href="/" hreflang="es" aria-current="page">ES</a>
+      <a id="btn-en" href="/en/" hreflang="en">EN</a>
     </div>
   </div>
 </header>
@@ -908,6 +914,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=26" defer></script>
+<script src="js/main.js?v=27" defer></script>
 </body>
 </html>

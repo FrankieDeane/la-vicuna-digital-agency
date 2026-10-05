@@ -185,7 +185,8 @@ header nav a:hover::after,header nav a:focus-visible::after{
   border-radius:2px;
   overflow:hidden;
 }
-.lang button{
+.lang button,
+.lang a{
   font-family:var(--mono);
   font-size:11px;
   letter-spacing:.12em;
@@ -193,7 +194,8 @@ header nav a:hover::after,header nav a:focus-visible::after{
   color:var(--bone-dim);
   transition:background .3s,color .3s;
 }
-.lang button[aria-pressed="true"]{background:var(--bone);color:var(--ink)}
+.lang button[aria-pressed="true"],
+.lang a[aria-current="page"]{background:var(--bone);color:var(--ink)}
 
 /* ---- Hero ------------------------------------------------------------- */
 .hero{

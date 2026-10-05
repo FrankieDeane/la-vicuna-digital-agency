@@ -2,7 +2,7 @@
 
 > Agencia de marketing digital en Argentina potenciada con IA. Expertos en todo: SEM, SEO, social media y desarrollo web para hacer crecer tu marca. Equipo 100% remoto, horizontal y neuro-inclusivo, fundado por Francisco Deane. Lema: #ReachYourPeak.
 
-Sitio: https://www.lavicuna.com.ar/ (español, con versión en inglés)
+Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.com.ar/en/
 
 ## Servicios
 
@@ -35,3 +35,9 @@ Sitio: https://www.lavicuna.com.ar/ (español, con versión en inglés)
 - Formulario: https://forms.gle/wC1t1wrdBC8UdTvB7
 - WhatsApp: https://wa.me/5491120498620
 - Instagram: https://www.instagram.com/lavicuna_agency/
+
+## English
+
+- [Home](https://www.lavicuna.com.ar/en/): AI-powered digital marketing agency in Argentina, 100% remote, working in English and Spanish.
+- [SEO](https://www.lavicuna.com.ar/en/services/seo/) · [Google Ads & Meta Ads](https://www.lavicuna.com.ar/en/services/paid-media/) · [Social Media](https://www.lavicuna.com.ar/en/services/social-media/) · [Web development](https://www.lavicuna.com.ar/en/services/web-development/)
+- Case studies: [Sliabh](https://www.lavicuna.com.ar/en/cases/sliabh/) · [T-L Irrigation / HMSA](https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/)

@@ -4,29 +4,13 @@
   'use strict';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isEn = document.documentElement.lang === 'en';
 
   /* ---- Idioma ES/EN ---------------------------------------------------- */
-  var btnEs = document.getElementById('btn-es');
-  var btnEn = document.getElementById('btn-en');
-
-  function setLang(lang) {
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-es]').forEach(function (el) {
-      var text = el.getAttribute('data-' + lang);
-      if (text) el.textContent = text;
-    });
-    btnEs.setAttribute('aria-pressed', String(lang === 'es'));
-    btnEn.setAttribute('aria-pressed', String(lang === 'en'));
-    try { localStorage.setItem('lv-lang', lang); } catch (e) {}
-  }
-
-  if (btnEs && btnEn) {
-    btnEs.addEventListener('click', function () { setLang('es'); });
-    btnEn.addEventListener('click', function () { setLang('en'); });
-    var saved = null;
-    try { saved = localStorage.getItem('lv-lang'); } catch (e) {}
-    if (saved === 'en') setLang('en');
-  }
+  // Cada idioma tiene su propia URL (/ y /en/) para que Google indexe ambas
+  // versiones: los botones ES/EN del header son links comunes (<a hreflang>),
+  // así que no hace falta JS. Los data-es/data-en del HTML quedan como fuente
+  // de las traducciones de la home.
 
   /* ---- Tema claro / oscuro ---------------------------------------------- */
   var themeBtn = document.getElementById('btn-theme');
@@ -177,7 +161,7 @@
         '<h3 class="ov-word"></h3>' +
         '<p class="ov-desc"></p>' +
         '<div class="ov-extra"></div>' +
-        '<button class="ov-close mono" type="button" data-es="Cerrar ✕" data-en="Close ✕">Cerrar ✕</button>' +
+        '<button class="ov-close mono" type="button">' + (isEn ? 'Close ✕' : 'Cerrar ✕') + '</button>' +
       '</div>';
     section.appendChild(overlay);
     var ovNum = overlay.querySelector('.ov-num');
@@ -190,7 +174,7 @@
       var num = it.el.querySelector('.svc-num');
       var word = it.el.querySelector('.w-base');
       var desc = it.el.querySelector('.svc-desc p');
-      ovNum.textContent = (num ? num.textContent : '') + ' · Servicio';
+      ovNum.textContent = (num ? num.textContent : '') + (isEn ? ' · Service' : ' · Servicio');
       ovWord.textContent = word ? word.textContent : '';
       ovDesc.textContent = desc ? desc.textContent : '';
       // Contenido extra (ej. diagramas de flujo): se clonan al panel si existen
