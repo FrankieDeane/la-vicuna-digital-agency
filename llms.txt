@@ -21,6 +21,15 @@ Sitio: https://www.lavicuna.com.ar/ (español, con versión en inglés)
 - Escuela de Wingfoil (https://escueladewingfoil.com.ar/): sitio web con atmósfera 3D.
 - Clientes: T-L Irrigation, Patagon Waters, Sliabh.
 
+## Páginas
+
+- [SEO](https://www.lavicuna.com.ar/servicios/seo/): agencia SEO en Argentina, incluye SEO local y SEO para buscadores con IA.
+- [Google Ads y Meta Ads](https://www.lavicuna.com.ar/servicios/paid-media/): campañas de publicidad digital (SEM y redes).
+- [Social Media](https://www.lavicuna.com.ar/servicios/social-media/): gestión de redes sociales.
+- [Desarrollo web](https://www.lavicuna.com.ar/servicios/desarrollo-web/): diseño y desarrollo de sitios, incluidas experiencias 3D.
+- [Caso Sliabh](https://www.lavicuna.com.ar/casos/sliabh/)
+- [Caso T-L Irrigation / HMSA](https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/)
+
 ## Contacto
 
 - Formulario: https://forms.gle/wC1t1wrdBC8UdTvB7

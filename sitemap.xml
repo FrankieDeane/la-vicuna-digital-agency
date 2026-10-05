@@ -8,4 +8,28 @@
     <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-mapa-3d.webp</image:loc></image:image>
     <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/hmsa-tl-riego-agrario.webp</image:loc></image:image>
   </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/seo/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/paid-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/social-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/desarrollo-web/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/casos/sliabh/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/</loc>
+    <lastmod>2026-10-05</lastmod>
+  </url>
 </urlset>
