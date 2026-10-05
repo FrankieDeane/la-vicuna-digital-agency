@@ -1,9 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.lavicuna.com.ar/</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-mapa-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/hmsa-tl-riego-agrario.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/og-lavicuna.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-mapa-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/hmsa-tl-riego-agrario.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/seo/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/seo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/seo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/seo/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/services/seo/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/seo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/seo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/seo/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/paid-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/paid-media/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/paid-media/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/paid-media/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/services/paid-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/paid-media/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/paid-media/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/paid-media/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/social-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/social-media/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/social-media/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/social-media/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/services/social-media/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/social-media/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/social-media/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/social-media/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/servicios/desarrollo-web/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/desarrollo-web/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/web-development/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/desarrollo-web/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/services/web-development/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/servicios/desarrollo-web/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/services/web-development/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/servicios/desarrollo-web/"/>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/casos/sliabh/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/casos/sliabh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/cases/sliabh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/casos/sliabh/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-mapa-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-topografia-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-trails.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/cases/sliabh/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/casos/sliabh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/cases/sliabh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/casos/sliabh/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-mapa-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-topografia-3d.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/sliabh-trails.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/hmsa-tl-riego-agrario.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/"/>
+    <image:image><image:loc>https://www.lavicuna.com.ar/assets/img/hmsa-tl-riego-agrario.webp</image:loc></image:image>
   </url>
 </urlset>

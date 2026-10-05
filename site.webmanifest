@@ -1,15 +1,16 @@
 {
   "name": "La Vicuña Digital Agency",
   "short_name": "La Vicuña",
-  "description": "Agencia digital remota y horizontal: social media, desarrollo web, SEO y paid media.",
-  "lang": "es",
+  "description": "Agencia de marketing digital en Argentina potenciada con IA. Expertos en todo: SEM, SEO, social media y desarrollo web para hacer crecer tu marca.",
+  "lang": "es-AR",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0A0801",
   "theme_color": "#0A0801",
   "icons": [
-    { "src": "assets/img/favicon.png", "sizes": "any", "type": "image/png" },
-    { "src": "assets/img/logo.png", "sizes": "685x813", "type": "image/png", "purpose": "any" }
+    { "src": "assets/img/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }

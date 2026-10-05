@@ -1,6 +1,8 @@
 # La Vicuña Digital Agency
+# Sin secciones privadas: se permite el rastreo completo, incluidos los
+# buscadores con IA (ChatGPT, Claude, Perplexity, Gemini) para que puedan
+# citar y recomendar a la agencia.
 User-agent: *
 Allow: /
 
-# Sin secciones privadas: se permite el rastreo completo.
 Sitemap: https://www.lavicuna.com.ar/sitemap.xml
