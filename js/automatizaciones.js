@@ -511,7 +511,7 @@
           method: 'POST', credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' }, body: '{}'
         }).then(function (r) { return r.json().then(function (d) { d._ok = r.ok; return d; }); }).then(function (d) {
-          if (d.sinCuenta) { msg.textContent = T.sinMonitor; btn.disabled = false; return; }
+          if (d.sinCuenta) { msg.textContent = T.sinMonitor + (d.detalle ? ' [' + d.detalle + ']' : ''); btn.disabled = false; return; }
           if (!d._ok || d.error) throw new Error(d.error || T.error);
           if (d.yaListo) { msg.textContent = T.yaListo; btn.disabled = false; cargar(); return; }
           msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
