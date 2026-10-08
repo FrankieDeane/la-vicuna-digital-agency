@@ -10,7 +10,6 @@
 
 const { avanzar, vista, hoyAR, VERSION } = require('./lib/tnf-ml');
 const { tiendaTnf, leer, leerDia, guardar, estadoNuevo } = require('./lib/tnf-ml-tienda');
-const { accessToken } = require('./lib/meli-api');
 const { esAdmin } = require('./lib/admin-auth');
 const crypto = require('crypto');
 
@@ -73,9 +72,7 @@ exports.handler = async (event) => {
       return responder(429, { error: 'Hoy ya se usó mucho este botón. Probá de nuevo mañana.' });
     }
 
-    try { await accessToken(event); } catch (e) {
-      return responder(200, admin ? { sinCuenta: true, detalle: e.message } : { sinCuenta: true });
-    }
+    // Sin cuenta conectada no se corta: el motor sigue con las páginas públicas de Mercado Libre
     const [guardado, cache] = await Promise.all([leerDia(store, fecha), leer(store, 'vendedores')]);
     let st = guardado;
     const enviado = body.estado;

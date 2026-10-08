@@ -1,10 +1,9 @@
 // Corrida programada del monitor The North Face en Mercado Libre (ver lib/tnf-ml.js).
 // netlify.toml la dispara cada 15 minutos entre las 9 y las 11:45 (hora argentina):
 // la primera arranca el relevamiento del día y las siguientes lo terminan si quedó
-// a medias. Si ya está listo, no hace nada. Sin cuenta de ML conectada, no corre.
+// a medias. Si ya está listo, no hace nada. Sin cuenta de ML conectada, usa las páginas públicas.
 
 const { avanzar, hoyAR } = require('./lib/tnf-ml');
-const { accessToken } = require('./lib/meli-api');
 const { tiendaTnf, leer, leerDia, guardar, estadoNuevo } = require('./lib/tnf-ml-tienda');
 
 const PRESUPUESTO_MS = 22000; // las funciones programadas cortan a los 30 s
@@ -12,10 +11,6 @@ const PRESUPUESTO_MS = 22000; // las funciones programadas cortan a los 30 s
 exports.handler = async (event) => {
   const t0 = Date.now();
   try {
-    try { await accessToken(event); } catch (e) {
-      console.log('tnf-ml-diario: sin cuenta de ML conectada, no se releva (' + e.message + ')');
-      return { statusCode: 200, body: JSON.stringify({ ok: true, sinCuenta: true }) };
-    }
     const store = tiendaTnf(event);
     const fecha = hoyAR();
     const [st0, cache] = await Promise.all([leerDia(store, fecha), leer(store, 'vendedores')]);
