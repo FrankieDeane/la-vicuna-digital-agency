@@ -1773,3 +1773,5 @@ footer .au-credits{display:block}
 #au-comp td:first-child{min-width:250px}
 .au-prod .au-dif{display:block;margin-top:4px}
 .au-chart-sm svg{max-height:300px}
+.au-connect{margin-top:clamp(30px,4vw,44px)}
+.au-connect strong{color:var(--bone)}
