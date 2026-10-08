@@ -237,11 +237,17 @@
     }).join('');
   }
 
+  // Link a las publicaciones de la marca en Mercado Libre Argentina
+  function linkMarca(nombre) {
+    var slug = String(nombre).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return slug ? link('https://listado.mercadolibre.com.ar/' + slug, nombre) : esc(nombre);
+  }
+
   function marcas(v) {
     var lista = (v.marcas || []).filter(function (m) { return !/^Sin marca/.test(m.marca); }).slice(0, 10);
     var max = Math.max.apply(null, lista.map(function (m) { return m.apariciones; }).concat(1));
     $('au-brands').innerHTML = lista.map(function (m) {
-      return '<div class="au-bar' + (m.tnf ? ' au-bar-tnf' : '') + '"><span class="au-bar-lbl">' + esc(m.marca) + '</span>' +
+      return '<div class="au-bar' + (m.tnf ? ' au-bar-tnf' : '') + '"><span class="au-bar-lbl">' + linkMarca(m.marca) + '</span>' +
         '<span class="au-bar-track"><span class="au-bar-fill" style="width:' + (m.apariciones / max * 100).toFixed(1) + '%"></span></span>' +
         '<span class="au-bar-val mono">' + m.apariciones + '<small> · ' + Math.round(m.share) + '%</small></span></div>';
     }).join('');

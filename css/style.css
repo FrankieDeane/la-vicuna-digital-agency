@@ -1723,6 +1723,8 @@ header nav .nav-menu .nav-hot{color:#7FAE93;opacity:1;border-top:1px solid rgba(
 .au-bar-track{position:relative;height:12px;background:var(--line);border-radius:2px;overflow:hidden}
 .au-bar-fill{position:absolute;inset:0 auto 0 0;background:var(--bone-faint);border-radius:2px}
 .au-bar-tnf .au-bar-lbl{color:var(--accent)}
+.au-bar-lbl a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.au-bar-lbl a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 .au-bar-tnf .au-bar-fill{background:var(--accent)}
 .au-bar-val{font-size:12px;min-width:64px;text-align:right}
 .au-bar-val small{color:var(--bone-dim);font-size:10.5px}
