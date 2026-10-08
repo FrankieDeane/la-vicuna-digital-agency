@@ -111,7 +111,7 @@
       .then(function (d) { return d && d.vista && !d.vacio ? d : cargarEjemplo(); })
       .then(function (d) {
         datos = d;
-        if (d.demo) estado('demo', T.demo);
+        if (d.demo) estado('', '');
         else estado('ok', T.real + fecha(d.vista.fecha) + '.');
         pintar();
       })
