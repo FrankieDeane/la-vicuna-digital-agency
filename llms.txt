@@ -27,6 +27,7 @@ Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.
 - [Google Ads y Meta Ads](https://www.lavicuna.com.ar/servicios/paid-media/): campañas de publicidad digital (SEM y redes).
 - [Social Media](https://www.lavicuna.com.ar/servicios/social-media/): gestión de redes sociales.
 - [Desarrollo web](https://www.lavicuna.com.ar/servicios/desarrollo-web/): diseño y desarrollo de sitios, incluidas experiencias 3D.
+- [Reportes automatizados](https://www.lavicuna.com.ar/automatizaciones/): reportes de marketplaces (Mercado Libre), tiendas online y campañas actualizados solos, con acceso privado por usuario y clave. Incluye un ejemplo en vivo: The North Face en Mercado Libre (más vendidos, ranking, marcas y precios de la competencia).
 - [Caso Sliabh](https://www.lavicuna.com.ar/casos/sliabh/)
 - [Caso T-L Irrigation / HMSA](https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/)
 
@@ -40,5 +41,5 @@ Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.
 ## English
 
 - [Home](https://www.lavicuna.com.ar/en/): AI-powered digital marketing agency in Argentina, 100% remote, working in English and Spanish.
-- [SEO](https://www.lavicuna.com.ar/en/services/seo/) · [Google Ads & Meta Ads](https://www.lavicuna.com.ar/en/services/paid-media/) · [Social Media](https://www.lavicuna.com.ar/en/services/social-media/) · [Web development](https://www.lavicuna.com.ar/en/services/web-development/)
+- [SEO](https://www.lavicuna.com.ar/en/services/seo/) · [Google Ads & Meta Ads](https://www.lavicuna.com.ar/en/services/paid-media/) · [Social Media](https://www.lavicuna.com.ar/en/services/social-media/) · [Web development](https://www.lavicuna.com.ar/en/services/web-development/) · [Automated reports](https://www.lavicuna.com.ar/en/automations/)
 - Case studies: [Sliabh](https://www.lavicuna.com.ar/en/cases/sliabh/) · [T-L Irrigation / HMSA](https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/)

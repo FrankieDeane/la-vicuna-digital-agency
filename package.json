@@ -1,0 +1,8 @@
+{
+  "name": "la-vicuna-digital-agency",
+  "private": true,
+  "description": "Dependencias de las Netlify Functions (Netlify las instala en el build). El sitio sigue siendo HTML/CSS/JS puro.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
