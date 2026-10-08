@@ -1,5 +1,37 @@
 [build]
-  publish = "."
+  publish   = "."
+  functions = "netlify/functions"
+
+# Funciones (login admin y monitor de Mercado Libre del demo /automatizaciones)
+[functions]
+  node_bundler = "esbuild"
+
+# Monitor The North Face en Mercado Libre: cada 15 minutos de 9:00 a 11:45 (hora AR = UTC-3).
+# Cada corrida sigue el relevamiento del día donde quedó; si ya está listo, no hace nada.
+[functions."tnf-ml-diario"]
+  schedule = "*/15 12-14 * * *"
+
+# El código de las funciones y las herramientas internas no se sirven como archivos
+[[redirects]]
+  from   = "/netlify/*"
+  to     = "/404.html"
+  status = 404
+  force  = true
+[[redirects]]
+  from   = "/tools/*"
+  to     = "/404.html"
+  status = 404
+  force  = true
+[[redirects]]
+  from   = "/package*"
+  to     = "/404.html"
+  status = 404
+  force  = true
+[[redirects]]
+  from   = "/node_modules/*"
+  to     = "/404.html"
+  status = 404
+  force  = true
 
 # ---------------------------------------------------------------------------
 # Cabeceras de seguridad globales (se aplican a todo el sitio)
@@ -49,3 +81,4 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+

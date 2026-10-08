@@ -181,6 +181,9 @@
       ovExtra.innerHTML = '';
       var flows = it.el.querySelector('.flows');
       if (flows) ovExtra.appendChild(flows.cloneNode(true));
+      // Acceso directo a la página del servicio (ej. Reportes automatizados)
+      var go = it.el.querySelector(':scope > .svc-go');
+      if (go) ovExtra.appendChild(go.cloneNode(true));
       overlay.classList.add('show');
       overlayOpen = true;
     }
@@ -231,8 +234,9 @@
 
     // Hover: pausar y resaltar. Pointer: arrastrar para mover, click para abrir.
     items.forEach(function (it) {
-      it.trigger.addEventListener('mouseenter', function () { if (!it.dragging) it.paused = true; it.el.classList.add('grabbed'); });
-      it.trigger.addEventListener('mouseleave', function () { if (!it.dragging) it.paused = false; it.el.classList.remove('grabbed'); });
+      // En el <li> (no solo en la palabra) para poder llegar al acceso directo .svc-go
+      it.el.addEventListener('mouseenter', function () { if (!it.dragging) it.paused = true; it.el.classList.add('grabbed'); });
+      it.el.addEventListener('mouseleave', function () { if (!it.dragging) it.paused = false; it.el.classList.remove('grabbed'); });
       it.trigger.addEventListener('focus', function () { it.paused = true; });
       it.trigger.addEventListener('blur', function () { if (!it.dragging) it.paused = false; });
       // Abrir con teclado (Enter/Espacio)
