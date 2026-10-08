@@ -1,6 +1,5 @@
 // Monitor diario de The North Face en Mercado Libre para el demo de /automatizaciones.
-// Es el mismo motor del monitor GA.MA de Frankie Analytics, aplicado a otra marca:
-// más vendidos por categoría, qué marcas ocupan el ranking, quién vende cada producto
+// Releva una sola marca (The North Face): más vendidos por categoría, qué marcas ocupan el ranking, quién vende cada producto
 // The North Face y a qué precio, y cómo se compara la marca contra la competencia.
 //
 // Fuentes, en orden (si una falla, se sigue con la siguiente y queda anotado):
