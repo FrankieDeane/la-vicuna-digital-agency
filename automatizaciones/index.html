@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="/css/style.css?v=31">
+<link rel="stylesheet" href="/css/style.css?v=32">
 
 <script type="application/ld+json">
 {
@@ -238,6 +238,11 @@
 
       <div class="au-status" id="au-status" role="status"></div>
 
+      <div class="au-refresh">
+        <button class="btn" type="button" id="au-refresh">Actualizar datos de The North Face</button>
+        <span class="au-refresh-msg mono" id="au-refresh-msg" role="status"></span>
+      </div>
+
       <div class="au-kpis" id="au-kpis"></div>
 
       <div class="au-ai" id="au-ai">
@@ -379,7 +384,6 @@
               <button class="btn" type="submit">Sumar link</button>
             </form>
             <div class="au-admin-actions">
-              <button class="btn" type="button" id="au-relevar">Relevar Mercado Libre ahora</button>
               <button class="au-logout mono" type="button" id="au-logout">Cerrar sesión</button>
             </div>
             <p class="au-admin-msg" id="au-panel-msg" role="status"></p>
@@ -416,6 +420,6 @@
 </footer>
 
 <script src="/js/main.js?v=28" defer></script>
-<script src="/js/automatizaciones.js?v=4" defer></script>
+<script src="/js/automatizaciones.js?v=5" defer></script>
 </body>
 </html>

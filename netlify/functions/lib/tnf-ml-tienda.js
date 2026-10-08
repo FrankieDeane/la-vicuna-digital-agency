@@ -8,7 +8,7 @@ const { estadoNuevo, serie, VERSION } = require('./tnf-ml');
 
 function tiendaTnf(event) {
   connectLambda(event);
-  return getStore('tnf-ml');
+  return getStore({ name: 'tnf-ml', consistency: 'strong' });
 }
 
 const leer = (store, clave) => store.get(clave, { type: 'json' }).catch(() => null);

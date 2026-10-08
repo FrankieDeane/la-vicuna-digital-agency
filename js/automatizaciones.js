@@ -18,8 +18,9 @@
     mejor: 'Best spot', enTop: 'In top 20', lider: 'Leading competitor', tnf: 'The North Face',
     comp: 'Competitors', bb: 'Buy box price', minL: 'Lowest seller price', compL: 'Competitors median (category)',
     puesto: 'Spot', sinDatos: 'Not enough history yet.', vsComp: 'vs. competitors',
+    refrescar: 'Refresh The North Face data', yaListo: 'Today\'s data is already up to date.',
+    sinMonitor: 'The live monitor is not connected yet: the sample data stays on screen.',
     entrar: 'Signing in…', quitar: 'Remove', relevando: 'Collecting… step ', listo: 'Done: data updated.',
-    sinCuenta: 'Mercado Libre account not connected yet. Use the "Connect Mercado Libre" link.',
     lugares: ' spots', top3: ' in top 3',
     repEjemplo: 'Sample report: written from the sample data above, not from live Mercado Libre data.',
     repPie: 'Report built with fixed rules from the dashboard data, without AI. Review it before making decisions.',
@@ -45,8 +46,9 @@
     mejor: 'Mejor puesto', enTop: 'En el top 20', lider: 'Competidor líder', tnf: 'The North Face',
     comp: 'Competencia', bb: 'Precio buy box', minL: 'Precio más bajo', compL: 'Mediana competencia (categoría)',
     puesto: 'Puesto', sinDatos: 'Todavía no hay historia suficiente.', vsComp: 'vs. competencia',
+    refrescar: 'Actualizar datos de The North Face', yaListo: 'Los datos de hoy ya están actualizados.',
+    sinMonitor: 'El monitor en vivo todavía no está conectado: se siguen mostrando los datos de ejemplo.',
     entrar: 'Entrando…', quitar: 'Quitar', relevando: 'Relevando… paso ', listo: 'Listo: datos actualizados.',
-    sinCuenta: 'Falta conectar la cuenta de Mercado Libre. Usá el link "Conectar Mercado Libre".',
     lugares: ' lugares', top3: ' en el top 3',
     repEjemplo: 'Reporte de ejemplo: armado con los datos de ejemplo de arriba, no con datos reales de Mercado Libre.',
     repPie: 'Reporte armado con reglas fijas a partir de los datos del tablero, sin IA. Revisalo antes de tomar decisiones.',
@@ -489,19 +491,23 @@
     $('au-logout').addEventListener('click', function () {
       postAdmin({ accion: 'logout' }).then(pintarAdmin);
     });
+  }
 
-    $('au-relevar').addEventListener('click', function () {
-      var btn = this, msg = $('au-panel-msg'), est = null, vuelta = 0;
+  /* ---- Botón público: releva solo The North Face ------------------------ */
+  function iniciarRefrescar() {
+    var btn = $('au-refresh'), msg = $('au-refresh-msg');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var vuelta = 0;
       btn.disabled = true;
       (function paso() {
         fetch('/.netlify/functions/tnf-ml', {
           method: 'POST', credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ estado: est, reiniciar: vuelta === 0 })
-        }).then(function (r) { return r.json(); }).then(function (d) {
-          if (d.sinCuenta) { msg.textContent = T.sinCuenta; btn.disabled = false; return; }
-          if (d.error) throw new Error(d.error);
-          est = d.estado;
+          headers: { 'Content-Type': 'application/json' }, body: '{}'
+        }).then(function (r) { return r.json().then(function (d) { d._ok = r.ok; return d; }); }).then(function (d) {
+          if (d.sinCuenta) { msg.textContent = T.sinMonitor; btn.disabled = false; return; }
+          if (!d._ok || d.error) throw new Error(d.error || T.error);
+          if (d.yaListo) { msg.textContent = T.yaListo; btn.disabled = false; cargar(); return; }
           msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
           if (d.vista.listo || ++vuelta >= 25) { msg.textContent = T.listo; btn.disabled = false; cargar(); return; }
           paso();
@@ -513,4 +519,5 @@
   cargar();
   iniciarReporte();
   iniciarAdmin();
+  iniciarRefrescar();
 })();

@@ -19,13 +19,7 @@ const MAX_LINKS = 60;
 
 // Links con los que arranca la zona admin (se pueden quitar y sumar desde la página)
 const LINKS_INICIALES = [
-  { titulo: 'Frankie Analytics', url: 'https://frankie-analytics.netlify.app/' },
-  { titulo: 'Monitor GA.MA en Mercado Libre', url: 'https://frankie-analytics.netlify.app/vtex-dashboard/?tab=gamaml' },
   { titulo: 'Conectar Mercado Libre (monitor The North Face)', url: '/.netlify/functions/meli-auth' },
-  { titulo: 'Netlify', url: 'https://app.netlify.com/' },
-  { titulo: 'Repositorio del sitio', url: 'https://github.com/FrankieDeane/la-vicuna-digital-agency' },
-  { titulo: 'Google Analytics', url: 'https://analytics.google.com/' },
-  { titulo: 'Google Search Console', url: 'https://search.google.com/search-console' },
 ];
 
 const base = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };

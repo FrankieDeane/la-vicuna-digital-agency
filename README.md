@@ -16,7 +16,7 @@ Los datos salen de funciones de Netlify (`netlify/functions/`), por eso ahora ha
 
 - `tnf-ml` (GET público) devuelve el último relevamiento. Mientras no haya ninguno, la página usa
   `automatizaciones/datos-ejemplo.json` (datos inventados, se regeneran con `node tools/demo-data.js`).
-- `tnf-ml-diario` corre solo cada mañana y releva Mercado Libre (mismo motor que el monitor GA.MA de Frankie Analytics).
+- `tnf-ml-diario` corre solo cada mañana y releva Mercado Libre.
 - `admin` maneja el login y la zona "Otros links", que solo ve el admin. La clave se valida en el servidor.
 - `tnf-reporte-ai` arma el reporte con IA del botón "Crear reporte automatizado con IA" (el prompt se arma en el servidor con el último relevamiento; se guarda por fecha, hay límite por IP y por día). Sin relevamiento real, la página muestra un reporte de ejemplo marcado como tal. El PDF A4 sale de la vista de impresión (`@media print`).
 - `meli-auth` conecta la cuenta de Mercado Libre (solo admin).
