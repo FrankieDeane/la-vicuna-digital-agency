@@ -1,15 +1,16 @@
 /* La Vicuña — automatizaciones.js
    Demo "The North Face en Mercado Libre" de /automatizaciones y zona admin.
-   Datos: /.netlify/functions/tnf-ml (monitor real). Si todavía no hay relevamientos
-   o la función no responde, se usan los datos de ejemplo de datos-ejemplo.json. */
+   Datos: /.netlify/functions/tnf-ml, solo datos reales de Mercado Libre. Mientras no haya
+   ningún relevamiento, el tablero queda oculto y se invita a relevar. */
 (function () {
   'use strict';
 
   var EN = document.documentElement.lang === 'en';
   var T = EN ? {
     cargando: 'Loading the latest snapshot…',
-    demo: 'Sample data: illustrative figures to show the report. Live Mercado Libre data appears here once the monitor runs.',
-    real: 'Live Mercado Libre data · snapshot of ',
+    real: 'Live Mercado Libre data · last updated ',
+    vacio: 'No Mercado Libre data yet. It is being collected now; you can also use the button.',
+    pensando: 'Thinking…',
     error: 'Could not load the report.',
     kCats: 'Categories tracked', kTop: 'Brand products in the top 20', kTop3: 'Spots in the top 3',
     kDif: 'Median price vs. competitors', kLider: 'Main competitor',
@@ -18,9 +19,9 @@
     mejor: 'Best spot', enTop: 'In top 20', lider: 'Leading competitor', tnf: 'The North Face',
     comp: 'Competitors', bb: 'Buy box price', minL: 'Lowest seller price', compL: 'Competitors median (category)',
     puesto: 'Spot', sinDatos: 'Not enough history yet.', vsComp: 'vs. competitors',
-    refrescar: 'Refresh The North Face data', yaListo: 'Today\'s data is already up to date.',
+    refrescar: 'Collect Mercado Libre data now', yaListo: 'Today\'s data is already up to date.',
     sinDatosML: 'Mercado Libre did not return data this time: the previous data stays on screen.',
-    entrar: 'Signing in…', quitar: 'Remove', relevando: 'Collecting… step ', listo: 'Done: data updated.',
+    entrar: 'Signing in…', quitar: 'Remove', relevando: 'Thinking… step ', listo: 'Done: data updated.',
     lugares: ' spots', top3: ' in top 3',
     repEjemplo: 'Sample report: written from the sample data above, not from live Mercado Libre data.',
     repPie: 'Report built with fixed rules from the dashboard data, without AI. Review it before making decisions.',
@@ -36,8 +37,9 @@
     rProb3: 'Track the same products every day for a week to confirm which spot changes come from price and which from ads.'
   } : {
     cargando: 'Leyendo el último relevamiento…',
-    demo: 'Datos de ejemplo: cifras ilustrativas para mostrar el reporte. Cuando el monitor corre, acá aparecen los datos reales de Mercado Libre.',
-    real: 'Datos reales de Mercado Libre · relevamiento del ',
+    real: 'Datos reales de Mercado Libre · última actualización: ',
+    vacio: 'Todavía no hay datos de Mercado Libre. Se están relevando ahora; también podés usar el botón.',
+    pensando: 'Pensando…',
     error: 'No se pudo cargar el reporte.',
     kCats: 'Categorías relevadas', kTop: 'Productos de la marca en el top 20', kTop3: 'Lugares en el top 3',
     kDif: 'Precio mediano vs. competencia', kLider: 'Competidor principal',
@@ -46,9 +48,9 @@
     mejor: 'Mejor puesto', enTop: 'En el top 20', lider: 'Competidor líder', tnf: 'The North Face',
     comp: 'Competencia', bb: 'Precio buy box', minL: 'Precio más bajo', compL: 'Mediana competencia (categoría)',
     puesto: 'Puesto', sinDatos: 'Todavía no hay historia suficiente.', vsComp: 'vs. competencia',
-    refrescar: 'Actualizar datos de The North Face', yaListo: 'Los datos de hoy ya están actualizados.',
+    refrescar: 'Relevar Mercado Libre ahora', yaListo: 'Los datos de hoy ya están actualizados.',
     sinDatosML: 'Mercado Libre no devolvió datos esta vez: se siguen mostrando los datos anteriores.',
-    entrar: 'Entrando…', quitar: 'Quitar', relevando: 'Relevando… paso ', listo: 'Listo: datos actualizados.',
+    entrar: 'Entrando…', quitar: 'Quitar', relevando: 'Pensando… paso ', listo: 'Listo: datos actualizados.',
     lugares: ' lugares', top3: ' en el top 3',
     repEjemplo: 'Reporte de ejemplo: armado con los datos de ejemplo de arriba, no con datos reales de Mercado Libre.',
     repPie: 'Reporte armado con reglas fijas a partir de los datos del tablero, sin IA. Revisalo antes de tomar decisiones.',
@@ -79,6 +81,14 @@
     var p = f.split('-');
     return EN ? p[1] + '/' + p[2] : p[2] + '/' + p[1];
   };
+  // "08/10/2026 16:05 hs" (hora de Argentina) a partir del ISO de la última actualización
+  var fechaHora = function (iso, dia) {
+    var d = iso ? new Date(iso) : null;
+    if (!d || isNaN(d)) return fecha(dia);
+    try {
+      return new Intl.DateTimeFormat(EN ? 'en-US' : 'es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(d).replace(',', '') + (EN ? ' (Buenos Aires)' : ' hs');
+    } catch (e) { return fecha(dia); }
+  };
   var mediana = function (xs) {
     var s = xs.filter(function (x) { return typeof x === 'number' && isFinite(x); }).sort(function (a, b) { return a - b; });
     if (!s.length) return null;
@@ -98,10 +108,6 @@
     b.textContent = txt || '';
   }
 
-  function cargarEjemplo() {
-    return fetch('/automatizaciones/datos-ejemplo.json').then(function (r) { return r.json(); });
-  }
-
   var autoHecho = false;
   function cargar() {
     if (!$('au-kpis')) return;
@@ -109,13 +115,17 @@
     fetch('/.netlify/functions/tnf-ml')
       .then(function (r) { return r.ok ? r.json() : { vacio: true }; })
       .catch(function () { return { vacio: true }; })
-      .then(function (d) { return d && d.vista && !d.vacio ? d : cargarEjemplo(); })
       .then(function (d) {
-        datos = d;
-        if (d.demo) estado('', '');
-        else estado('ok', T.real + fecha(d.vista.fecha) + '.');
-        pintar();
-        if (!autoHecho) { autoHecho = true; if (d.demo || d.vista.fecha !== hoyAR()) relevar(); }
+        var hay = !!(d && d.vista && !d.vacio);
+        $('demo').classList.toggle('au-sin-datos', !hay);
+        if (hay) {
+          datos = d;
+          estado('ok', T.real + fechaHora(d.vista.actualizado, d.vista.fecha) + '.');
+          pintar();
+        } else {
+          estado('info', T.vacio);
+        }
+        if (!autoHecho) { autoHecho = true; if (!hay || d.vista.fecha !== hoyAR()) relevar(); }
       })
       .catch(function () { estado('error', T.error); });
   }
@@ -412,7 +422,6 @@
       mostrarReporte(reporteEjemplo(datos.vista), hoy, T.repEjemplo);
     };
     var fin = function () { btn.disabled = false; btn.textContent = label; $('au-report').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
-    if (datos.demo) { ejemplo(); fin(); return; }
     fetch('/.netlify/functions/tnf-reporte-ai' + (EN ? '?lang=en' : ''), { credentials: 'same-origin' })
       .then(function (r) { return r.json(); })
       .then(function (d) {
@@ -508,10 +517,12 @@
   function relevar() {
     var btn = $('au-refresh'), msg = $('au-refresh-msg');
     if (!btn || relevando) return;
-    var vuelta = 0;
+    var vuelta = 0, label = btn.textContent;
     relevando = true;
     btn.disabled = true;
-    var fin = function (txt, recargar) { msg.textContent = txt; btn.disabled = false; relevando = false; if (recargar) cargar(); };
+    btn.textContent = T.pensando;
+    msg.textContent = T.pensando;
+    var fin = function (txt, recargar) { msg.textContent = txt; btn.textContent = label; btn.disabled = false; relevando = false; if (recargar) cargar(); };
     (function paso() {
       fetch('/.netlify/functions/tnf-ml', {
         method: 'POST', credentials: 'same-origin',
@@ -524,7 +535,7 @@
           var err = (d.vista.errores || []).slice(-1)[0];
           return fin(T.sinDatosML + (err && err.msg ? ' [' + err.msg + ']' : ''), false);
         }
-        if (d.vista.listo || ++vuelta >= 25) return fin(T.listo, true);
+        if (d.vista.listo || ++vuelta >= 40) return fin(T.listo, true);
         paso();
       }).catch(function (e) { fin(e.message || T.error, false); });
     })();

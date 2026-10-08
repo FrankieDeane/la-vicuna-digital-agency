@@ -28,8 +28,8 @@ const { accessToken } = require('./meli-api');
 const API = 'https://api.mercadolibre.com';
 const SITIO = 'MLA';
 const VERSION = 1;
-const CATEGORIAS_DEF = ['campera de abrigo', 'campera impermeable', 'mochila de trekking', 'zapatillas de trekking',
-  'buzo polar', 'pantalon de trekking'];
+const CATEGORIAS_DEF = ['campera de abrigo', 'campera impermeable', 'campera de pluma', 'mochila de trekking',
+  'zapatillas de trekking', 'botas de trekking', 'buzo polar', 'pantalon de trekking', 'carpa camping', 'bolsa de dormir'];
 const nombreCat = c => c.nombre;
 const BUSQUEDAS_DEF = ['campera', 'campera impermeable', 'mochila', 'zapatillas', 'buzo polar', 'pantalon', 'chaleco'];
 const MARCA_BUSQUEDA = process.env.TNF_ML_MARCA || 'The North Face';
@@ -47,7 +47,11 @@ const RE_MARCA = new RegExp(process.env.TNF_ML_MARCA_REGEX || String.raw`\bthe\s
 const MARCAS = ['The North Face', 'Columbia', 'Montagne', 'Salomon', 'Merrell', 'Patagonia', 'Quechua', 'Doite', 'Ansilta',
   'Mormaii', 'Kodiak', 'Lippi', 'Nike', 'Adidas', 'Puma', 'Topper', 'Fila', 'Under Armour', 'Reebok', 'Jack Wolfskin',
   'Arc\'teryx', 'Marmot', 'Hi-Tec', 'Hoka', 'Timberland', 'Caterpillar', 'Head', 'Rip Curl', 'Billabong', 'Quiksilver',
-  'Osprey', 'Deuter', 'Wenger', 'Discovery', 'National Geographic', 'Waterdog', 'Nexxt', 'Alpine Skate', 'Iael', 'Spinit'];
+  'Osprey', 'Deuter', 'Wenger', 'Discovery', 'National Geographic', 'Waterdog', 'Nexxt', 'Alpine Skate', 'Iael', 'Spinit',
+  // Outdoor y montaña con presencia en Argentina
+  'Mammut', 'Black Diamond', 'Fjällräven', 'Helly Hansen', 'Mountain Hardwear', 'Rab', 'Millet', 'Vaude', 'Lowa',
+  'Scarpa', 'La Sportiva', 'Keen', 'Teva', 'Oakley', 'CamelBak', 'Coleman', 'Thule', 'Gregory', 'Ferrino',
+  'Trangoworld', 'Outdoor Research', 'Eddie Bauer', 'Regatta', 'Northland', 'Cardón', 'Andesgear', 'Asics', 'New Balance'];
 const RE_MARCAS = MARCAS.map(m => [m, new RegExp('\\b' + m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s*') + '\\b', 'i')]);
 
 function esMarca(nombre, atributos) {
