@@ -1639,6 +1639,7 @@ header nav .nav-menu .nav-hot{color:#7FAE93;opacity:1;border-top:1px solid rgba(
 .au-refresh .btn::before{display:none}
 .au-refresh .btn:disabled{opacity:.6;cursor:wait;transform:none}
 @media(max-width:600px){.au-refresh .btn{width:100%;text-align:center}}
+.au-refresh-note{margin:12px 0 0;max-width:720px;font-size:14px;line-height:1.55;color:var(--bone-dim)}
 .au-refresh-msg{font-size:12px;letter-spacing:.06em;color:var(--bone-dim)}
 .au-status-demo{border-color:rgba(214,170,90,.45);background:rgba(214,170,90,.08);color:var(--bone)}
 .au-status-ok{border-color:var(--accent-soft);background:var(--accent-faint);color:var(--bone)}

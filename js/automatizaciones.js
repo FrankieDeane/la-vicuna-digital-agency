@@ -102,6 +102,7 @@
     return fetch('/automatizaciones/datos-ejemplo.json').then(function (r) { return r.json(); });
   }
 
+  var autoHecho = false;
   function cargar() {
     if (!$('au-kpis')) return;
     estado('info', T.cargando);
@@ -114,6 +115,7 @@
         if (d.demo) estado('', '');
         else estado('ok', T.real + fecha(d.vista.fecha) + '.');
         pintar();
+        if (!autoHecho) { autoHecho = true; if (d.demo || d.vista.fecha !== hoyAR()) relevar(); }
       })
       .catch(function () { estado('error', T.error); });
   }
@@ -500,31 +502,45 @@
   }
 
   /* ---- Botón público: releva solo The North Face ------------------------ */
-  function iniciarRefrescar() {
+  // Releva The North Face (y todas las marcas que compiten en sus categorías). Se dispara solo al
+  // entrar si los datos no son de hoy; el servidor no repite un día ya completo y tiene topes por IP.
+  var relevando = false;
+  function relevar() {
     var btn = $('au-refresh'), msg = $('au-refresh-msg');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var vuelta = 0;
-      btn.disabled = true;
-      (function paso() {
-        fetch('/.netlify/functions/tnf-ml', {
-          method: 'POST', credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/json' }, body: '{}'
-        }).then(function (r) { return r.json().then(function (d) { d._ok = r.ok; return d; }); }).then(function (d) {
-                    if (!d._ok || d.error) throw new Error(d.error || T.error);
-          if (d.yaListo) { msg.textContent = T.yaListo; btn.disabled = false; cargar(); return; }
-          msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
-          if (d.vista.listo && !d.vista.categorias.some(function (c) { return c.top && c.top.length; })) {
-            var err = (d.vista.errores || []).slice(-1)[0];
-            msg.textContent = T.sinDatosML + (err && err.msg ? ' [' + err.msg + ']' : '');
-            btn.disabled = false; return;
-          }
-          if (d.vista.listo || ++vuelta >= 25) { msg.textContent = T.listo; btn.disabled = false; cargar(); return; }
-          paso();
-        }).catch(function (e) { msg.textContent = e.message || T.error; btn.disabled = false; });
-      })();
-    });
+    if (!btn || relevando) return;
+    var vuelta = 0;
+    relevando = true;
+    btn.disabled = true;
+    var fin = function (txt, recargar) { msg.textContent = txt; btn.disabled = false; relevando = false; if (recargar) cargar(); };
+    (function paso() {
+      fetch('/.netlify/functions/tnf-ml', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' }, body: '{}'
+      }).then(function (r) { return r.json().then(function (d) { d._ok = r.ok; return d; }); }).then(function (d) {
+        if (!d._ok || d.error) throw new Error(d.error || T.error);
+        if (d.yaListo) return fin(T.yaListo, true);
+        msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
+        if (d.vista.listo && !d.vista.categorias.some(function (c) { return c.top && c.top.length; })) {
+          var err = (d.vista.errores || []).slice(-1)[0];
+          return fin(T.sinDatosML + (err && err.msg ? ' [' + err.msg + ']' : ''), false);
+        }
+        if (d.vista.listo || ++vuelta >= 25) return fin(T.listo, true);
+        paso();
+      }).catch(function (e) { fin(e.message || T.error, false); });
+    })();
   }
+
+  function hoyAR() {
+    try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Argentina/Buenos_Aires', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
+    catch (e) { return new Date().toISOString().slice(0, 10); }
+  }
+
+  function iniciarRefrescar() {
+    var btn = $('au-refresh');
+    if (!btn) return;
+    btn.addEventListener('click', relevar);
+  }
+
 
   cargar();
   iniciarReporte();
