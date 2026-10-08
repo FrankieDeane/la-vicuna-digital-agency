@@ -6,9 +6,16 @@
 const { getStore, connectLambda } = require('@netlify/blobs');
 const { estadoNuevo, serie, VERSION } = require('./tnf-ml');
 
+// connectLambda no informa uncachedEdgeURL y con consistency 'strong' Blobs falla al leer.
+// Se usa la misma URL de borde para lecturas fuertes; si algo falla, lectura normal.
 function tiendaTnf(event) {
   connectLambda(event);
-  return getStore({ name: 'tnf-ml', consistency: 'strong' });
+  try {
+    const d = JSON.parse(Buffer.from(event.blobs, 'base64').toString('utf8'));
+    return getStore({ name: 'tnf-ml', consistency: 'strong', uncachedEdgeURL: d.url });
+  } catch {
+    return getStore({ name: 'tnf-ml' });
+  }
 }
 
 const leer = (store, clave) => store.get(clave, { type: 'json' }).catch(() => null);
