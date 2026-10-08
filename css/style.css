@@ -1741,7 +1741,7 @@ header nav .nav-menu .nav-hot{color:#7FAE93;opacity:1;border-top:1px solid rgba(
 
 .au-admin{padding:0 0 clamp(30px,5vw,50px)}
 .au-admin-box{border-top:1px solid var(--line);padding-top:18px}
-.au-admin-box summary{cursor:pointer;list-style:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-faint);width:max-content}
+.au-admin-box summary{cursor:pointer;list-style:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);width:max-content}
 .au-admin-box summary::-webkit-details-marker{display:none}
 .au-admin-box summary:hover{color:var(--accent)}
 .au-admin-body{margin-top:18px}

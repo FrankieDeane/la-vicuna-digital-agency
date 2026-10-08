@@ -460,6 +460,7 @@
   function iniciarAdmin() {
     var box = $('au-admin');
     if (!box) return;
+    if (location.hash === '#admin') box.open = true;
     fetch(API_ADMIN, { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (d) {
       pintarAdmin(d);
       if (d.admin || location.hash === '#admin') box.open = true;
