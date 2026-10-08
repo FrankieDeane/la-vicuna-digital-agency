@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;600&family=Spline+Sans+Mono&display=swap">
-<link rel="stylesheet" href="/css/style.css?v=28">
+<link rel="stylesheet" href="/css/style.css?v=30">
 
 <script type="application/ld+json">
 {
@@ -240,6 +240,29 @@
 
       <div class="au-kpis" id="au-kpis"></div>
 
+      <div class="au-ai" id="au-ai">
+        <div>
+          <h3>AI automated report</h3>
+          <p class="au-intro">With one click, AI reads the data above and writes the report: what worked, what did not and what to try this week. Read it right here and download it as an A4 PDF.</p>
+        </div>
+        <button class="btn btn-lead au-ai-btn" type="button" id="au-ai-btn">Create automated report with AI</button>
+      </div>
+      <article class="au-report" id="au-report" aria-live="polite" hidden>
+        <div class="au-report-head">
+          <span class="mono">La Vicuña · Automated report</span>
+          <strong id="au-report-title">The North Face · Mercado Libre</strong>
+          <span class="mono" id="au-report-meta"></span>
+        </div>
+        <p class="au-report-flag mono" id="au-report-flag" hidden></p>
+        <div class="au-report-body" id="au-report-body"></div>
+        <p class="au-report-foot mono">Generated with AI from the dashboard data. Review it before making decisions.</p>
+        <div class="au-report-actions">
+          <button class="btn btn-lead" type="button" id="au-report-pdf">Download PDF (A4)</button>
+          <button class="au-logout mono" type="button" id="au-report-again">Create again</button>
+        </div>
+      </article>
+
+
       <div class="au-block">
         <div class="au-block-head">
           <h3>Best sellers by category</h3>
@@ -393,6 +416,6 @@
 </footer>
 
 <script src="/js/main.js?v=28" defer></script>
-<script src="/js/automatizaciones.js?v=1" defer></script>
+<script src="/js/automatizaciones.js?v=3" defer></script>
 </body>
 </html>

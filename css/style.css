@@ -1775,3 +1775,42 @@ footer .au-credits{display:block}
 .au-chart-sm svg{max-height:300px}
 .au-connect{margin-top:clamp(30px,4vw,44px)}
 .au-connect strong{color:var(--bone)}
+
+/* ---- Reporte automatizado con IA + versión A4 para PDF ------------------- */
+.au-ai{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 28px;margin-top:22px;padding:22px 24px;border:1px solid var(--accent-soft);border-radius:2px;background:linear-gradient(120deg,var(--accent-faint),transparent 70%)}
+.au-ai h3{font-size:clamp(22px,2.4vw,30px);margin-bottom:6px}
+.au-ai .au-intro{margin:0;max-width:62ch}
+.au-ai-btn{cursor:pointer;background:none;color:var(--bone)}
+.au-ai-btn:disabled{opacity:.6;cursor:wait}
+.au-report{margin-top:18px;border:1px solid var(--line);border-radius:2px;padding:clamp(20px,3vw,34px);background:var(--ink)}
+.au-report[hidden]{display:none}
+.au-report-head{display:grid;gap:4px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.au-report-head .mono{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.au-report-head strong{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,32px)}
+.au-report-flag{color:#D6A85A;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.au-report-body h2{font-size:clamp(20px,2vw,24px);margin:22px 0 8px;color:var(--accent)}
+.au-report-body h2:first-child{margin-top:0}
+.au-report-body p,.au-report-body li{color:var(--bone-dim);line-height:1.65}
+.au-report-body ul,.au-report-body ol{margin:8px 0 0 1.3em;display:grid;gap:6px}
+.au-report-body ul{list-style:disc}.au-report-body ol{list-style:decimal}
+.au-report-body strong{color:var(--bone)}
+.au-report-foot{margin-top:22px;font-size:10.5px;color:var(--bone-faint);letter-spacing:.06em}
+.au-report-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:18px}
+.au-report-actions .btn{cursor:pointer;background:none;color:var(--bone)}
+
+@page{size:A4;margin:16mm}
+@media print{
+  /* Solo se imprime el reporte: el resto de la página se saca del flujo (así no suma hojas en blanco) */
+  body > *:not(main),main > section:not(:has(#au-report)),main > figure,.au-demo .wrap > *:not(#au-report){display:none!important}
+  #au-report{display:block;border:0;padding:0;background:#fff;color:#111;margin:0}
+  .au-demo,.au-demo .wrap{padding:0;margin:0;max-width:none;width:auto}
+  #au-report .au-report-actions{display:none!important}
+  #au-report .au-report-head{border-color:#bbb}
+  #au-report .au-report-head .mono,#au-report .au-report-body h2{color:#2f5a44}
+  #au-report .au-report-head strong,#au-report .au-report-body strong{color:#111}
+  #au-report .au-report-body p,#au-report .au-report-body li{color:#222;font-size:11.5pt}
+  #au-report .au-report-flag{color:#8a5a00}
+  #au-report .au-report-foot{color:#666}
+  #au-report .au-report-body h2{break-after:avoid}
+  html,body{background:#fff!important}
+}

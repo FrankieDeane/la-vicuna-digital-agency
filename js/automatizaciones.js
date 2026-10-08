@@ -20,7 +20,19 @@
     puesto: 'Spot', sinDatos: 'Not enough history yet.', vsComp: 'vs. competitors',
     entrar: 'Signing in…', quitar: 'Remove', relevando: 'Collecting… step ', listo: 'Done: data updated.',
     sinCuenta: 'Mercado Libre account not connected yet. Use the "Connect Mercado Libre" link.',
-    lugares: ' spots', top3: ' in top 3'
+    lugares: ' spots', top3: ' in top 3',
+    repEjemplo: 'Sample report: written from the sample data above, not from live Mercado Libre data.',
+    repPie: 'Report built with fixed rules from the dashboard data, without AI. Review it before making decisions.',
+    repBasico: 'Basic report built from the data: AI is not available right now.',
+    repIA: 'AI-generated report', repGen: 'Creating the report…', repErr: 'Could not create the report.', repOtra: 'Create again',
+    rSum: 'Summary', rOk: 'What worked', rNo: 'What did not work', rTry: 'What to try this week',
+    rResumen: function (c, top, dif) { return 'The North Face holds ' + top + ' spots in the top 20 across ' + c + ' categories and sells, on average, ' + dif + ' above its competitors\' median price.'; },
+    rBien: function (x) { return 'Best spot in ' + x.cat + ': #' + x.pos + ' (' + x.nombre + ').'; },
+    rBienMarca: function (m, n, sh) { return m + ' is the closest rival in the rankings with ' + n + ' spots (' + sh + '% of the total).'; },
+    rMal: function (x) { return x.cat + ': the median price is ' + x.dif + ' above the competition and the best spot is only #' + x.pos + '.'; },
+    rProb1: function (c) { return 'Test Product Ads (CPC) on products ranked #4 to #15 in ' + c + ': they already convert organically and paid clicks can push them into the top 3.'; },
+    rProb2: function (c) { return 'Review the price gap in ' + c + ' (promotions, installments or free shipping) before paying for clicks.'; },
+    rProb3: 'Track the same products every day for a week to confirm which spot changes come from price and which from ads.'
   } : {
     cargando: 'Leyendo el último relevamiento…',
     demo: 'Datos de ejemplo: cifras ilustrativas para mostrar el reporte. Cuando el monitor corre, acá aparecen los datos reales de Mercado Libre.',
@@ -35,7 +47,19 @@
     puesto: 'Puesto', sinDatos: 'Todavía no hay historia suficiente.', vsComp: 'vs. competencia',
     entrar: 'Entrando…', quitar: 'Quitar', relevando: 'Relevando… paso ', listo: 'Listo: datos actualizados.',
     sinCuenta: 'Falta conectar la cuenta de Mercado Libre. Usá el link "Conectar Mercado Libre".',
-    lugares: ' lugares', top3: ' en el top 3'
+    lugares: ' lugares', top3: ' en el top 3',
+    repEjemplo: 'Reporte de ejemplo: armado con los datos de ejemplo de arriba, no con datos reales de Mercado Libre.',
+    repPie: 'Reporte armado con reglas fijas a partir de los datos del tablero, sin IA. Revisalo antes de tomar decisiones.',
+    repBasico: 'Reporte básico armado con los datos: la IA no está disponible en este momento.',
+    repIA: 'Reporte generado con IA', repGen: 'Creando el reporte…', repErr: 'No se pudo crear el reporte.', repOtra: 'Crear de nuevo',
+    rSum: 'Resumen', rOk: 'Qué funcionó', rNo: 'Qué no funcionó', rTry: 'Qué probar esta semana',
+    rResumen: function (c, top, dif) { return 'The North Face ocupa ' + top + ' lugares del top 20 en ' + c + ' categorías y vende, en promedio, ' + dif + ' por encima de la mediana de precios de la competencia.'; },
+    rBien: function (x) { return 'Mejor puesto en ' + x.cat + ': #' + x.pos + ' (' + x.nombre + ').'; },
+    rBienMarca: function (m, n, sh) { return m + ' es el rival más cercano en los rankings con ' + n + ' lugares (' + sh + '% del total).'; },
+    rMal: function (x) { return x.cat + ': el precio mediano está ' + x.dif + ' por encima de la competencia y el mejor puesto es solo #' + x.pos + '.'; },
+    rProb1: function (c) { return 'Probar Product Ads (CPC) en los productos del puesto 4 al 15 de ' + c + ': ya convierten orgánico y el clic pago los puede empujar al top 3.'; },
+    rProb2: function (c) { return 'Revisar la brecha de precio en ' + c + ' (promociones, cuotas o envío gratis) antes de pagar clics.'; },
+    rProb3: 'Seguir los mismos productos todos los días durante una semana para confirmar qué cambios de puesto vienen del precio y cuáles de la pauta.'
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -312,6 +336,92 @@
     svg.addEventListener('pointerleave', function () { cur.setAttribute('visibility', 'hidden'); tip.hidden = true; });
   }
 
+
+  /* ---- Reporte automatizado con IA + PDF A4 ------------------------------ */
+  function mdAHtml(md) {
+    var out = [], lista = null;
+    var cerrar = function () { if (lista) { out.push('</' + lista + '>'); lista = null; } };
+    var inline = function (t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); };
+    String(md || '').split(/\r?\n/).forEach(function (l) {
+      var m;
+      if ((m = l.match(/^#{1,3}\s+(.*)/))) { cerrar(); out.push('<h2>' + inline(m[1]) + '</h2>'); }
+      else if ((m = l.match(/^\s*[-*•]\s+(.*)/))) { if (lista !== 'ul') { cerrar(); out.push('<ul>'); lista = 'ul'; } out.push('<li>' + inline(m[1]) + '</li>'); }
+      else if ((m = l.match(/^\s*\d+[.)]\s+(.*)/))) { if (lista !== 'ol') { cerrar(); out.push('<ol>'); lista = 'ol'; } out.push('<li>' + inline(m[1]) + '</li>'); }
+      else if (l.trim()) { cerrar(); out.push('<p>' + inline(l.trim()) + '</p>'); }
+    });
+    cerrar();
+    return out.join('');
+  }
+
+  // Reporte de ejemplo: se arma con reglas simples a partir de los datos de ejemplo (sin IA)
+  function reporteEjemplo(v) {
+    var cats = v.categorias.filter(function (c) { return c.top && c.top.length; });
+    var top = 0, difs = [], mejores = [], malas = [];
+    cats.forEach(function (c) {
+      top += c.resumen.tnfEnTop;
+      if (c.resumen.dif != null) difs.push(c.resumen.dif);
+      if (c.resumen.mejorPuestoTnf) {
+        var t = c.top.filter(function (x) { return x.tnf; })[0];
+        if (c.resumen.mejorPuestoTnf <= 2) mejores.push({ cat: c.nombre, pos: c.resumen.mejorPuestoTnf, nombre: corto(t.nombre, 50) });
+        else malas.push({ cat: c.nombre, pos: c.resumen.mejorPuestoTnf, dif: pct(c.resumen.dif) });
+      }
+    });
+    cats.slice().sort(function (a, b) { return (b.resumen.dif || 0) - (a.resumen.dif || 0); }).slice(0, 2).forEach(function (c) {
+      if (!malas.some(function (m) { return m.cat === c.nombre; })) malas.push({ cat: c.nombre, pos: c.resumen.mejorPuestoTnf || '—', dif: pct(c.resumen.dif) });
+    });
+    var rival = (v.marcas || []).filter(function (m) { return !m.tnf && !/^Sin marca/.test(m.marca); })[0];
+    var difMed = pct(mediana(difs));
+    var peor = malas[0] ? malas[0].cat : (cats[0] && cats[0].nombre) || '';
+    var li = function (a) { return a.map(function (x) { return '- ' + x; }).join('\n'); };
+    return '## ' + T.rSum + '\n' + T.rResumen(cats.length, top, difMed) +
+      '\n\n## ' + T.rOk + '\n' + li(mejores.slice(0, 3).map(T.rBien).concat(rival ? [T.rBienMarca(rival.marca, rival.apariciones, Math.round(rival.share))] : [])) +
+      '\n\n## ' + T.rNo + '\n' + li(malas.slice(0, 3).map(T.rMal)) +
+      '\n\n## ' + T.rTry + '\n1. ' + T.rProb1(cats[0] ? cats[0].nombre : '') + '\n2. ' + T.rProb2(peor) + '\n3. ' + T.rProb3;
+  }
+
+  function mostrarReporte(md, meta, aviso) {
+    $('au-report-body').innerHTML = mdAHtml(md);
+    $('au-report-meta').textContent = meta || '';
+    var foot = document.querySelector('.au-report-foot');
+    if (foot) { if (!foot.getAttribute('data-ia')) foot.setAttribute('data-ia', foot.textContent); foot.textContent = aviso ? T.repPie : foot.getAttribute('data-ia'); }
+    var f = $('au-report-flag');
+    f.hidden = !aviso;
+    f.textContent = aviso || '';
+    $('au-report').hidden = false;
+    document.title = (EN ? 'The North Face report · La Vicuña' : 'Reporte The North Face · La Vicuña');
+  }
+
+  function crearReporte() {
+    var btn = $('au-ai-btn');
+    if (!datos) return;
+    btn.disabled = true;
+    var label = btn.textContent;
+    btn.textContent = T.repGen;
+    var hoy = new Date().toLocaleDateString(EN ? 'en-US' : 'es-AR');
+    var ejemplo = function () {
+      mostrarReporte(reporteEjemplo(datos.vista), hoy, T.repEjemplo);
+    };
+    var fin = function () { btn.disabled = false; btn.textContent = label; $('au-report').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    if (datos.demo) { ejemplo(); fin(); return; }
+    fetch('/.netlify/functions/tnf-reporte-ai' + (EN ? '?lang=en' : ''), { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.ejemplo) ejemplo();
+        else if (d.error && d.motivo) mostrarReporte(reporteEjemplo(datos.vista), hoy, T.repBasico);
+        else if (d.error) { $('au-report').hidden = false; $('au-report-body').innerHTML = '<p>' + esc(d.error) + '</p>'; $('au-report-flag').hidden = true; }
+        else mostrarReporte(d.text, fecha(d.fecha) + ' · ' + T.repIA, '');
+      })
+      .catch(function () { $('au-report').hidden = false; $('au-report-body').innerHTML = '<p>' + esc(T.repErr) + '</p>'; })
+      .then(fin);
+  }
+
+  function iniciarReporte() {
+    if (!$('au-ai-btn')) return;
+    $('au-ai-btn').addEventListener('click', crearReporte);
+    $('au-report-again').addEventListener('click', crearReporte);
+    $('au-report-pdf').addEventListener('click', function () { window.print(); });
+  }
+
   /* ---- Zona admin ------------------------------------------------------- */
   var API_ADMIN = '/.netlify/functions/admin';
 
@@ -400,5 +510,6 @@
   }
 
   cargar();
+  iniciarReporte();
   iniciarAdmin();
 })();

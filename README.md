@@ -18,6 +18,7 @@ Los datos salen de funciones de Netlify (`netlify/functions/`), por eso ahora ha
   `automatizaciones/datos-ejemplo.json` (datos inventados, se regeneran con `node tools/demo-data.js`).
 - `tnf-ml-diario` corre solo cada mañana y releva Mercado Libre (mismo motor que el monitor GA.MA de Frankie Analytics).
 - `admin` maneja el login y la zona "Otros links", que solo ve el admin. La clave se valida en el servidor.
+- `tnf-reporte-ai` arma el reporte con IA del botón "Crear reporte automatizado con IA" (el prompt se arma en el servidor con el último relevamiento; se guarda por fecha, hay límite por IP y por día). Sin relevamiento real, la página muestra un reporte de ejemplo marcado como tal. El PDF A4 sale de la vista de impresión (`@media print`).
 - `meli-auth` conecta la cuenta de Mercado Libre (solo admin).
 
 Variables de entorno en Netlify (Site configuration → Environment variables):
@@ -28,6 +29,7 @@ Variables de entorno en Netlify (Site configuration → Environment variables):
 | `AUTH_PASS_HASH` | Hash de la clave: `pbkdf2:<iteraciones>:<salt_hex>:<hash_hex>`. Se genera con `node tools/hash-password.js` |
 | `AUTH_SECRET` | Secreto para firmar la sesión (64 caracteres hex; lo genera el mismo script) |
 | `MELI_CLIENT_ID`, `MELI_CLIENT_SECRET` | App de developers.mercadolibre.com.ar. Recomendado: una app propia para La Vicuña, con Redirect URI `https://www.lavicuna.com.ar/.netlify/functions/meli-auth` |
+| `GROQ_API_KEY` | Clave de Groq para el reporte con IA (la misma de Frankie Analytics). `GROQ_MODEL` es opcional |
 | `TNF_ML_*` (opcionales) | Categorías, búsquedas y marca del monitor (ver `netlify/functions/lib/tnf-ml.js`) |
 
 La clave nunca va en el repo ni en el HTML.
