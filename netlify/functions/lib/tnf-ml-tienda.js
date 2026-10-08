@@ -20,7 +20,8 @@ async function leerDia(store, fecha) {
 
 async function guardar(store, st, cache, cacheCambio) {
   await store.setJSON('dia/' + st.fecha, st);
-  if (st.listo) await store.setJSON('serie/' + st.fecha, serie(st));
+  // Un día sin ranking (Mercado Libre bloqueó o no respondió) no reemplaza los datos que ya se ven
+  if (st.listo && (st.ranking || []).length) await store.setJSON('serie/' + st.fecha, serie(st));
   if (cacheCambio) await store.setJSON('vendedores', cache);
 }
 

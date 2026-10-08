@@ -19,7 +19,7 @@
     comp: 'Competitors', bb: 'Buy box price', minL: 'Lowest seller price', compL: 'Competitors median (category)',
     puesto: 'Spot', sinDatos: 'Not enough history yet.', vsComp: 'vs. competitors',
     refrescar: 'Refresh The North Face data', yaListo: 'Today\'s data is already up to date.',
-    sinMonitor: 'The live monitor is not connected yet: the sample data stays on screen.',
+    sinDatosML: 'Mercado Libre did not return data this time: the previous data stays on screen.',
     entrar: 'Signing in…', quitar: 'Remove', relevando: 'Collecting… step ', listo: 'Done: data updated.',
     lugares: ' spots', top3: ' in top 3',
     repEjemplo: 'Sample report: written from the sample data above, not from live Mercado Libre data.',
@@ -47,7 +47,7 @@
     comp: 'Competencia', bb: 'Precio buy box', minL: 'Precio más bajo', compL: 'Mediana competencia (categoría)',
     puesto: 'Puesto', sinDatos: 'Todavía no hay historia suficiente.', vsComp: 'vs. competencia',
     refrescar: 'Actualizar datos de The North Face', yaListo: 'Los datos de hoy ya están actualizados.',
-    sinMonitor: 'El monitor en vivo todavía no está conectado: se siguen mostrando los datos de ejemplo.',
+    sinDatosML: 'Mercado Libre no devolvió datos esta vez: se siguen mostrando los datos anteriores.',
     entrar: 'Entrando…', quitar: 'Quitar', relevando: 'Relevando… paso ', listo: 'Listo: datos actualizados.',
     lugares: ' lugares', top3: ' en el top 3',
     repEjemplo: 'Reporte de ejemplo: armado con los datos de ejemplo de arriba, no con datos reales de Mercado Libre.',
@@ -511,10 +511,14 @@
           method: 'POST', credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' }, body: '{}'
         }).then(function (r) { return r.json().then(function (d) { d._ok = r.ok; return d; }); }).then(function (d) {
-          if (d.sinCuenta) { msg.textContent = T.sinMonitor; btn.disabled = false; return; }
-          if (!d._ok || d.error) throw new Error(d.error || T.error);
+                    if (!d._ok || d.error) throw new Error(d.error || T.error);
           if (d.yaListo) { msg.textContent = T.yaListo; btn.disabled = false; cargar(); return; }
           msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
+          if (d.vista.listo && !d.vista.categorias.some(function (c) { return c.top && c.top.length; })) {
+            var err = (d.vista.errores || []).slice(-1)[0];
+            msg.textContent = T.sinDatosML + (err && err.msg ? ' [' + err.msg + ']' : '');
+            btn.disabled = false; return;
+          }
           if (d.vista.listo || ++vuelta >= 25) { msg.textContent = T.listo; btn.disabled = false; cargar(); return; }
           paso();
         }).catch(function (e) { msg.textContent = e.message || T.error; btn.disabled = false; });
