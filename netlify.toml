@@ -82,3 +82,18 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+
+# ---------------------------------------------------------------------------
+# Servicios retirados (SEO, Paid Media, Social Media, Desarrollo web):
+# los links viejos van a la página de reportes automatizados.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from   = "/servicios/*"
+  to     = "/automatizaciones/"
+  status = 301
+  force  = true
+[[redirects]]
+  from   = "/en/services/*"
+  to     = "/en/automations/"
+  status = 301
+  force  = true

@@ -6,13 +6,7 @@ Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.
 
 ## Servicios
 
-- Social Media: estrategia a medida, grilla de contenidos, publicación, moderación de comunidad y captación de públicos.
-- Desarrollo Web: diseño y construcción de sitios con criterio UX/UI, incluidas experiencias web 3D.
-- SEO: estrategia de posicionamiento orgánico adaptada a cada negocio para atraer, retener y convertir.
-- Paid Media (SEM y redes): campañas de publicidad digital con segmentación basada en datos y optimización continua.
-- Creatividad: conceptos generados con IA y potenciados con criterio humano e identidad de marca.
-- Inteligencia Artificial: uso de IA de vanguardia para automatizar lo repetitivo y acelerar la producción de contenido.
-- Automatización de flujos: integración de herramientas, pipelines de datos y automatización de tareas repetitivas.
+- Reportes automatizados: reportes de marketplaces (Mercado Libre), tiendas online y campañas que se actualizan solos, con dashboards, IA y alertas. Acceso privado por usuario y clave.
 
 ## Casos
 
@@ -23,10 +17,6 @@ Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.
 
 ## Páginas
 
-- [SEO](https://www.lavicuna.com.ar/servicios/seo/): agencia SEO en Argentina, incluye SEO local y SEO para buscadores con IA.
-- [Google Ads y Meta Ads](https://www.lavicuna.com.ar/servicios/paid-media/): campañas de publicidad digital (SEM y redes).
-- [Social Media](https://www.lavicuna.com.ar/servicios/social-media/): gestión de redes sociales.
-- [Desarrollo web](https://www.lavicuna.com.ar/servicios/desarrollo-web/): diseño y desarrollo de sitios, incluidas experiencias 3D.
 - [Reportes automatizados](https://www.lavicuna.com.ar/automatizaciones/): reportes de marketplaces (Mercado Libre), tiendas online y campañas actualizados solos, con acceso privado por usuario y clave. Incluye un ejemplo en vivo: The North Face en Mercado Libre (más vendidos, ranking, marcas y precios de la competencia).
 - [Caso Sliabh](https://www.lavicuna.com.ar/casos/sliabh/)
 - [Caso T-L Irrigation / HMSA](https://www.lavicuna.com.ar/casos/t-l-irrigation-hmsa/)
@@ -41,5 +31,5 @@ Sitio: https://www.lavicuna.com.ar/ (español) · English: https://www.lavicuna.
 ## English
 
 - [Home](https://www.lavicuna.com.ar/en/): AI-powered digital marketing agency in Argentina, 100% remote, working in English and Spanish.
-- [SEO](https://www.lavicuna.com.ar/en/services/seo/) · [Google Ads & Meta Ads](https://www.lavicuna.com.ar/en/services/paid-media/) · [Social Media](https://www.lavicuna.com.ar/en/services/social-media/) · [Web development](https://www.lavicuna.com.ar/en/services/web-development/) · [Automated reports](https://www.lavicuna.com.ar/en/automations/)
+- [Automated reports](https://www.lavicuna.com.ar/en/automations/)
 - Case studies: [Sliabh](https://www.lavicuna.com.ar/en/cases/sliabh/) · [T-L Irrigation / HMSA](https://www.lavicuna.com.ar/en/cases/t-l-irrigation-hmsa/)
