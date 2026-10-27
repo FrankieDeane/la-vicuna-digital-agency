@@ -78,11 +78,17 @@ async function diagnostico(event) {
     for (const p of (bus.cuerpo.results || []).slice(0, 5)) {
       const d = await get(`/products/${p.id}`);
       const v = await get(`/products/${p.id}/items?limit=5`);
+      const hijos = [...new Set([...(d.cuerpo.children_ids || []),
+        ...(d.cuerpo.pickers || []).flatMap(k => (k.products || []).map(x => x.product_id))])].filter(x => x && x !== p.id);
+      const vh = hijos.length ? await get(`/products/${hijos[0]}/items?limit=5`) : null;
       r.precio.push({
         producto: p.id,
         detalle: d.status === 200 ? 'OK' : `HTTP ${d.status} ${d.cuerpo.message || ''}`.trim(),
         buyBox: d.cuerpo.buy_box_winner ? d.cuerpo.buy_box_winner.price : null,
         publicaciones: v.status === 200 ? (v.cuerpo.results || []).map(x => x.price) : `HTTP ${v.status} ${v.cuerpo.message || ''}`.trim(),
+        variantes: hijos.length,
+        primeraVariante: vh ? (vh.status === 200 ? (vh.cuerpo.results || []).map(x => x.price) : `HTTP ${vh.status} ${vh.cuerpo.message || ''}`.trim()) : null,
+        claves: Object.keys(d.cuerpo).slice(0, 40),
       });
     }
   } catch (e) { r.precio = 'falló: ' + e.message; }
