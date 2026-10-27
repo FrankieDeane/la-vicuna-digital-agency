@@ -27,14 +27,15 @@ const { accessToken } = require('./meli-api');
 
 const API = 'https://api.mercadolibre.com';
 const SITIO = 'MLA';
-const VERSION = 2;
+const VERSION = 3;
 const CATEGORIAS_DEF = ['campera de abrigo', 'campera impermeable', 'campera de pluma', 'mochila de trekking',
   'zapatillas de trekking', 'botas de trekking', 'buzo polar', 'pantalon de trekking', 'carpa camping', 'bolsa de dormir'];
 const nombreCat = c => c.nombre;
 const BUSQUEDAS_DEF = ['campera', 'campera impermeable', 'mochila', 'zapatillas', 'buzo polar', 'pantalon', 'chaleco'];
 const MARCA_BUSQUEDA = process.env.TNF_ML_MARCA || 'The North Face';
 const TOP_RANKING = 20;   // puestos que se guardan de cada ranking de categoría
-const MAX_MARCA = 80;      // productos The North Face de catálogo a los que se les releva la competencia
+const MAX_MARCA = 80;
+const MAX_VARIANTES = 3;   // variantes de un producto sin publicaciones propias que se miran para el precio      // productos The North Face de catálogo a los que se les releva la competencia
 const EN_PARALELO = 8;
 const INTENTOS = 2;
 const VENDEDOR_VIGENCIA_MS = 30 * 86400000;
@@ -229,6 +230,27 @@ const vendedorDe = x => ({
   full: x.shipping?.logistic_type === 'fulfillment', tipo: x.listing_type_id || null, condicion: x.condition || null,
 });
 
+// Variantes (talle, color) de un producto "padre" de catálogo: ahí están las publicaciones
+const hijosDe = r => [...new Set([
+  ...(r.children_ids || []),
+  ...(r.pickers || []).flatMap(k => (k.products || []).map(x => x.product_id)),
+].filter(id => id && id !== r.id))].slice(0, MAX_VARIANTES);
+
+// Publicaciones activas de un producto; si no tiene, las de la primera variante que tenga.
+// [] = confirmado sin publicaciones; null = no se pudo saber.
+async function publicacionesDe(ctx, id, hijos) {
+  for (const pid of [id, ...hijos]) {
+    try {
+      const v = await api(ctx, `/products/${pid}/items?limit=20`);
+      const vs = (v.results || []).map(vendedorDe);
+      if (vs.length) return vs;
+    } catch (e) {
+      if (e.status !== 404) return null;
+    }
+  }
+  return [];
+}
+
 function sumarProducto(st, id, datos) {
   if (!id) return;
   st.catalogo[id] = { id, ...(st.catalogo[id] || {}), ...datos };
@@ -371,14 +393,12 @@ const PASO = {
           tienda: bb.official_store_id || null, envioGratis: !!bb.shipping?.free_shipping, full: bb.shipping?.logistic_type === 'fulfillment',
         } : null,
       });
-      // Sin ganador de buy box, el precio sale de las publicaciones que compiten en el producto
-      if (!bb && !p.vendedores) {
-        try {
-          const v = await api(ctx, `/products/${p.id}/items?limit=20`);
-          p.vendedores = (v.results || []).map(vendedorDe);
-        } catch (e) {
-          if (e.status === 404) p.vendedores = [];
-        }
+      // Sin ganador de buy box, el precio sale de las publicaciones del producto o de sus variantes
+      // sumarProducto reemplaza el objeto: se escribe sobre el que quedó en el catálogo
+      const actual = st.catalogo[p.id];
+      if (!bb && !actual.vendedores) {
+        const vs = await publicacionesDe(ctx, p.id, hijosDe(r));
+        if (vs) actual.vendedores = vs;
       }
     });
     if (!ok1) return false;
