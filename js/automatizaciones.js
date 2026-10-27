@@ -534,7 +534,8 @@
         msg.textContent = T.relevando + Math.min(d.vista.paso + 1, d.vista.pasos) + '/' + d.vista.pasos;
         if (d.vista.listo && !d.vista.categorias.some(function (c) { return c.top && c.top.length; })) {
           var err = (d.vista.errores || []).slice(-1)[0];
-          return fin(T.sinDatosML + (err && err.msg ? ' [' + err.msg + ']' : ''), false);
+          var tok = (d.vista.fuentes || {}).token;
+          return fin(T.sinDatosML + (tok && !tok.ok ? ' [token: ' + tok.detalle + ']' : '') + (err && err.msg ? ' [' + err.msg + ']' : ''), false);
         }
         if (d.vista.listo || ++vuelta >= 40) return fin(T.listo, true);
         paso();

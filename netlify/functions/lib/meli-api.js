@@ -177,4 +177,9 @@ async function meliGet(ruta, token, timeoutMs = 8000) {
   }
 }
 
-module.exports = { accessToken, canjearCodigo, urlDeLogin, meliGet };
+/** Para el diagnóstico: pide un token de la app sola, sin guardarlo. */
+async function tokenDeApp() {
+  return pedirToken({ grant_type: 'client_credentials' });
+}
+
+module.exports = { accessToken, canjearCodigo, urlDeLogin, meliGet, tokenDeApp };
