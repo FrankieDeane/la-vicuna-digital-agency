@@ -34,7 +34,24 @@
     rMal: function (x) { return x.cat + ': the median price is ' + x.dif + ' above the competition and the best spot is only #' + x.pos + '.'; },
     rProb1: function (c) { return 'Test Product Ads (CPC) on products ranked #4 to #15 in ' + c + ': they already convert organically and paid clicks can push them into the top 3.'; },
     rProb2: function (c) { return 'Review the price gap in ' + c + ' (promotions, installments or free shipping) before paying for clicks.'; },
-    rProb3: 'Track the same products every day for a week to confirm which spot changes come from price and which from ads.'
+    rProb3: 'Track the same products every day for a week to confirm which spot changes come from price and which from ads.',
+    sinStock: 'Out of stock', sd: 'N/A', fueraTop: 'Not in top 20', sinGanador: 'No winner', noAplica: 'N/A',
+    tSinStock: 'No active listings on Mercado Libre: nobody is selling it right now.',
+    tSd: 'Mercado Libre did not return this data in this snapshot.',
+    tSinGanador: 'Mercado Libre did not pick a featured listing (buy box): the price comes from the cheapest seller.',
+    tFueraTop: 'Not among the best sellers of any tracked category, so it has no spot or competitor comparison.',
+    notaComp: 'Why some cells are empty: <b>Out of stock</b> = no active listings on Mercado Libre. <b>No winner</b> = Mercado Libre did not pick a featured listing (buy box), so the price comes from the cheapest seller. <b>Not in top 20</b> = the product is not among the best sellers of any tracked category, so it has no spot and no competitor comparison (N/A). <b>N/A</b> = Mercado Libre did not return the data in this snapshot.',
+    kSinStock: 'Top 20 spots out of stock', de: ' of ', kShare: 'The North Face share of the rankings',
+    aTitulo: 'Data appendix', aKpis: 'Key figures',
+    aMarcas: 'Share of the rankings by brand', aMarcasNota: 'Spots each brand holds across all top 20 rankings.',
+    aPrecio: 'Median price: The North Face vs. competitors', aPrecioNota: 'Median price of the products in each category\'s top 20.',
+    aStock: 'Out of stock in the top 20, by category', aStockNota: 'Share of the top 20 with no active listings: demand Mercado Libre shows but nobody can buy.',
+    aDisp: 'Price vs. spot in the ranking', aDispNota: function (r) { return r == null ? 'Not enough products with a price to measure the relation.' : 'Rank correlation between price and spot: ρ = ' + r.toFixed(2) + ' (' + (Math.abs(r) < 0.2 ? 'weak: price barely explains the spot' : r > 0 ? 'cheaper products tend to rank higher' : 'pricier products tend to rank higher') + ').'; },
+    aEvol: 'The North Face spots in the top 20, by day', aIndice: 'Price index and availability by category',
+    aIndiceNota: 'Index 100 = same median price as competitors; 120 = 20% more expensive.',
+    iCat: 'Category', iIdx: 'Price index', iN: 'TNF in top 20', iSin: 'Out of stock (TNF / total)', iLider: 'Leading competitor',
+    rStock: 'Stock', rStockTxt: function (s, t, st, tt) { return s + ' of the ' + t + ' top 20 spots are out of stock (' + st + ' of the ' + tt + ' The North Face spots).'; },
+    rStockAcc: 'Restock or reactivate the out-of-stock The North Face products that already rank in the top 20: they keep the spot but lose the sale.'
   } : {
     cargando: 'Leyendo el último relevamiento…',
     real: 'Datos reales de Mercado Libre · última actualización: ',
@@ -63,7 +80,24 @@
     rMal: function (x) { return x.cat + ': el precio mediano está ' + x.dif + ' por encima de la competencia y el mejor puesto es solo #' + x.pos + '.'; },
     rProb1: function (c) { return 'Probar Product Ads (CPC) en los productos del puesto 4 al 15 de ' + c + ': ya convierten orgánico y el clic pago los puede empujar al top 3.'; },
     rProb2: function (c) { return 'Revisar la brecha de precio en ' + c + ' (promociones, cuotas o envío gratis) antes de pagar clics.'; },
-    rProb3: 'Seguir los mismos productos todos los días durante una semana para confirmar qué cambios de puesto vienen del precio y cuáles de la pauta.'
+    rProb3: 'Seguir los mismos productos todos los días durante una semana para confirmar qué cambios de puesto vienen del precio y cuáles de la pauta.',
+    sinStock: 'Sin stock', sd: 'S/D', fueraTop: 'Fuera del top 20', sinGanador: 'Sin ganador', noAplica: 'No aplica',
+    tSinStock: 'No tiene publicaciones activas en Mercado Libre: hoy nadie lo vende.',
+    tSd: 'Mercado Libre no devolvió este dato en este relevamiento.',
+    tSinGanador: 'Mercado Libre no eligió una publicación destacada (buy box): el precio sale del vendedor más barato.',
+    tFueraTop: 'No está entre los más vendidos de ninguna categoría relevada, así que no tiene puesto ni comparación con la competencia.',
+    notaComp: 'Por qué hay celdas vacías: <b>Sin stock</b> = el producto no tiene publicaciones activas en Mercado Libre. <b>Sin ganador</b> = Mercado Libre no eligió una publicación destacada (buy box), así que el precio sale del vendedor más barato. <b>Fuera del top 20</b> = el producto no está entre los más vendidos de ninguna categoría relevada, por eso no tiene puesto ni comparación con la competencia (No aplica). <b>S/D</b> = Mercado Libre no devolvió el dato en este relevamiento.',
+    kSinStock: 'Lugares del top 20 sin stock', de: ' de ', kShare: 'Participación de The North Face en los rankings',
+    aTitulo: 'Anexo de datos', aKpis: 'Números clave',
+    aMarcas: 'Participación en los rankings por marca', aMarcasNota: 'Lugares que ocupa cada marca sumando todos los top 20.',
+    aPrecio: 'Precio mediano: The North Face vs. competencia', aPrecioNota: 'Mediana de precios de los productos del top 20 de cada categoría.',
+    aStock: 'Sin stock en el top 20, por categoría', aStockNota: 'Parte del top 20 sin publicaciones activas: demanda que Mercado Libre muestra pero nadie puede comprar.',
+    aDisp: 'Precio vs. puesto en el ranking', aDispNota: function (r) { return r == null ? 'No hay suficientes productos con precio para medir la relación.' : 'Correlación de rangos entre precio y puesto: ρ = ' + r.toFixed(2).replace('.', ',') + ' (' + (Math.abs(r) < 0.2 ? 'débil: el precio casi no explica el puesto' : r > 0 ? 'los más baratos tienden a estar más arriba' : 'los más caros tienden a estar más arriba') + ').'; },
+    aEvol: 'Lugares de The North Face en el top 20, por día', aIndice: 'Índice de precio y disponibilidad por categoría',
+    aIndiceNota: 'Índice 100 = mismo precio mediano que la competencia; 120 = 20% más caro.',
+    iCat: 'Categoría', iIdx: 'Índice de precio', iN: 'TNF en el top 20', iSin: 'Sin stock (TNF / total)', iLider: 'Competidor líder',
+    rStock: 'Stock', rStockTxt: function (s, t, st, tt) { return s + ' de los ' + t + ' lugares del top 20 están sin stock (' + st + ' de los ' + tt + ' lugares de The North Face).'; },
+    rStockAcc: 'Reponer o reactivar los productos de The North Face sin stock que ya están en el top 20: conservan el puesto pero pierden la venta.'
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -95,6 +129,13 @@
     var m = Math.floor(s.length / 2);
     return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
   };
+  // Precio, o el motivo por el que no hay: sin stock / sin datos
+  var precioO = function (v, estado) {
+    if (v != null && isFinite(v)) return precio(v);
+    var sin = estado === 'sin' || estado === 'sinStock';
+    return '<span class="au-falta mono" title="' + esc(sin ? T.tSinStock : T.tSd) + '">' + (sin ? T.sinStock : T.sd) + '</span>';
+  };
+  var falta = function (txt, tip) { return '<span class="au-falta mono" title="' + esc(tip) + '">' + esc(txt) + '</span>'; };
   var corto = function (s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
 
   var datos = null;
@@ -157,6 +198,7 @@
       [cats.length, T.kCats], [enTop, T.kTop], [top3, T.kTop3],
       [pct(mediana(difs)), T.kDif], [lider ? lider.marca : '—', T.kLider]
     ];
+    if (v.stock && v.stock.lugares) items.push([v.stock.sinStock + T.de + v.stock.lugares, T.kSinStock]);
     $('au-kpis').innerHTML = items.map(function (k) {
       return '<div class="au-kpi"><span class="au-kpi-num">' + esc(k[0]) + '</span><span class="au-kpi-lbl mono">' + esc(k[1]) + '</span></div>';
     }).join('');
@@ -192,7 +234,7 @@
     $('au-rank').innerHTML = '<thead><tr><th>' + T.pos + '</th><th colspan="2">' + T.prod + '</th><th>' + T.marca + '</th><th class="num">' + T.precio + '</th><th>' + T.vend + '</th></tr></thead><tbody>' +
       c.top.slice(0, 10).map(function (t) {
         return '<tr' + (t.tnf ? ' class="au-hl"' : '') + '><td class="mono">' + t.pos + '</td><td class="au-td-img">' + foto(t.foto, t.nombre) + '</td><td>' + link(t.permalink, corto(t.nombre, 70)) +
-          '</td><td>' + esc(t.marca || '—') + '</td><td class="num">' + precio(t.precio) + '</td><td class="mono au-dim">' + esc(t.vendedor || '—') + '</td></tr>';
+          '</td><td>' + esc(t.marca || '—') + '</td><td class="num">' + precioO(t.precio, t.stock) + '</td><td class="mono au-dim">' + esc(t.vendedor || '—') + '</td></tr>';
       }).join('') + '</tbody>';
   }
 
@@ -204,7 +246,7 @@
       return '<article class="au-prod">' + foto(p.foto, p.nombre) +
         '<div><span class="au-prod-pos mono">#' + mejor.pos + ' · ' + esc(mejor.cat) + '</span>' +
         '<h4>' + link(p.permalink, corto(p.nombre, 60)) + '</h4>' +
-        '<span class="au-prod-price">' + precio(pr) + '</span> <span class="au-dif mono ' + (p.dif > 0 ? 'up' : 'down') + '">' + pct(p.dif) + ' ' + T.vsComp + '</span></div></article>';
+        '<span class="au-prod-price">' + precioO(pr, p.estado) + '</span> <span class="au-dif mono ' + (p.dif > 0 ? 'up' : 'down') + '">' + pct(p.dif) + ' ' + T.vsComp + '</span></div></article>';
     }).join('');
   }
 
@@ -270,10 +312,17 @@
     $('au-comp').innerHTML = '<thead><tr><th>' + T.prod + '</th><th>' + T.cat + '</th><th class="num">' + T.puesto + '</th><th class="num">' + T.bb + '</th><th class="num">' + T.min + '</th><th class="num">' + T.max + '</th><th class="num">' + T.nvend + '</th><th class="num">' + T.compMed + '</th><th class="num">' + T.dif + '</th></tr></thead><tbody>' +
       v.productos.map(function (p) {
         var mejor = (p.posiciones || []).slice().sort(function (a, b) { return a.pos - b.pos; })[0];
-        return '<tr><td>' + link(p.permalink, corto(p.nombre, 56)) + '</td><td class="au-dim">' + esc(p.categoria || '—') + '</td><td class="num mono">' + (mejor ? '#' + mejor.pos : '—') +
-          '</td><td class="num">' + precio(p.buyBox && p.buyBox.precio) + '</td><td class="num">' + precio(p.min) + '</td><td class="num">' + precio(p.max) +
-          '</td><td class="num mono">' + (p.n || '—') + '</td><td class="num">' + precio(p.compMediana) + '</td><td class="num mono ' + (p.dif > 0 ? 'up' : 'down') + '">' + pct(p.dif) + '</td></tr>';
-      }).join('') + '</tbody>';
+        var est = p.estado || (p.min != null ? 'ok' : 'sinDatos');
+        var fuera = !mejor;
+        var bb = p.buyBox ? precio(p.buyBox.precio) : est === 'ok' ? falta(T.sinGanador, T.tSinGanador) : precioO(null, est);
+        var comp = fuera ? falta(T.noAplica, T.tFueraTop) : p.compMediana == null ? falta(T.sd, T.tSd) : precio(p.compMediana);
+        var dif = fuera ? falta(T.noAplica, T.tFueraTop) : p.dif == null ? falta(T.sd, T.tSd) : pct(p.dif);
+        return '<tr><td>' + link(p.permalink, corto(p.nombre, 56)) + '</td><td class="au-dim">' + (fuera ? falta(T.fueraTop, T.tFueraTop) : esc(p.categoria || '—')) +
+          '</td><td class="num mono">' + (mejor ? '#' + mejor.pos : falta('—', T.tFueraTop)) +
+          '</td><td class="num">' + bb + '</td><td class="num">' + precioO(p.min, est) + '</td><td class="num">' + precioO(p.max, est) +
+          '</td><td class="num mono">' + (p.n ? p.n : est === 'sinStock' ? '0' : falta(T.sd, T.tSd)) + '</td><td class="num">' + comp +
+          '</td><td class="num mono ' + (p.dif > 0 ? 'up' : 'down') + '">' + dif + '</td></tr>';
+      }).join('') + '</tbody><tfoot><tr><td colspan="9" class="au-nota-tabla">' + T.notaComp + '</td></tr></tfoot>';
   }
 
   function diferencias(cats) {
@@ -397,11 +446,144 @@
     return '## ' + T.rSum + '\n' + T.rResumen(cats.length, top, difMed) +
       '\n\n## ' + T.rOk + '\n' + li(mejores.slice(0, 3).map(T.rBien).concat(rival ? [T.rBienMarca(rival.marca, rival.apariciones, Math.round(rival.share))] : [])) +
       '\n\n## ' + T.rNo + '\n' + li(malas.slice(0, 3).map(T.rMal)) +
-      '\n\n## ' + T.rTry + '\n1. ' + T.rProb1(cats[0] ? cats[0].nombre : '') + '\n2. ' + T.rProb2(peor) + '\n3. ' + T.rProb3;
+      (v.stock && v.stock.lugares ? '\n\n## ' + T.rStock + '\n' + T.rStockTxt(v.stock.sinStock, v.stock.lugares, v.stock.sinStockTnf, v.stock.lugaresTnf) : '') +
+      '\n\n## ' + T.rTry + '\n1. ' + T.rProb1(cats[0] ? cats[0].nombre : '') + '\n2. ' + T.rProb2(peor) + '\n3. ' + T.rProb3 +
+      (v.stock && v.stock.sinStockTnf ? '\n4. ' + T.rStockAcc : '');
+  }
+
+  /* ---- Anexo del reporte: gráficos y análisis con los mismos datos del tablero */
+  // Correlación de rangos (Spearman) entre dos listas de números
+  function spearman(xs, ys) {
+    var n = xs.length;
+    if (n < 5) return null;
+    var rangos = function (a) {
+      var idx = a.map(function (v, i) { return [v, i]; }).sort(function (p, q) { return p[0] - q[0]; });
+      var r = new Array(n);
+      for (var i = 0; i < n;) {
+        var j = i;
+        while (j + 1 < n && idx[j + 1][0] === idx[i][0]) j++;
+        for (var k = i; k <= j; k++) r[idx[k][1]] = (i + j) / 2 + 1;
+        i = j + 1;
+      }
+      return r;
+    };
+    var rx = rangos(xs), ry = rangos(ys);
+    var mx = (n + 1) / 2, num = 0, dx = 0, dy = 0;
+    for (var i = 0; i < n; i++) { num += (rx[i] - mx) * (ry[i] - mx); dx += Math.pow(rx[i] - mx, 2); dy += Math.pow(ry[i] - mx, 2); }
+    return dx && dy ? num / Math.sqrt(dx * dy) : null;
+  }
+
+  function parBarras(lbl, a, b, fmt, max) {
+    var w = function (x) { return ((x || 0) / (max || 1) * 100).toFixed(1); };
+    return '<div class="au-pair"><span class="au-bar-lbl">' + esc(lbl) + '</span><div class="au-pair-bars">' +
+      '<span class="au-bar-track"><span class="au-bar-fill s-tnf" style="width:' + w(a) + '%"></span><em>' + fmt(a) + '</em></span>' +
+      '<span class="au-bar-track"><span class="au-bar-fill s-comp" style="width:' + w(b) + '%"></span><em>' + fmt(b) + '</em></span></div></div>';
+  }
+  var leyendaPar = function () { return '<div class="au-legend mono"><span class="au-leg s-tnf"><i></i>' + T.tnf + '</span><span class="au-leg s-comp"><i></i>' + T.comp + '</span></div>'; };
+  var bloque = function (titulo, nota, html) {
+    return '<div class="au-rep-sec"><h3>' + esc(titulo) + '</h3>' + (nota ? '<p class="au-rep-nota">' + esc(nota) + '</p>' : '') + html + '</div>';
+  };
+  var porc = function (x) { return x == null || isNaN(x) ? '—' : Math.round(x) + '%'; };
+
+  // Puesto (x) contra precio relativo a la mediana de su categoría (y): así se comparan categorías distintas
+  function dispersion(puntos) {
+    var W = 640, H = 260, L = 48, R = 12, TOP = 12, B = 30;
+    var ys = puntos.map(function (p) { return p.idx; });
+    var hi = Math.max.apply(null, ys.concat([150])), lo = Math.min.apply(null, ys.concat([50]));
+    var x = function (v) { return L + (v - 1) * (W - L - R) / 19; };
+    var y = function (v) { return H - B - (v - lo) / (hi - lo) * (H - TOP - B); };
+    var g = '';
+    [lo, 100, hi].forEach(function (v) {
+      g += '<line class="au-grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>' +
+        '<text class="au-axis" x="' + (L - 6) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end">' + Math.round(v) + '</text>';
+    });
+    [1, 5, 10, 15, 20].forEach(function (v) { g += '<text class="au-axis" x="' + x(v).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle">#' + v + '</text>'; });
+    puntos.forEach(function (p) {
+      g += '<circle class="au-dot ' + (p.tnf ? 's-tnf' : 's-comp') + '" cx="' + x(p.pos).toFixed(1) + '" cy="' + y(p.idx).toFixed(1) + '" r="' + (p.tnf ? 5 : 3.5) + '"><title>' +
+        esc('#' + p.pos + ' ' + p.nombre + ' · ' + precio(p.precio) + ' (' + Math.round(p.idx) + ')') + '</title></circle>';
+    });
+    return '<div class="au-chart"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(T.aDisp) + '">' + g + '</svg></div>';
+  }
+
+  function anexo(v, historia) {
+    var cats = v.categorias.filter(function (c) { return c.top && c.top.length; });
+    var despues = [];
+    var enTop = 0, top3 = 0, difs = [];
+    cats.forEach(function (c) {
+      c.top.forEach(function (t) { if (t.tnf) { enTop++; if (t.pos <= 3) top3++; } });
+      if (c.resumen.dif != null) difs.push(c.resumen.dif);
+    });
+    var tnfM = (v.marcas || []).filter(function (m) { return m.tnf; })[0];
+    var lider = (v.marcas || []).filter(function (m) { return !m.tnf && !/^Sin marca/.test(m.marca); })[0];
+    var st = v.stock || {};
+    var difMed = mediana(difs);
+    var kp = [
+      [enTop, T.kTop], [top3, T.kTop3], [tnfM ? Math.round(tnfM.share) + '%' : '—', T.kShare],
+      [difMed == null ? '—' : Math.round(100 + difMed), T.iIdx], [st.lugares ? st.sinStock + T.de + st.lugares : '—', T.kSinStock],
+      [lider ? lider.marca : '—', T.kLider]
+    ];
+    var html = '<h2>' + esc(T.aTitulo) + '</h2>';
+    html += bloque(T.aKpis, '', '<div class="au-kpis au-rep-kpis">' + kp.map(function (k) {
+      return '<div class="au-kpi"><span class="au-kpi-num">' + esc(k[0]) + '</span><span class="au-kpi-lbl mono">' + esc(k[1]) + '</span></div>';
+    }).join('') + '</div>');
+
+    var lista = (v.marcas || []).filter(function (m) { return !/^Sin marca/.test(m.marca); }).slice(0, 8);
+    var maxM = Math.max.apply(null, lista.map(function (m) { return m.apariciones; }).concat(1));
+    html += bloque(T.aMarcas, T.aMarcasNota, '<div class="au-bars">' + lista.map(function (m) {
+      return '<div class="au-bar' + (m.tnf ? ' au-bar-tnf' : '') + '"><span class="au-bar-lbl">' + esc(m.marca) + '</span>' +
+        '<span class="au-bar-track"><span class="au-bar-fill" style="width:' + (m.apariciones / maxM * 100).toFixed(1) + '%"></span></span>' +
+        '<span class="au-bar-val mono">' + m.apariciones + '<small> · ' + Math.round(m.share) + '%</small></span></div>';
+    }).join('') + '</div>');
+
+    var maxP = Math.max.apply(null, cats.map(function (c) { return Math.max(c.resumen.medianaTnf || 0, c.resumen.medianaComp || 0); }).concat(1));
+    html += bloque(T.aPrecio, T.aPrecioNota, '<div class="au-bars au-bars-pair">' + cats.map(function (c) {
+      return parBarras(c.nombre, c.resumen.medianaTnf, c.resumen.medianaComp, precio, maxP);
+    }).join('') + leyendaPar() + '</div>');
+
+    var stockCat = cats.map(function (c) {
+      var r = c.resumen, nComp = (r.n || c.top.length) - r.tnfEnTop;
+      return { c: c, tnf: r.tnfEnTop ? (r.sinStockTnf || 0) / r.tnfEnTop * 100 : null, comp: nComp ? ((r.sinStock || 0) - (r.sinStockTnf || 0)) / nComp * 100 : null };
+    });
+    html += bloque(T.aStock, T.aStockNota, '<div class="au-bars au-bars-pair">' + stockCat.map(function (x) {
+      return parBarras(x.c.nombre, x.tnf, x.comp, porc, 100);
+    }).join('') + leyendaPar() + '</div>');
+
+    var puntos = [];
+    cats.forEach(function (c) {
+      var med = mediana(c.top.map(function (t) { return t.precio; }));
+      if (!med) return;
+      c.top.forEach(function (t) {
+        if (t.precio != null && isFinite(t.precio) && t.pos <= 20) puntos.push({ pos: t.pos, idx: t.precio / med * 100, precio: t.precio, nombre: corto(t.nombre, 50), tnf: t.tnf });
+      });
+    });
+    var rho = spearman(puntos.map(function (p) { return p.pos; }), puntos.map(function (p) { return p.idx; }));
+    html += bloque(T.aDisp, T.aDispNota(rho), puntos.length ? dispersion(puntos) + leyendaPar() : '');
+
+    var h = historia || [];
+    if (h.length) {
+      html += bloque(T.aEvol, '', '<div class="au-chart" id="au-rep-evol"></div>');
+      despues.push(function () {
+        var lug = h.map(function (d) { var n = 0; Object.keys(d.r || {}).forEach(function (k) { (d.r[k].t || []).forEach(function (t) { if (t[3]) n++; }); }); return n; });
+        var t3 = h.map(function (d) { var n = 0; Object.keys(d.r || {}).forEach(function (k) { (d.r[k].t || []).forEach(function (t) { if (t[3] && t[0] <= 3) n++; }); }); return n; });
+        lineas($('au-rep-evol'), h.map(function (d) { return d.fecha; }), [{ nombre: T.kTop, valores: lug, cls: 's-tnf' }, { nombre: T.kTop3, valores: t3, cls: 's-comp' }],
+          { min: 0, alto: 220, fmt: function (x) { return String(Math.round(x)); } });
+      });
+    }
+
+    html += bloque(T.aIndice, T.aIndiceNota, '<div class="au-table-wrap"><table class="au-table"><thead><tr><th>' + T.iCat + '</th><th class="num">' + T.iIdx + '</th><th class="num">' + T.iN +
+      '</th><th class="num">' + T.mejor + '</th><th class="num">' + T.iSin + '</th><th>' + T.iLider + '</th></tr></thead><tbody>' + cats.map(function (c) {
+        var r = c.resumen;
+        return '<tr><td>' + esc(c.nombre) + '</td><td class="num mono">' + (r.dif == null ? '—' : Math.round(100 + r.dif)) + '</td><td class="num mono">' + r.tnfEnTop +
+          '</td><td class="num mono">' + (r.mejorPuestoTnf ? '#' + r.mejorPuestoTnf : '—') + '</td><td class="num mono">' + (r.sinStockTnf || 0) + ' / ' + (r.sinStock || 0) +
+          '</td><td>' + esc(r.lider ? r.lider.marca : '—') + '</td></tr>';
+      }).join('') + '</tbody></table></div>');
+    return { html: '<div class="au-anexo">' + html + '</div>', despues: despues };
   }
 
   function mostrarReporte(md, meta, aviso) {
-    $('au-report-body').innerHTML = mdAHtml(md);
+    var ax = datos && datos.vista ? anexo(datos.vista, datos.historia) : { html: '', despues: [] };
+    $('au-report-body').innerHTML = mdAHtml(md) + ax.html;
+    ax.despues.forEach(function (f) { f(); });
     $('au-report-meta').textContent = meta || '';
     var foot = document.querySelector('.au-report-foot');
     if (foot) { if (!foot.getAttribute('data-ia')) foot.setAttribute('data-ia', foot.textContent); foot.textContent = aviso ? T.repPie : foot.getAttribute('data-ia'); }

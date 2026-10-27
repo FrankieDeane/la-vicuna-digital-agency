@@ -594,11 +594,13 @@ function vista(st) {
         pos: r.pos, id: r.id, tipo: r.tipo, nombre: p.nombre || p.titulo || r.id, marca: p.marca || null, tnf: !!p.tnf,
         precio: bb.precio ?? null, vendedor: nick(bb.vendedor) || bb.vendedorTexto || null,
         permalink: p.permalink || (r.tipo === 'item' ? urlItem(r.id) : null), foto: https(p.foto),
+        // Sin precio: "sin" = ninguna publicación activa (en Mercado Libre figura sin stock); "sd" = no se pudo averiguar
+        stock: bb.precio != null ? 'si' : r.tipo === 'producto' && Array.isArray(p.vendedores) && !p.vendedores.length ? 'sin' : 'sd',
       };
-    // Sin precio no se puede comprar (en Mercado Libre figura sin stock): no entra al ranking
-    }).filter(t => Number.isFinite(t.precio)).map((t, i) => (c.fuente === 'catalogo' ? { ...t, pos: i + 1 } : t));
+    });
     const tnf = top.filter(t => t.tnf);
     const comp = top.filter(t => !t.tnf);
+    const sinStock = top.filter(t => t.stock === 'sin');
     const conteo = {};
     comp.forEach(t => { if (t.marca) conteo[t.marca] = (conteo[t.marca] || 0) + 1; });
     const lider = Object.entries(conteo).sort((a, b) => b[1] - a[1])[0];
@@ -610,6 +612,7 @@ function vista(st) {
         tnfEnTop: tnf.length, mejorPuestoTnf: tnf.length ? tnf[0].pos : null,
         medianaTnf, medianaComp, dif: dif(medianaTnf, medianaComp),
         lider: lider ? { marca: lider[0], n: lider[1] } : null,
+        n: top.length, sinStock: sinStock.length, sinStockTnf: sinStock.filter(t => t.tnf).length,
       },
     };
   });
@@ -640,6 +643,8 @@ function vista(st) {
       compMediana: catId ? medianaCompCat.get(catId) ?? null : null,
       dif: catId ? dif(precio, medianaCompCat.get(catId)) : null,
       vendedores: vs.slice(0, 12),
+      // Por qué faltan datos: sin publicaciones activas, o no se pudo averiguar
+      estado: precio != null ? 'ok' : Array.isArray(p.vendedores) && !p.vendedores.length ? 'sinStock' : 'sinDatos',
     };
   }).sort((a, b) => {
     const pa = Math.min(...a.posiciones.map(x => x.pos), 999), pb = Math.min(...b.posiciones.map(x => x.pos), 999);
@@ -666,6 +671,12 @@ function vista(st) {
     pasoNombre: PASOS[st.paso] || 'listo', inicio: st.inicio, actualizado: st.actualizado,
     fuentes: st.fuentes, errores: (st.errores || []).slice(-15), llamadas: st.llamadas,
     categorias, productos, marcas,
+    stock: {
+      lugares: categorias.reduce((s, c) => s + c.resumen.n, 0),
+      sinStock: categorias.reduce((s, c) => s + c.resumen.sinStock, 0),
+      lugaresTnf: categorias.reduce((s, c) => s + c.resumen.tnfEnTop, 0),
+      sinStockTnf: categorias.reduce((s, c) => s + c.resumen.sinStockTnf, 0),
+    },
   };
 }
 
