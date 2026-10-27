@@ -8,6 +8,7 @@
 // Variables de entorno:
 //   MELI_CLIENT_ID, MELI_CLIENT_SECRET  — de la app creada en developers.mercadolibre.com.ar
 //   MELI_REFRESH_TOKEN (opcional)       — semilla alternativa si no se usa el botón "Conectar"
+// Sin cuenta conectada se usa el token de la app (grant client_credentials).
 
 const { getStore, connectLambda } = require('@netlify/blobs');
 
@@ -118,12 +119,6 @@ async function accessToken(event) {
   const candidatos = [guardado?.refresh_token, process.env.MELI_REFRESH_TOKEN]
     .filter((v, i, a) => v && a.indexOf(v) === i);
 
-  if (!candidatos.length) {
-    const e = new Error('La cuenta de Mercado Libre todavía no está conectada.');
-    e.code = 'sin-conexion';
-    throw e;
-  }
-
   let ultimoError;
   for (const rt of candidatos) {
     try {
@@ -142,9 +137,20 @@ async function accessToken(event) {
     }
   }
 
+  // Sin cuenta conectada (o con el refresh token rechazado): token de la app sola
+  // (flujo "Client Credentials" activado en la app de Mercado Libre). Alcanza para leer datos públicos.
+  try {
+    const app = await pedirToken({ grant_type: 'client_credentials' });
+    await guardar(store, app);
+    return { token: app.access_token, userId: app.user_id };
+  } catch (e) {
+    ultimoError = ultimoError || e;
+  }
+
   const e = new Error(
-    'Mercado Libre rechazó el refresh token (' + ultimoError.message + '). ' +
-    'Volvé a conectar la cuenta con el botón "Conectar Mercado Libre".'
+    (candidatos.length ? 'Mercado Libre rechazó el refresh token' : 'La cuenta de Mercado Libre todavía no está conectada') +
+    ' y el token de la app falló (' + ultimoError.message + '). ' +
+    'Activá "Client Credentials" en la app de Mercado Libre o conectá la cuenta.'
   );
   e.code = 'sin-conexion';
   throw e;
