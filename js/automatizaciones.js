@@ -112,7 +112,8 @@
   function cargar() {
     if (!$('au-kpis')) return;
     estado('info', T.cargando);
-    fetch('/.netlify/functions/tnf-ml')
+    // cache: 'no-store' para que, al terminar de relevar, se vean los datos nuevos y no los guardados
+    fetch('/.netlify/functions/tnf-ml', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : { vacio: true }; })
       .catch(function () { return { vacio: true }; })
       .then(function (d) {
