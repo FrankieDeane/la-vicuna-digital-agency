@@ -27,15 +27,16 @@ const { accessToken } = require('./meli-api');
 
 const API = 'https://api.mercadolibre.com';
 const SITIO = 'MLA';
-const VERSION = 3;
+const VERSION = 4;
 const CATEGORIAS_DEF = ['campera de abrigo', 'campera impermeable', 'campera de pluma', 'mochila de trekking',
   'zapatillas de trekking', 'botas de trekking', 'buzo polar', 'pantalon de trekking', 'carpa camping', 'bolsa de dormir'];
 const nombreCat = c => c.nombre;
 const BUSQUEDAS_DEF = ['campera', 'campera impermeable', 'mochila', 'zapatillas', 'buzo polar', 'pantalon', 'chaleco'];
 const MARCA_BUSQUEDA = process.env.TNF_ML_MARCA || 'The North Face';
 const TOP_RANKING = 20;   // puestos que se guardan de cada ranking de categoría
-const MAX_MARCA = 80;
-const MAX_VARIANTES = 3;   // variantes de un producto sin publicaciones propias que se miran para el precio      // productos The North Face de catálogo a los que se les releva la competencia
+const MAX_MARCA = 80;      // productos The North Face de catálogo a los que se les releva la competencia
+const MAX_VARIANTES = 10;  // variantes de un producto sin publicaciones propias que se miran para el precio
+const TANDA_VARIANTES = 5; // variantes que se consultan a la vez
 const EN_PARALELO = 8;
 const INTENTOS = 2;
 const VENDEDOR_VIGENCIA_MS = 30 * 86400000;
@@ -236,19 +237,29 @@ const hijosDe = r => [...new Set([
   ...(r.pickers || []).flatMap(k => (k.products || []).map(x => x.product_id)),
 ].filter(id => id && id !== r.id))].slice(0, MAX_VARIANTES);
 
-// Publicaciones activas de un producto; si no tiene, las de la primera variante que tenga.
+// Publicaciones activas de un producto; si no tiene, las de sus variantes (muchas variantes
+// no tienen stock, así que se miran de a tandas hasta encontrar alguna con publicaciones).
 // [] = confirmado sin publicaciones; null = no se pudo saber.
 async function publicacionesDe(ctx, id, hijos) {
-  for (const pid of [id, ...hijos]) {
+  const de = async pid => {
     try {
       const v = await api(ctx, `/products/${pid}/items?limit=20`);
-      const vs = (v.results || []).map(vendedorDe);
-      if (vs.length) return vs;
+      return (v.results || []).map(vendedorDe);
     } catch (e) {
-      if (e.status !== 404) return null;
+      return e.status === 404 ? [] : null;
     }
+  };
+  const propias = await de(id);
+  if (propias === null || propias.length) return propias;
+  let dudoso = false;
+  for (let i = 0; i < hijos.length; i += TANDA_VARIANTES) {
+    const tanda = await Promise.all(hijos.slice(i, i + TANDA_VARIANTES).map(de));
+    if (tanda.includes(null)) dudoso = true;
+    const vistas = new Set();
+    const vs = tanda.flat().filter(v => v && !vistas.has(v.item) && vistas.add(v.item));
+    if (vs.length) return vs;
   }
-  return [];
+  return dudoso ? null : [];
 }
 
 function sumarProducto(st, id, datos) {
