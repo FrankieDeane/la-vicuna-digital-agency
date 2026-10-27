@@ -12,6 +12,7 @@ const { avanzar, vista, hoyAR, VERSION } = require('./lib/tnf-ml');
 const { tiendaTnf, leer, leerDia, guardar, estadoNuevo, hayQueRehacer } = require('./lib/tnf-ml-tienda');
 const { esAdmin } = require('./lib/admin-auth');
 const crypto = require('crypto');
+const { accessToken, tokenDeApp } = require('./lib/meli-api');
 
 const PRESUPUESTO_MS = 8000;
 const DIAS_HISTORIA = 60;
@@ -37,6 +38,39 @@ async function dentroDelLimite(store, event, fecha) {
   return true;
 }
 
+// GET ?diag=1 → qué responde Mercado Libre (sin mostrar tokens ni claves): variables cargadas,
+// token de la cuenta conectada, token de la app y 3 consultas de prueba con y sin token.
+async function diagnostico(event) {
+  const r = {
+    variables: { MELI_CLIENT_ID: !!process.env.MELI_CLIENT_ID, MELI_CLIENT_SECRET: !!process.env.MELI_CLIENT_SECRET, MELI_REFRESH_TOKEN: !!process.env.MELI_REFRESH_TOKEN },
+  };
+  let token = null;
+  try { const t = await accessToken(event); token = t.token; r.token = { ok: true, cuenta: t.userId || 'app (sin cuenta)' }; }
+  catch (e) { r.token = { ok: false, error: e.message }; }
+  try { await tokenDeApp(); r.tokenDeApp = { ok: true }; }
+  catch (e) { r.tokenDeApp = { ok: false, error: e.message }; }
+  const pruebas = {
+    busqueda: '/sites/MLA/search?q=campera&limit=1',
+    masVendidos: '/highlights/MLA/category/MLA109096',
+    catalogo: '/products/search?status=active&site_id=MLA&q=campera%20the%20north%20face&limit=1',
+  };
+  r.pruebas = {};
+  for (const [nombre, ruta] of Object.entries(pruebas)) {
+    const prueba = async conToken => {
+      try {
+        const res = await fetch('https://api.mercadolibre.com' + ruta, {
+          headers: { Accept: 'application/json', ...(conToken ? { Authorization: `Bearer ${token}` } : {}) },
+          signal: AbortSignal.timeout(6000),
+        });
+        const cuerpo = res.ok ? {} : await res.json().catch(() => ({}));
+        return res.ok ? 'OK' : `HTTP ${res.status} ${cuerpo.message || cuerpo.error || ''}`.trim();
+      } catch (e) { return 'falló: ' + e.message; }
+    };
+    r.pruebas[nombre] = { conToken: token ? await prueba(true) : 'sin token', sinToken: await prueba(false) };
+  }
+  return r;
+}
+
 exports.handler = async (event) => {
   const t0 = Date.now();
   const admin = esAdmin(event);
@@ -48,6 +82,13 @@ exports.handler = async (event) => {
   }
 
   try {
+    if (event.httpMethod === 'GET' && (event.queryStringParameters || {}).diag) {
+      if (!admin && !(await dentroDelLimite(store, event, hoyAR()))) {
+        return responder(429, { error: 'Hoy ya se usó mucho. Probá mañana.' });
+      }
+      return responder(200, await diagnostico(event));
+    }
+
     if (event.httpMethod === 'GET') {
       // Solo días completos: la serie se guarda recién cuando el relevamiento del día terminó
       const { blobs: series = [] } = (await store.list({ prefix: 'serie/' })) || {};
