@@ -4,7 +4,7 @@
 // a medias. Si ya está listo, no hace nada. Sin cuenta de ML conectada, usa las páginas públicas.
 
 const { avanzar, hoyAR } = require('./lib/tnf-ml');
-const { tiendaTnf, leer, leerDia, guardar, estadoNuevo } = require('./lib/tnf-ml-tienda');
+const { tiendaTnf, leer, leerDia, guardar, estadoNuevo, hayQueRehacer } = require('./lib/tnf-ml-tienda');
 
 const PRESUPUESTO_MS = 22000; // las funciones programadas cortan a los 30 s
 
@@ -16,7 +16,7 @@ exports.handler = async (event) => {
     const [st0, cache] = await Promise.all([leerDia(store, fecha), leer(store, 'vendedores')]);
     const sinRanking = st0 && st0.listo && !(st0.ranking || []).length;
     let st = st0;
-    if (!st0 || (sinRanking && (st0.rehechos || 0) < 3)) {
+    if (!st0 || (sinRanking && (st0.rehechos || 0) < 3) || await hayQueRehacer(event, st0)) {
       st = estadoNuevo(fecha);
       if (sinRanking) st.rehechos = (st0.rehechos || 0) + 1;
     }
