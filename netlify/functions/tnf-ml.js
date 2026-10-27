@@ -9,7 +9,7 @@
 //      Admin: además puede mandar el estado y reiniciar.
 
 const { avanzar, vista, hoyAR, VERSION } = require('./lib/tnf-ml');
-const { tiendaTnf, leer, leerDia, guardar, estadoNuevo } = require('./lib/tnf-ml-tienda');
+const { tiendaTnf, leer, leerDia, guardar, estadoNuevo, hayQueRehacer } = require('./lib/tnf-ml-tienda');
 const { esAdmin } = require('./lib/admin-auth');
 const crypto = require('crypto');
 
@@ -79,10 +79,11 @@ exports.handler = async (event) => {
     const enviado = body.estado;
     if (admin && enviado && enviado.version === VERSION && enviado.fecha === fecha &&
         (!st || String(enviado.actualizado || '') >= String(st.actualizado || ''))) st = enviado;
-    if (!admin && st && st.listo && (st.ranking || []).length) {
+    const rehacer = await hayQueRehacer(event, st);
+    if (!admin && st && st.listo && (st.ranking || []).length && !rehacer) {
       return responder(200, { vista: vista(st), yaListo: true });
     }
-    if (!st || (admin && body.reiniciar) || (st.listo && !(st.ranking || []).length)) st = estadoNuevo(fecha);
+    if (!st || (admin && body.reiniciar) || rehacer || (st.listo && !(st.ranking || []).length)) st = estadoNuevo(fecha);
 
     const cacheV = cache || {};
     if (!st.listo) {

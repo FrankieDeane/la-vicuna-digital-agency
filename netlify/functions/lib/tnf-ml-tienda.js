@@ -5,6 +5,7 @@
 
 const { getStore, connectLambda } = require('@netlify/blobs');
 const { estadoNuevo, serie, VERSION } = require('./tnf-ml');
+const { accessToken } = require('./meli-api');
 
 // connectLambda no informa uncachedEdgeURL y con consistency 'strong' Blobs falla al leer.
 // Se usa la misma URL de borde para lecturas fuertes; si algo falla, lectura normal.
@@ -32,4 +33,11 @@ async function guardar(store, st, cache, cacheCambio) {
   if (cacheCambio) await store.setJSON('vendedores', cache);
 }
 
-module.exports = { tiendaTnf, leer, leerDia, guardar, estadoNuevo };
+// Un día que terminó sin la cuenta de Mercado Libre (páginas públicas bloqueadas, datos parciales)
+// se rehace en cuanto la cuenta queda conectada; si ya se hizo con la cuenta, no se repite.
+async function hayQueRehacer(event, st) {
+  if (!st || !st.listo || (st.fuentes && st.fuentes.token && st.fuentes.token.ok)) return false;
+  try { await accessToken(event); return true; } catch { return false; }
+}
+
+module.exports = { tiendaTnf, leer, leerDia, guardar, estadoNuevo, hayQueRehacer };
