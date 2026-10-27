@@ -399,6 +399,8 @@ const PASO = {
       if (!bb && !actual.vendedores) {
         const vs = await publicacionesDe(ctx, p.id, hijosDe(r));
         if (vs) actual.vendedores = vs;
+        // Si no se pudo saber (error o falta de tiempo), queda para el próximo intento
+        else actual.detalle = false;
       }
     });
     if (!ok1) return false;
@@ -581,10 +583,9 @@ function vista(st) {
         pos: r.pos, id: r.id, tipo: r.tipo, nombre: p.nombre || p.titulo || r.id, marca: p.marca || null, tnf: !!p.tnf,
         precio: bb.precio ?? null, vendedor: nick(bb.vendedor) || bb.vendedorTexto || null,
         permalink: p.permalink || (r.tipo === 'item' ? urlItem(r.id) : null), foto: https(p.foto),
-        // Producto de catálogo sin ninguna publicación activa: no se puede comprar
-        sinVenta: r.tipo === 'producto' && !p.buyBox && Array.isArray(p.vendedores) && !p.vendedores.length,
       };
-    }).filter(t => !t.sinVenta).map(({ sinVenta, ...t }, i) => (c.fuente === 'catalogo' ? { ...t, pos: i + 1 } : t));
+    // Sin precio no se puede comprar (en Mercado Libre figura sin stock): no entra al ranking
+    }).filter(t => Number.isFinite(t.precio)).map((t, i) => (c.fuente === 'catalogo' ? { ...t, pos: i + 1 } : t));
     const tnf = top.filter(t => t.tnf);
     const comp = top.filter(t => !t.tnf);
     const conteo = {};
