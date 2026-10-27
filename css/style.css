@@ -1813,6 +1813,17 @@ footer .au-credits{display:block}
 .au-report-foot{margin-top:22px;font-size:10.5px;color:var(--bone-faint);letter-spacing:.06em}
 .au-report-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:18px}
 .au-report-actions .btn{cursor:pointer;background:none;color:var(--bone)}
+/* Celdas sin dato: dicen por qué (sin stock, sin ganador, fuera del top 20, S/D) */
+.au-falta{font-size:10.5px;letter-spacing:.06em;color:#D6A85A;white-space:nowrap;cursor:help;border-bottom:1px dotted currentColor}
+.au-table tfoot td.au-nota-tabla{font-size:12px;line-height:1.6;color:var(--bone-dim);white-space:normal;padding-top:14px}
+.au-nota-tabla b{color:var(--bone);font-weight:600}
+/* Anexo del reporte: gráficos y análisis */
+.au-anexo{margin-top:30px;padding-top:6px;border-top:1px solid var(--line)}
+.au-rep-sec{margin-top:22px;break-inside:avoid;page-break-inside:avoid}
+.au-rep-sec h3{font-family:var(--sans);font-weight:600;font-size:15px;margin-bottom:4px;color:var(--bone)}
+.au-rep-nota{font-size:12.5px;color:var(--bone-dim);margin:0 0 10px;line-height:1.5}
+.au-rep-kpis{margin:8px 0 0}
+.au-anexo .au-table{min-width:0}
 
 @page{size:A4;margin:16mm}
 @media print{
@@ -1828,5 +1839,23 @@ footer .au-credits{display:block}
   #au-report .au-report-flag{color:#8a5a00}
   #au-report .au-report-foot{color:#666}
   #au-report .au-report-body h2{break-after:avoid}
+  #au-report{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #au-report .au-rep-sec h3,#au-report .au-kpi-num,#au-report .au-table td{color:#111}
+  #au-report .au-rep-nota,#au-report .au-kpi-lbl,#au-report .au-bar-lbl,#au-report .au-bar-val,#au-report .au-axis,#au-report .au-legend,#au-report .au-pair .au-bar-track em{color:#444;fill:#444}
+  #au-report .au-kpi,#au-report .au-bars,#au-report .au-chart,#au-report .au-table-wrap,#au-report .au-anexo{border-color:#ccc}
+  #au-report .au-bar-track{background:#eee}
+  #au-report .au-pair .au-bar-track{background:transparent}
+  #au-report .au-bar-fill{background:#999}
+  #au-report .au-bar-tnf .au-bar-fill,#au-report .s-tnf{--c:#2f5a44}
+  #au-report .au-bar-tnf .au-bar-fill{background:#2f5a44}
+  #au-report .au-grid{stroke:#ddd}
+  #au-report .au-dot{stroke:#fff}
+  #au-report .au-table th{color:#444;border-color:#ccc}
+  #au-report .au-table td{border-color:#e3e3e3}
+  #au-report .au-pair .au-bar-fill{background:var(--c)}
+  #au-report .s-comp{--c:#9A8FB8}
+  #au-report .au-table-wrap{overflow:visible}
+  #au-report .au-table{min-width:0;font-size:9.5pt}
+  #au-report .au-table th{white-space:normal}
   html,body{background:#fff!important}
 }
