@@ -68,6 +68,24 @@ async function diagnostico(event) {
     };
     r.pruebas[nombre] = { conToken: token ? await prueba(true) : 'sin token', sinToken: await prueba(false) };
   }
+  // De dónde sale el precio de un producto de catálogo: buy box o publicaciones que compiten
+  try {
+    const h = { Accept: 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+    const get = ruta => fetch('https://api.mercadolibre.com' + ruta, { headers: h, signal: AbortSignal.timeout(6000) })
+      .then(async res => ({ status: res.status, cuerpo: await res.json().catch(() => ({})) }));
+    const bus = await get(pruebas.catalogo.replace('limit=1', 'limit=5'));
+    r.precio = [];
+    for (const p of (bus.cuerpo.results || []).slice(0, 5)) {
+      const d = await get(`/products/${p.id}`);
+      const v = await get(`/products/${p.id}/items?limit=5`);
+      r.precio.push({
+        producto: p.id,
+        detalle: d.status === 200 ? 'OK' : `HTTP ${d.status} ${d.cuerpo.message || ''}`.trim(),
+        buyBox: d.cuerpo.buy_box_winner ? d.cuerpo.buy_box_winner.price : null,
+        publicaciones: v.status === 200 ? (v.cuerpo.results || []).map(x => x.price) : `HTTP ${v.status} ${v.cuerpo.message || ''}`.trim(),
+      });
+    }
+  } catch (e) { r.precio = 'falló: ' + e.message; }
   return r;
 }
 

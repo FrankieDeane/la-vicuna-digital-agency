@@ -27,7 +27,7 @@ const { accessToken } = require('./meli-api');
 
 const API = 'https://api.mercadolibre.com';
 const SITIO = 'MLA';
-const VERSION = 1;
+const VERSION = 2;
 const CATEGORIAS_DEF = ['campera de abrigo', 'campera impermeable', 'campera de pluma', 'mochila de trekking',
   'zapatillas de trekking', 'botas de trekking', 'buzo polar', 'pantalon de trekking', 'carpa camping', 'bolsa de dormir'];
 const nombreCat = c => c.nombre;
@@ -223,6 +223,12 @@ function estadoNuevo(fecha) {
   };
 }
 
+const vendedorDe = x => ({
+  item: x.item_id, vendedor: x.seller_id, precio: x.price, original: x.original_price || null,
+  tienda: x.official_store_id || null, envioGratis: !!x.shipping?.free_shipping,
+  full: x.shipping?.logistic_type === 'fulfillment', tipo: x.listing_type_id || null, condicion: x.condition || null,
+});
+
 function sumarProducto(st, id, datos) {
   if (!id) return;
   st.catalogo[id] = { id, ...(st.catalogo[id] || {}), ...datos };
@@ -365,6 +371,15 @@ const PASO = {
           tienda: bb.official_store_id || null, envioGratis: !!bb.shipping?.free_shipping, full: bb.shipping?.logistic_type === 'fulfillment',
         } : null,
       });
+      // Sin ganador de buy box, el precio sale de las publicaciones que compiten en el producto
+      if (!bb && !p.vendedores) {
+        try {
+          const v = await api(ctx, `/products/${p.id}/items?limit=20`);
+          p.vendedores = (v.results || []).map(vendedorDe);
+        } catch (e) {
+          if (e.status === 404) p.vendedores = [];
+        }
+      }
     });
     if (!ok1) return false;
 
@@ -399,11 +414,7 @@ const PASO = {
       intento(st, 'pv:' + p.id);
       try {
         const r = await api(ctx, `/products/${p.id}/items?limit=100`);
-        p.vendedores = (r.results || []).map(x => ({
-          item: x.item_id, vendedor: x.seller_id, precio: x.price, original: x.original_price || null,
-          tienda: x.official_store_id || null, envioGratis: !!x.shipping?.free_shipping,
-          full: x.shipping?.logistic_type === 'fulfillment', tipo: x.listing_type_id || null, condicion: x.condition || null,
-        }));
+        p.vendedores = (r.results || []).map(vendedorDe);
         ok++;
       } catch (e) {
         // 404 = el producto no tiene publicaciones activas compitiendo
@@ -539,24 +550,21 @@ const dif = (a, b) => (Number.isFinite(a) && Number.isFinite(b) && b ? (a / b - 
 function vista(st) {
   const propios = new Set((st.propios || []).map(Number));
   const nick = id => st.vendedores?.[id]?.nick || (id == null ? null : /^\d+$/.test(String(id)) ? `#${id}` : String(id));
-  const cats = new Map(st.categorias.map(c => [c.id, nombreCat(c)]));
-
-  const posiciones = new Map(); // id producto/publicación → [{ cat, catId, pos }]
-  st.ranking.forEach(r => {
-    if (!posiciones.has(r.id)) posiciones.set(r.id, []);
-    posiciones.get(r.id).push({ cat: cats.get(r.cat) || r.cat, catId: r.cat, pos: r.pos });
-  });
 
   const categorias = st.categorias.map(c => {
     const top = st.ranking.filter(r => r.cat === c.id).sort((a, b) => a.pos - b.pos).map(r => {
       const p = r.tipo === 'producto' ? st.catalogo[r.id] || {} : st.items[r.id] || {};
-      const bb = r.tipo === 'producto' ? p.buyBox || {} : p;
+      // Buy box; si no hay, la publicación más barata del producto
+      const barato = (p.vendedores || []).filter(v => Number.isFinite(v.precio)).sort((a, b) => a.precio - b.precio)[0];
+      const bb = r.tipo === 'producto' ? (p.buyBox?.precio != null ? p.buyBox : barato || {}) : p;
       return {
         pos: r.pos, id: r.id, tipo: r.tipo, nombre: p.nombre || p.titulo || r.id, marca: p.marca || null, tnf: !!p.tnf,
         precio: bb.precio ?? null, vendedor: nick(bb.vendedor) || bb.vendedorTexto || null,
         permalink: p.permalink || (r.tipo === 'item' ? urlItem(r.id) : null), foto: https(p.foto),
+        // Producto de catálogo sin ninguna publicación activa: no se puede comprar
+        sinVenta: r.tipo === 'producto' && !p.buyBox && Array.isArray(p.vendedores) && !p.vendedores.length,
       };
-    });
+    }).filter(t => !t.sinVenta).map(({ sinVenta, ...t }, i) => (c.fuente === 'catalogo' ? { ...t, pos: i + 1 } : t));
     const tnf = top.filter(t => t.tnf);
     const comp = top.filter(t => !t.tnf);
     const conteo = {};
@@ -574,6 +582,12 @@ function vista(st) {
     };
   });
   const medianaCompCat = new Map(categorias.map(c => [c.id, c.resumen.medianaComp]));
+
+  const posiciones = new Map(); // id producto/publicación → [{ cat, catId, pos }]
+  categorias.forEach(c => c.top.forEach(t => {
+    if (!posiciones.has(t.id)) posiciones.set(t.id, []);
+    posiciones.get(t.id).push({ cat: c.nombre, catId: c.id, pos: t.pos });
+  }));
 
   const productos = Object.values(st.catalogo).filter(p => p.tnf).map(p => {
     const vs = (p.vendedores || []).filter(v => Number.isFinite(v.precio)).map(v => ({
