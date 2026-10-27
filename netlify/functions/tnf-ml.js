@@ -18,9 +18,9 @@ const DIAS_HISTORIA = 60;
 const MAX_POST_IP_DIA = 60;      // un relevamiento completo son ~10-25 pasos
 const MAX_POST_TOTAL_DIA = 300;
 const esFecha = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
-const responder = (statusCode, body, cache) => ({
+const responder = (statusCode, body) => ({
   statusCode,
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': cache || 'no-store' },
+  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
   body: JSON.stringify(body),
 });
 
@@ -54,12 +54,13 @@ exports.handler = async (event) => {
       const fechas = series.map(b => b.key.slice(6)).filter(esFecha).sort();
       const pedida = (event.queryStringParameters || {}).fecha;
       const fecha = esFecha(pedida) && fechas.includes(pedida) ? pedida : fechas[fechas.length - 1];
-      if (!fecha) return responder(200, { vacio: true, fechas: [] }, 'public, max-age=300');
+      if (!fecha) return responder(200, { vacio: true, fechas: [] });
 
       const claves = fechas.slice(-DIAS_HISTORIA).map(f => 'serie/' + f);
       const [st, ...historia] = await Promise.all([leerDia(store, fecha), ...claves.map(k => leer(store, k))]);
-      if (!st) return responder(200, { vacio: true, fechas }, 'public, max-age=300');
-      return responder(200, { vista: vista(st), historia: historia.filter(Boolean), fechas }, 'public, max-age=900');
+      if (!st) return responder(200, { vacio: true, fechas });
+      // Sin caché: después de relevar, la página vuelve a pedir estos datos y tiene que ver los nuevos
+      return responder(200, { vista: vista(st), historia: historia.filter(Boolean), fechas });
     }
 
     if (event.httpMethod !== 'POST') return responder(405, { error: 'Método no permitido' });
